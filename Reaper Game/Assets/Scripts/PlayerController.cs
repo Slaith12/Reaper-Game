@@ -1,69 +1,75 @@
+using Reaper.Inputs;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+namespace Reaper.Controller
 {
-    [SerializeField] float maxSpeed;
-    [SerializeField] float acceleration;
-    private Vector2 targetSpeed;
-    private Vector2 currentSpeed;
-
-    private new Rigidbody2D rigidbody;
-    private PlayerInputs input;
-
-    // Start is called before the first frame update
-    void Awake()
+    public class PlayerController : MonoBehaviour
     {
-        rigidbody = GetComponent<Rigidbody2D>();
-        input = new PlayerInputs();
-    }
 
-    private void OnEnable()
-    {
-        input.Player.Move.performed += ChangeMoveDirection;
-        input.Player.Move.canceled += ChangeMoveDirection;
-        input.Player.Move.Enable();
-    }
+        [SerializeField] float maxSpeed;
+        [SerializeField] float acceleration;
+        private Vector2 targetSpeed;
+        private Vector2 currentSpeed;
 
-    private void OnDisable()
-    {
-        input.Player.Move.Disable();
-    }
+        private new Rigidbody2D rigidbody;
+        private PlayerInputs input;
+        public static PlayerController player { get; private set; }
 
-    private void FixedUpdate()
-    {
-        UpdateSpeed();
-        rigidbody.velocity = currentSpeed;
-    }
-
-    private void UpdateSpeed()
-    {
-        if (currentSpeed == targetSpeed)
-            return;
-        float accelSpeed = acceleration * Time.fixedDeltaTime;
-        Vector2 accelDirection = targetSpeed - currentSpeed;
-        if(accelDirection.magnitude <= accelSpeed)
+        void Awake()
         {
-            currentSpeed = targetSpeed;
-            return;
+            rigidbody = GetComponent<Rigidbody2D>();
+            input = new PlayerInputs();
+            player = this;
         }
-        currentSpeed += accelDirection.normalized * accelSpeed;
-        if(currentSpeed.magnitude > maxSpeed)
+
+        private void OnEnable()
         {
-            Debug.Log(currentSpeed.magnitude + " speed, " + currentSpeed + " vector");
-            currentSpeed = currentSpeed.normalized * maxSpeed;
+            input.Player.Move.performed += ChangeMoveDirection;
+            input.Player.Move.canceled += ChangeMoveDirection;
+            input.Player.Move.Enable();
         }
-    }
 
-    private void ChangeMoveDirection(InputAction.CallbackContext obj)
-    {
-        Vector2 inputSpeed = obj.ReadValue<Vector2>();
-        if (inputSpeed.magnitude > 1)
-            inputSpeed.Normalize();
-        targetSpeed = inputSpeed * maxSpeed;
-    }
+        private void OnDisable()
+        {
+            input.Player.Move.Disable();
+        }
 
+        private void FixedUpdate()
+        {
+            UpdateSpeed();
+            rigidbody.velocity = currentSpeed;
+        }
+
+        private void UpdateSpeed()
+        {
+            if (currentSpeed == targetSpeed)
+                return;
+            float accelSpeed = acceleration * Time.fixedDeltaTime;
+            Vector2 accelDirection = targetSpeed - currentSpeed;
+            if (accelDirection.magnitude <= accelSpeed)
+            {
+                currentSpeed = targetSpeed;
+                return;
+            }
+            currentSpeed += accelDirection.normalized * accelSpeed;
+            if (currentSpeed.magnitude > maxSpeed)
+            {
+                Debug.Log(currentSpeed.magnitude + " speed, " + currentSpeed + " vector");
+                currentSpeed = currentSpeed.normalized * maxSpeed;
+            }
+        }
+
+        private void ChangeMoveDirection(InputAction.CallbackContext obj)
+        {
+            Vector2 inputSpeed = obj.ReadValue<Vector2>();
+            if (inputSpeed.magnitude > 1)
+                inputSpeed.Normalize();
+            targetSpeed = inputSpeed * maxSpeed;
+        }
+
+    }
 }
