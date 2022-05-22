@@ -8,8 +8,8 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] float maxSpeed;
     [SerializeField] float acceleration;
-    [SerializeField] private Vector2 targetSpeed;
-    [SerializeField] private Vector2 currentSpeed;
+    private Vector2 targetSpeed;
+    private Vector2 currentSpeed;
 
     private new Rigidbody2D rigidbody;
     private PlayerInputs input;
@@ -54,6 +54,7 @@ public class PlayerController : MonoBehaviour
         if(currentSpeed.magnitude > maxSpeed)
         {
             Debug.Log(currentSpeed.magnitude + " speed, " + currentSpeed + " vector");
+            currentSpeed = currentSpeed.normalized * maxSpeed;
         }
     }
 
