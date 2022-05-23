@@ -39,7 +39,7 @@ namespace Reaper.Inputs
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Look"",
+                    ""name"": ""Look (Stick)"",
                     ""type"": ""Value"",
                     ""id"": ""46705455-b414-4716-8f8d-66a417ed90c4"",
                     ""expectedControlType"": ""Vector2"",
@@ -48,7 +48,16 @@ namespace Reaper.Inputs
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Fire"",
+                    ""name"": ""Look (Mouse)"",
+                    ""type"": ""Value"",
+                    ""id"": ""8a769bd4-a6a2-4e0a-8980-cb67977aa3cc"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Attack"",
                     ""type"": ""Button"",
                     ""id"": ""f12718ac-1c5e-42c0-b69f-b642bd1207e9"",
                     ""expectedControlType"": ""Button"",
@@ -186,18 +195,7 @@ namespace Reaper.Inputs
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8c8e490b-c610-4785-884f-f04217b23ca4"",
-                    ""path"": ""<Mouse>/position"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Look"",
+                    ""action"": ""Look (Stick)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -208,7 +206,7 @@ namespace Reaper.Inputs
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Joystick"",
-                    ""action"": ""Look"",
+                    ""action"": ""Look (Stick)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -219,7 +217,7 @@ namespace Reaper.Inputs
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
-                    ""action"": ""Fire"",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -230,18 +228,7 @@ namespace Reaper.Inputs
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Fire"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""886e731e-7071-4ae4-95c0-e61739dad6fd"",
-                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Fire"",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -252,7 +239,18 @@ namespace Reaper.Inputs
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Joystick"",
-                    ""action"": ""Fire"",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8c8e490b-c610-4785-884f-f04217b23ca4"",
+                    ""path"": ""<Pointer>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Look (Mouse)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -764,8 +762,9 @@ namespace Reaper.Inputs
             // Player
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-            m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
-            m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
+            m_Player_LookStick = m_Player.FindAction("Look (Stick)", throwIfNotFound: true);
+            m_Player_LookMouse = m_Player.FindAction("Look (Mouse)", throwIfNotFound: true);
+            m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -838,15 +837,17 @@ namespace Reaper.Inputs
         private readonly InputActionMap m_Player;
         private IPlayerActions m_PlayerActionsCallbackInterface;
         private readonly InputAction m_Player_Move;
-        private readonly InputAction m_Player_Look;
-        private readonly InputAction m_Player_Fire;
+        private readonly InputAction m_Player_LookStick;
+        private readonly InputAction m_Player_LookMouse;
+        private readonly InputAction m_Player_Attack;
         public struct PlayerActions
         {
             private @PlayerInputs m_Wrapper;
             public PlayerActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Player_Move;
-            public InputAction @Look => m_Wrapper.m_Player_Look;
-            public InputAction @Fire => m_Wrapper.m_Player_Fire;
+            public InputAction @LookStick => m_Wrapper.m_Player_LookStick;
+            public InputAction @LookMouse => m_Wrapper.m_Player_LookMouse;
+            public InputAction @Attack => m_Wrapper.m_Player_Attack;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -859,12 +860,15 @@ namespace Reaper.Inputs
                     @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                     @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                     @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                    @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
-                    @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
-                    @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
-                    @Fire.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
-                    @Fire.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
-                    @Fire.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
+                    @LookStick.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLookStick;
+                    @LookStick.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLookStick;
+                    @LookStick.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLookStick;
+                    @LookMouse.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLookMouse;
+                    @LookMouse.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLookMouse;
+                    @LookMouse.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLookMouse;
+                    @Attack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
+                    @Attack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
+                    @Attack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -872,12 +876,15 @@ namespace Reaper.Inputs
                     @Move.started += instance.OnMove;
                     @Move.performed += instance.OnMove;
                     @Move.canceled += instance.OnMove;
-                    @Look.started += instance.OnLook;
-                    @Look.performed += instance.OnLook;
-                    @Look.canceled += instance.OnLook;
-                    @Fire.started += instance.OnFire;
-                    @Fire.performed += instance.OnFire;
-                    @Fire.canceled += instance.OnFire;
+                    @LookStick.started += instance.OnLookStick;
+                    @LookStick.performed += instance.OnLookStick;
+                    @LookStick.canceled += instance.OnLookStick;
+                    @LookMouse.started += instance.OnLookMouse;
+                    @LookMouse.performed += instance.OnLookMouse;
+                    @LookMouse.canceled += instance.OnLookMouse;
+                    @Attack.started += instance.OnAttack;
+                    @Attack.performed += instance.OnAttack;
+                    @Attack.canceled += instance.OnAttack;
                 }
             }
         }
@@ -1017,8 +1024,9 @@ namespace Reaper.Inputs
         public interface IPlayerActions
         {
             void OnMove(InputAction.CallbackContext context);
-            void OnLook(InputAction.CallbackContext context);
-            void OnFire(InputAction.CallbackContext context);
+            void OnLookStick(InputAction.CallbackContext context);
+            void OnLookMouse(InputAction.CallbackContext context);
+            void OnAttack(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {
