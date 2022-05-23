@@ -7,6 +7,7 @@ namespace Reaper.Controller
     public class Soul : MonoBehaviour
     {
         [SerializeField] float maxSpeed = 5;
+        [SerializeField] float knockbackStrength = 10;
         private float morphTimer;
         private bool morphed;
 
@@ -59,7 +60,8 @@ namespace Reaper.Controller
             if (!morphed)
                 return;
             Debug.Log("Player Hit");
-            Demorph();
+            //Demorph();
+            player.Knockback((player.transform.position - transform.position).normalized * knockbackStrength, 0.2f);
         }
     }
 }

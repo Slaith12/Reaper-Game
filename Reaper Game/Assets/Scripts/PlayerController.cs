@@ -14,6 +14,8 @@ namespace Reaper.Controller
         [SerializeField] float acceleration;
         private Vector2 targetSpeed;
         private Vector2 currentSpeed;
+        private float knockbackTimer;
+
         private float facing;
 
         private new Rigidbody2D rigidbody;
@@ -60,6 +62,12 @@ namespace Reaper.Controller
             if (currentSpeed == targetSpeed)
                 return;
             float accelSpeed = acceleration * Time.fixedDeltaTime;
+            if(knockbackTimer > 0)
+            {
+                knockbackTimer -= Time.fixedDeltaTime;
+                accelSpeed /= 2;
+            }
+            Debug.Log(accelSpeed);
             Vector2 accelDirection = targetSpeed - currentSpeed;
             if (accelDirection.magnitude <= accelSpeed)
             {
@@ -67,12 +75,15 @@ namespace Reaper.Controller
                 return;
             }
             currentSpeed += accelDirection.normalized * accelSpeed;
-            if (currentSpeed.magnitude > maxSpeed)
-            {
-                Debug.Log(currentSpeed.magnitude + " speed, " + currentSpeed + " vector");
-                currentSpeed = currentSpeed.normalized * maxSpeed;
-            }
         }
+
+        public void Knockback(Vector2 strength, float duration)
+        {
+            currentSpeed = strength;
+            knockbackTimer = duration;
+        }
+
+        #region Input Registering
 
         private void ChangeMoveDirection(InputAction.CallbackContext obj)
         {
@@ -102,5 +113,8 @@ namespace Reaper.Controller
             if (relativePos.x < 0)
                 facing += 180;
         }
+
+        #endregion
+
     }
 }
