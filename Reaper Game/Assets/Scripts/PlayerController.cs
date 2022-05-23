@@ -4,27 +4,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Reaper.Movement;
+using Reaper.Combat;
 
 namespace Reaper.Controller
 {
+    [RequireComponent(typeof(Mover))]
     public class PlayerController : MonoBehaviour
     {
-
-        [SerializeField] float maxSpeed;
-        [SerializeField] float acceleration;
-        private Vector2 targetSpeed;
-        private Vector2 currentSpeed;
-        private float knockbackTimer;
-
-        private float facing;
-
-        private new Rigidbody2D rigidbody;
+        private Mover mover;
         private PlayerInputs input;
         public static PlayerController player { get; private set; }
 
+        [SerializeField] float maxSpeed;
+        [SerializeField] float knockbackStrength = 20f;
+        private Vector2 facing;
+        private float attackCooldown;
+
         void Awake()
         {
-            rigidbody = GetComponent<Rigidbody2D>();
+            mover = GetComponent<Mover>();
             input = new PlayerInputs();
             player = this;
         }
@@ -42,6 +41,9 @@ namespace Reaper.Controller
 
             input.Player.LookMouse.performed += MouseLookDirection;
             input.Player.LookMouse.Enable();
+
+            input.Player.Attack.performed += Attack;
+            input.Player.Attack.Enable();
         }
 
         private void OnDisable()
@@ -49,38 +51,12 @@ namespace Reaper.Controller
             input.Player.Move.Disable();
             input.Player.LookStick.Disable();
             input.Player.LookMouse.Disable();
+            input.Player.Attack.Disable();
         }
 
-        private void FixedUpdate()
+        private void Damage(Collider2D collision)
         {
-            UpdateSpeed();
-            rigidbody.velocity = currentSpeed;
-        }
-
-        private void UpdateSpeed()
-        {
-            if (currentSpeed == targetSpeed)
-                return;
-            float accelSpeed = acceleration * Time.fixedDeltaTime;
-            if(knockbackTimer > 0)
-            {
-                knockbackTimer -= Time.fixedDeltaTime;
-                accelSpeed /= 2;
-            }
-            Debug.Log(accelSpeed);
-            Vector2 accelDirection = targetSpeed - currentSpeed;
-            if (accelDirection.magnitude <= accelSpeed)
-            {
-                currentSpeed = targetSpeed;
-                return;
-            }
-            currentSpeed += accelDirection.normalized * accelSpeed;
-        }
-
-        public void Knockback(Vector2 strength, float duration)
-        {
-            currentSpeed = strength;
-            knockbackTimer = duration;
+            collision.GetComponent<Mover>().Knockback(facing * knockbackStrength, 0.2f);
         }
 
         #region Input Registering
@@ -90,28 +66,25 @@ namespace Reaper.Controller
             Vector2 inputSpeed = obj.ReadValue<Vector2>();
             if (inputSpeed.magnitude > 1)
                 inputSpeed.Normalize();
-            targetSpeed = inputSpeed * maxSpeed;
+            mover.targetSpeed = inputSpeed * maxSpeed;
         }
 
         private void StickLookDirection(InputAction.CallbackContext obj)
         {
             Vector2 stickPos = obj.ReadValue<Vector2>();
-            facing = Mathf.Atan(stickPos.x / stickPos.y) * 180 / Mathf.PI;
-            if (facing < 0)
-                facing += 180;
-            if (stickPos.x < 0)
-                facing += 180;
+            facing = stickPos.normalized;
         }
 
         private void MouseLookDirection(InputAction.CallbackContext obj)
         {
             Vector2 mousePos = obj.ReadValue<Vector2>();
             Vector2 relativePos = mousePos - new Vector2(Screen.width / 2, Screen.height / 2);
-            facing = Mathf.Atan(relativePos.x / relativePos.y) * 180 / Mathf.PI;
-            if (facing < 0)
-                facing += 180;
-            if (relativePos.x < 0)
-                facing += 180;
+            facing = relativePos.normalized;
+        }
+
+        private void Attack(InputAction.CallbackContext obj)
+        {
+            MeleeHit.Create(1f, Damage, facing, new Vector2(1, 1), new List<string> { "Soul" }, transform);
         }
 
         #endregion

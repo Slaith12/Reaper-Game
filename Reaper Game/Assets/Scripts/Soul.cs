@@ -1,29 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Reaper.Movement;
+using Reaper.Combat;
+
 namespace Reaper.Controller
 {
-    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Mover))]
     public class Soul : MonoBehaviour
     {
+        [SerializeField] DamageObject contact;
+        private Mover mover;
+        private PlayerController player;
+
         [SerializeField] float maxSpeed = 5;
-        [SerializeField] float knockbackStrength = 10;
+        [SerializeField] float knockbackStrength = 15;
         private float morphTimer;
         private bool morphed;
-
-        private new Rigidbody2D rigidbody;
-        private PlayerController player;
 
         void Awake()
         {
             morphTimer = 5;
             morphed = false;
-            rigidbody = GetComponent<Rigidbody2D>();
+            mover = GetComponent<Mover>();
         }
 
         private void Start()
         {
             player = PlayerController.player;
+            contact.OnHit += Damage;
         }
 
         void Update()
@@ -42,7 +47,7 @@ namespace Reaper.Controller
         {
             if (morphed)
             {
-                rigidbody.velocity = (player.transform.position - transform.position).normalized * maxSpeed;
+                mover.targetSpeed = (player.transform.position - transform.position).normalized * maxSpeed;
             }
         }
 
@@ -50,18 +55,16 @@ namespace Reaper.Controller
         {
             morphTimer = 5;
             morphed = false;
-            rigidbody.velocity = new Vector2(0, 0);
+            mover.targetSpeed = new Vector2(0, 0);
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        private void Damage(Collider2D collision)
         {
-            if (collision.tag != "Player")
-                return;
             if (!morphed)
                 return;
             Debug.Log("Player Hit");
             //Demorph();
-            player.Knockback((player.transform.position - transform.position).normalized * knockbackStrength, 0.2f);
+            collision.GetComponent<Mover>().Knockback((player.transform.position - transform.position).normalized * knockbackStrength, 0.2f);
         }
     }
 }
