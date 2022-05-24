@@ -6,11 +6,13 @@ using Reaper.Combat;
 
 namespace Reaper.Controller
 {
+    [RequireComponent(typeof(CombatTarget))]
     [RequireComponent(typeof(Mover))]
     public class Soul : MonoBehaviour
     {
         [SerializeField] DamageObject contact;
         private Mover mover;
+        private CombatTarget combatTarget;
         private PlayerController player;
 
         [SerializeField] float maxSpeed = 5;
@@ -23,6 +25,9 @@ namespace Reaper.Controller
             morphTimer = 5;
             morphed = false;
             mover = GetComponent<Mover>();
+            combatTarget = GetComponent<CombatTarget>();
+            combatTarget.OnDeath +=  Demorph;
+            combatTarget.invuln = true;
         }
 
         private void Start()
@@ -33,13 +38,16 @@ namespace Reaper.Controller
 
         void Update()
         {
-            if (morphTimer > 0)
+            if (!morphed)
             {
-                morphTimer -= Time.deltaTime;
-            }
-            else
-            {
-                morphed = true;
+                if (morphTimer > 0)
+                {
+                    morphTimer -= Time.deltaTime;
+                }
+                else
+                {
+                    Morph();
+                }
             }
         }
 
@@ -51,10 +59,18 @@ namespace Reaper.Controller
             }
         }
 
+        private void Morph()
+        {
+            morphed = true;
+            combatTarget.health = 5;
+            combatTarget.invuln = false;
+        }
+
         private void Demorph()
         {
             morphTimer = 5;
             morphed = false;
+            combatTarget.invuln = true;
             mover.targetSpeed = new Vector2(0, 0);
         }
 
@@ -64,7 +80,7 @@ namespace Reaper.Controller
                 return;
             Debug.Log("Player Hit");
             //Demorph();
-            collision.GetComponent<Mover>().Knockback((player.transform.position - transform.position).normalized * knockbackStrength, 0.2f);
+            collision.GetComponent<CombatTarget>()?.Damage(1, (player.transform.position - transform.position).normalized * knockbackStrength, 0.2f);
         }
     }
 }

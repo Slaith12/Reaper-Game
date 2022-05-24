@@ -9,6 +9,7 @@ using Reaper.Combat;
 
 namespace Reaper.Controller
 {
+    [RequireComponent(typeof(CombatTarget))]
     [RequireComponent(typeof(Mover))]
     public class PlayerController : MonoBehaviour
     {
@@ -56,7 +57,7 @@ namespace Reaper.Controller
 
         private void Damage(Collider2D collision)
         {
-            collision.GetComponent<Mover>().Knockback(facing * knockbackStrength, 0.2f);
+            collision.GetComponent<CombatTarget>()?.Damage(3, facing * knockbackStrength, 0.2f);
         }
 
         #region Input Registering

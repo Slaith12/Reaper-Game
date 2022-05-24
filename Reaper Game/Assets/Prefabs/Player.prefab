@@ -10,10 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2519349897410287722}
   - component: {fileID: 2519349897410287723}
-  - component: {fileID: 2519349897410287720}
-  - component: {fileID: 2573089512655900205}
   - component: {fileID: 2519349897410287721}
   - component: {fileID: 2519349897410287725}
+  - component: {fileID: 2519349897410287720}
+  - component: {fileID: 2573089512655900205}
+  - component: {fileID: 7308222591796384772}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -86,33 +87,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2519349897410287720
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2519349897410287718}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d06207eca3b3644a921449f1aa585ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxSpeed: 8
---- !u!114 &2573089512655900205
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2519349897410287718}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95b04592d144d3e419d8fa1e7cb73f2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  acceleration: 80
-  targetSpeed: {x: 0, y: 0}
 --- !u!50 &2519349897410287721
 Rigidbody2D:
   serializedVersion: 4
@@ -160,3 +134,45 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &2519349897410287720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2519349897410287718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d06207eca3b3644a921449f1aa585ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSpeed: 8
+  knockbackStrength: 15
+--- !u!114 &2573089512655900205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2519349897410287718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b04592d144d3e419d8fa1e7cb73f2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  acceleration: 80
+  targetSpeed: {x: 0, y: 0}
+--- !u!114 &7308222591796384772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2519349897410287718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43f41dd464852d04a896395fd29459c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  invuln: 0

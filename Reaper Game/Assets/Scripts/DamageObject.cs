@@ -23,7 +23,6 @@ namespace Reaper.Combat
                 return;
             }
             OnHit?.Invoke(collision);
-            Debug.Log($"Damage Object {name} hit");
         }
 
         public event DamageHandler OnHit;

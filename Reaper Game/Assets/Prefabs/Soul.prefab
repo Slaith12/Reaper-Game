@@ -82,10 +82,10 @@ GameObject:
   m_Component:
   - component: {fileID: 931331339885651787}
   - component: {fileID: 931331339885651786}
-  - component: {fileID: 931331339885651780}
-  - component: {fileID: 861440517080098794}
   - component: {fileID: 931331339885651785}
   - component: {fileID: 931331339885651784}
+  - component: {fileID: 931331339885651780}
+  - component: {fileID: 861440517080098794}
   m_Layer: 0
   m_Name: Soul
   m_TagString: Soul
@@ -159,35 +159,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &931331339885651780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 931331339885651791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72eb3a298d531cb418f2478261ddf908, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  contact: {fileID: 931331338684121545}
-  maxSpeed: 5
-  knockbackStrength: 15
---- !u!114 &861440517080098794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 931331339885651791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95b04592d144d3e419d8fa1e7cb73f2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  acceleration: 200
-  targetSpeed: {x: 0, y: 0}
 --- !u!50 &931331339885651785
 Rigidbody2D:
   serializedVersion: 4
@@ -235,3 +206,32 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &931331339885651780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931331339885651791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72eb3a298d531cb418f2478261ddf908, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  contact: {fileID: 931331338684121545}
+  maxSpeed: 5
+  knockbackStrength: 15
+--- !u!114 &861440517080098794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931331339885651791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b04592d144d3e419d8fa1e7cb73f2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  acceleration: 200
+  targetSpeed: {x: 0, y: 0}

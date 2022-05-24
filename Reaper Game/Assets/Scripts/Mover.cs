@@ -12,7 +12,7 @@ namespace Reaper.Movement
         [SerializeField] float acceleration;
         [HideInInspector] public Vector2 targetSpeed;
         private Vector2 currentSpeed;
-        private float knockbackTimer;
+        private float staggerTimer;
 
         private void Awake()
         {
@@ -30,9 +30,9 @@ namespace Reaper.Movement
             if (currentSpeed == targetSpeed)
                 return;
             float accelSpeed = acceleration * Time.fixedDeltaTime;
-            if (knockbackTimer > 0)
+            if (staggerTimer > 0)
             {
-                knockbackTimer -= Time.fixedDeltaTime;
+                staggerTimer -= Time.fixedDeltaTime;
                 accelSpeed /= 2;
             }
             Vector2 accelDirection = targetSpeed - currentSpeed;
@@ -44,10 +44,10 @@ namespace Reaper.Movement
             currentSpeed += accelDirection.normalized * accelSpeed;
         }
 
-        public void Knockback(Vector2 strength, float duration)
+        public void Knockback(Vector2 strength, float stagger)
         {
             currentSpeed = strength;
-            knockbackTimer = duration;
+            staggerTimer = stagger;
         }
     }
 }
