@@ -84,7 +84,7 @@ namespace Reaper.Controller
 
         private void Attack(InputAction.CallbackContext obj)
         {
-            MeleeHit.Create(1f, Damage, facing, new Vector2(1, 1), new List<string> { "Soul" }, transform);
+            MeleeHit.Create(0.25f, Damage, facing, new Vector2(1, 1), new List<string> { "Soul" }, transform, facing.ToAngle());
         }
 
         #endregion

@@ -881,10 +881,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Soul
       objectReference: {fileID: 0}
-    - target: {fileID: 931331339885651791, guid: c70240c19ca40bf4a82e437159f42f6d, type: 3}
-      propertyPath: m_TagString
-      value: Soul
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c70240c19ca40bf4a82e437159f42f6d, type: 3}
 --- !u!1001 &2519349898023814225
