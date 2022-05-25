@@ -64,6 +64,42 @@ namespace Reaper.Inputs
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Weapon 1"",
+                    ""type"": ""Button"",
+                    ""id"": ""3c1d1e8f-4200-49e6-8c6c-77a5c75f4a79"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Weapon 2"",
+                    ""type"": ""Button"",
+                    ""id"": ""1f6509e7-bde7-4e42-87c0-e966967396fc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Weapon 3"",
+                    ""type"": ""Button"",
+                    ""id"": ""e8fa278b-8bc4-475a-a22e-fa4066ba6d62"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Weapon 4"",
+                    ""type"": ""Button"",
+                    ""id"": ""234ba65d-66b7-4918-9b84-491b313fa853"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -101,31 +137,9 @@ namespace Reaper.Inputs
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""up"",
-                    ""id"": ""8180e8bd-4097-4f4e-ab88-4523101a6ce9"",
-                    ""path"": ""<Keyboard>/upArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": ""down"",
                     ""id"": ""320bffee-a40b-4347-ac70-c210eb8bc73a"",
                     ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""1c5327b5-f71c-4f60-99c7-4e737386f1d1"",
-                    ""path"": ""<Keyboard>/downArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
@@ -145,31 +159,9 @@ namespace Reaper.Inputs
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""left"",
-                    ""id"": ""2e46982e-44cc-431b-9f0b-c11910bf467a"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": ""right"",
                     ""id"": ""fcfe95b8-67b9-4526-84b5-5d0bc98d6400"",
                     ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""77bff152-3580-4b21-b6de-dcd0c7e41164"",
-                    ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
@@ -209,6 +201,61 @@ namespace Reaper.Inputs
                     ""action"": ""Look (Stick)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Arrow Keys"",
+                    ""id"": ""8271c47d-4e72-4b57-881a-6bc99acc8147"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look (Stick)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""24f3422b-c1ef-4c18-8f0c-1b6e17213f3f"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Look (Stick)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""e365ce97-a585-43f8-b0ce-59fc78dde574"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Look (Stick)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""4897a628-310b-4a2b-b787-4a8605cfb4c7"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Look (Stick)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""ecb813e6-6361-4e5c-bf05-19990415b0d7"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Look (Stick)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
@@ -251,6 +298,138 @@ namespace Reaper.Inputs
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Look (Mouse)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8f0be4a5-1d5f-42ae-91e1-495c9eb51042"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Weapon 1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b0b59080-62c4-4fa5-8446-659a85920a8e"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Weapon 1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""52e57594-e827-4d1c-abea-bc609b0162f2"",
+                    ""path"": ""<Joystick>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Joystick"",
+                    ""action"": ""Weapon 1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5c5168c0-8e8a-4cd2-a7bd-84c7e7d83cf3"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Weapon 2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fa8b494e-b5b3-458c-90f9-fc49ea696704"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Weapon 2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b20a8ccc-06cc-4d41-b85c-254c20156821"",
+                    ""path"": ""<Joystick>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Joystick"",
+                    ""action"": ""Weapon 2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""43d9ba36-7617-4bd4-abc4-c0374bff7413"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Weapon 3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e336099e-ce9a-4521-b79c-d432de7a6167"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Weapon 3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3912b364-c40e-409e-95b0-37951e7fc0eb"",
+                    ""path"": ""<Joystick>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Joystick"",
+                    ""action"": ""Weapon 3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e892ce47-0fa6-4bd8-9188-4d85237c15b0"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Weapon 4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3666416e-482c-4748-abd5-1e630d9de9a1"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Weapon 4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a3e7ec9f-3fdd-44a2-89ef-f5376a0aad21"",
+                    ""path"": ""<Joystick>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Joystick"",
+                    ""action"": ""Weapon 4"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -765,6 +944,10 @@ namespace Reaper.Inputs
             m_Player_LookStick = m_Player.FindAction("Look (Stick)", throwIfNotFound: true);
             m_Player_LookMouse = m_Player.FindAction("Look (Mouse)", throwIfNotFound: true);
             m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
+            m_Player_Weapon1 = m_Player.FindAction("Weapon 1", throwIfNotFound: true);
+            m_Player_Weapon2 = m_Player.FindAction("Weapon 2", throwIfNotFound: true);
+            m_Player_Weapon3 = m_Player.FindAction("Weapon 3", throwIfNotFound: true);
+            m_Player_Weapon4 = m_Player.FindAction("Weapon 4", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -840,6 +1023,10 @@ namespace Reaper.Inputs
         private readonly InputAction m_Player_LookStick;
         private readonly InputAction m_Player_LookMouse;
         private readonly InputAction m_Player_Attack;
+        private readonly InputAction m_Player_Weapon1;
+        private readonly InputAction m_Player_Weapon2;
+        private readonly InputAction m_Player_Weapon3;
+        private readonly InputAction m_Player_Weapon4;
         public struct PlayerActions
         {
             private @PlayerInputs m_Wrapper;
@@ -848,6 +1035,10 @@ namespace Reaper.Inputs
             public InputAction @LookStick => m_Wrapper.m_Player_LookStick;
             public InputAction @LookMouse => m_Wrapper.m_Player_LookMouse;
             public InputAction @Attack => m_Wrapper.m_Player_Attack;
+            public InputAction @Weapon1 => m_Wrapper.m_Player_Weapon1;
+            public InputAction @Weapon2 => m_Wrapper.m_Player_Weapon2;
+            public InputAction @Weapon3 => m_Wrapper.m_Player_Weapon3;
+            public InputAction @Weapon4 => m_Wrapper.m_Player_Weapon4;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -869,6 +1060,18 @@ namespace Reaper.Inputs
                     @Attack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
                     @Attack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
                     @Attack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
+                    @Weapon1.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeapon1;
+                    @Weapon1.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeapon1;
+                    @Weapon1.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeapon1;
+                    @Weapon2.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeapon2;
+                    @Weapon2.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeapon2;
+                    @Weapon2.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeapon2;
+                    @Weapon3.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeapon3;
+                    @Weapon3.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeapon3;
+                    @Weapon3.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeapon3;
+                    @Weapon4.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeapon4;
+                    @Weapon4.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeapon4;
+                    @Weapon4.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeapon4;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -885,6 +1088,18 @@ namespace Reaper.Inputs
                     @Attack.started += instance.OnAttack;
                     @Attack.performed += instance.OnAttack;
                     @Attack.canceled += instance.OnAttack;
+                    @Weapon1.started += instance.OnWeapon1;
+                    @Weapon1.performed += instance.OnWeapon1;
+                    @Weapon1.canceled += instance.OnWeapon1;
+                    @Weapon2.started += instance.OnWeapon2;
+                    @Weapon2.performed += instance.OnWeapon2;
+                    @Weapon2.canceled += instance.OnWeapon2;
+                    @Weapon3.started += instance.OnWeapon3;
+                    @Weapon3.performed += instance.OnWeapon3;
+                    @Weapon3.canceled += instance.OnWeapon3;
+                    @Weapon4.started += instance.OnWeapon4;
+                    @Weapon4.performed += instance.OnWeapon4;
+                    @Weapon4.canceled += instance.OnWeapon4;
                 }
             }
         }
@@ -1027,6 +1242,10 @@ namespace Reaper.Inputs
             void OnLookStick(InputAction.CallbackContext context);
             void OnLookMouse(InputAction.CallbackContext context);
             void OnAttack(InputAction.CallbackContext context);
+            void OnWeapon1(InputAction.CallbackContext context);
+            void OnWeapon2(InputAction.CallbackContext context);
+            void OnWeapon3(InputAction.CallbackContext context);
+            void OnWeapon4(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

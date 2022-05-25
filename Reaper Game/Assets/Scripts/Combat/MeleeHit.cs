@@ -8,11 +8,13 @@ namespace Reaper.Combat
     public class MeleeHit : MonoBehaviour
     {
         private float duration;
+        private List<Collider2D> prevHits;
 
         public void Init(float duration, DamageObject.DamageHandler hitHandler)
         {
             this.duration = duration;
-            GetComponent<DamageObject>().OnHit += hitHandler;
+            prevHits = new List<Collider2D>();
+            GetComponent<DamageObject>().OnHit += c => validateHit(c, hitHandler);
         }
 
         private void Update()
@@ -22,6 +24,14 @@ namespace Reaper.Combat
             {
                 Destroy(gameObject);
             }
+        }
+
+        private void validateHit(Collider2D collision, DamageObject.DamageHandler hitHandler)
+        {
+            if (prevHits.Contains(collision))
+                return;
+            prevHits.Add(collision);
+            hitHandler?.Invoke(collision);
         }
 
         public static MeleeHit Create(float duration, DamageObject.DamageHandler hitHandler, Vector2 position, Vector2 size, List<string> targets, Transform parent = null, float rotation = 0)

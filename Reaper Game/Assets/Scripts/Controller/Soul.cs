@@ -18,16 +18,14 @@ namespace Reaper.Controller
         [SerializeField] float maxSpeed = 5;
         [SerializeField] float knockbackStrength = 15;
         private float morphTimer;
-        private bool morphed;
+        public bool morphed;
 
         void Awake()
         {
-            morphTimer = 5;
-            morphed = false;
             mover = GetComponent<Mover>();
             combatTarget = GetComponent<CombatTarget>();
             combatTarget.OnDeath +=  Demorph;
-            combatTarget.invuln = true;
+            Demorph();
         }
 
         private void Start()

@@ -20,13 +20,24 @@ namespace Reaper.Controller
         [SerializeField] float maxSpeed;
         [SerializeField] float knockbackStrength = 20f;
         private Vector2 facing;
-        private float attackCooldown;
+        public List<Weapon> weapons;
+        private Weapon currentWeapon;
 
         void Awake()
         {
             mover = GetComponent<Mover>();
             input = new PlayerInputs();
             player = this;
+            facing = Vector2.up;
+            if (weapons == null)
+            {
+                weapons = new List<Weapon>();
+                weapons.AddRange(GetComponentsInChildren<Weapon>(true));
+            }
+            foreach (Weapon weap in weapons)
+                weap?.gameObject.SetActive(false);
+            if (weapons.Count > 0)
+                SwapWeapon(0);
         }
 
         private void OnEnable()
@@ -45,6 +56,15 @@ namespace Reaper.Controller
 
             input.Player.Attack.performed += Attack;
             input.Player.Attack.Enable();
+
+            input.Player.Weapon1.performed += _ => SwapWeapon(0);
+            input.Player.Weapon1.Enable();
+            input.Player.Weapon2.performed += _ => SwapWeapon(1);
+            input.Player.Weapon2.Enable();
+            input.Player.Weapon3.performed += _ => SwapWeapon(2);
+            input.Player.Weapon3.Enable();
+            input.Player.Weapon4.performed += _ => SwapWeapon(3);
+            input.Player.Weapon4.Enable();
         }
 
         private void OnDisable()
@@ -53,11 +73,29 @@ namespace Reaper.Controller
             input.Player.LookStick.Disable();
             input.Player.LookMouse.Disable();
             input.Player.Attack.Disable();
+            input.Player.Weapon1.Disable();
+            input.Player.Weapon2.Disable();
+            input.Player.Weapon3.Disable();
+            input.Player.Weapon4.Disable();
         }
 
-        private void Damage(Collider2D collision)
+        private void Update()
         {
-            collision.GetComponent<CombatTarget>()?.Damage(3, facing * knockbackStrength, 0.2f);
+            if (currentWeapon == null)
+                return;
+            currentWeapon.transform.position = (Vector2)transform.position + facing;
+            currentWeapon.transform.eulerAngles = new Vector3(0, 0, facing.ToAngle());
+        }
+
+        private void SwapWeapon(int index)
+        {
+            Debug.Log("Trying switch");
+            if (weapons.Count <= index)
+                return;
+            Debug.Log("Switching");
+            currentWeapon?.gameObject.SetActive(false);
+            currentWeapon = weapons[index];
+            currentWeapon?.gameObject.SetActive(true);
         }
 
         #region Input Registering
@@ -85,7 +123,7 @@ namespace Reaper.Controller
 
         private void Attack(InputAction.CallbackContext obj)
         {
-            MeleeHit.Create(0.25f, Damage, facing, new Vector2(1, 1), new List<string> { "Soul" }, transform, facing.ToAngle());
+            currentWeapon?.Attack(facing);
         }
 
         #endregion
