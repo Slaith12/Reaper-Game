@@ -15,8 +15,11 @@ namespace Reaper.Controller
         private CombatTarget combatTarget;
         private PlayerController player;
 
+        [SerializeField] int maxHealth;
         [SerializeField] float maxSpeed = 5;
+        [SerializeField] int damage = 1;
         [SerializeField] float knockbackStrength = 15;
+        [SerializeField] float staggerDuration = 0.2f;
         private float morphTimer;
         public bool morphed;
 
@@ -57,10 +60,12 @@ namespace Reaper.Controller
             }
         }
 
+
+
         private void Morph()
         {
             morphed = true;
-            combatTarget.health = 5;
+            combatTarget.health = maxHealth;
             combatTarget.invuln = false;
         }
 
@@ -78,7 +83,7 @@ namespace Reaper.Controller
                 return;
             Debug.Log("Player Hit");
             //Demorph();
-            collision.GetComponent<CombatTarget>()?.Damage(1, (player.transform.position - transform.position).normalized * knockbackStrength, 0.2f);
+            collision.GetComponent<CombatTarget>()?.Damage(damage, (player.transform.position - transform.position).normalized * knockbackStrength, staggerDuration);
         }
     }
 }
