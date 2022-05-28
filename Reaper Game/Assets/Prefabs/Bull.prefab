@@ -12,12 +12,20 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 931331339885651780, guid: c70240c19ca40bf4a82e437159f42f6d, type: 3}
+      propertyPath: damage
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 931331339885651780, guid: c70240c19ca40bf4a82e437159f42f6d, type: 3}
       propertyPath: maxSpeed
-      value: 10
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 931331339885651780, guid: c70240c19ca40bf4a82e437159f42f6d, type: 3}
+      propertyPath: staggerDuration
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 931331339885651780, guid: c70240c19ca40bf4a82e437159f42f6d, type: 3}
       propertyPath: knockbackStrength
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 931331339885651786, guid: c70240c19ca40bf4a82e437159f42f6d, type: 3}
       propertyPath: m_Color.r

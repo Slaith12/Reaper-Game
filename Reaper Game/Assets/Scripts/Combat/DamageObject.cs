@@ -11,9 +11,10 @@ namespace Reaper.Combat
 
         public List<string> targets;
 
-        private void Start()
+        private void Awake()
         {
             GetComponent<Collider2D>().isTrigger = true;
+            gameObject.layer = LayerMask.NameToLayer("Damage Zone");
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

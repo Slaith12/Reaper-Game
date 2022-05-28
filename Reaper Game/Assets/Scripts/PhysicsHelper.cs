@@ -15,4 +15,10 @@ public static class PhysicsHelper
             angle += 180;
         return angle;
     }
+
+    public static Vector2 ToDirection(this float angle)
+    {
+        float radAngle = angle * Mathf.PI / 180;
+        return new Vector2(Mathf.Sin(radAngle), -Mathf.Cos(radAngle));
+    }
 }

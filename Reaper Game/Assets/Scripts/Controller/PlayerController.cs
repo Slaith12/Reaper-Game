@@ -18,7 +18,6 @@ namespace Reaper.Controller
         public static PlayerController player { get; private set; }
 
         [SerializeField] float maxSpeed;
-        [SerializeField] float knockbackStrength = 20f;
         private Vector2 facing;
         public List<Weapon> weapons;
         private Weapon currentWeapon;
@@ -35,7 +34,9 @@ namespace Reaper.Controller
                 weapons.AddRange(GetComponentsInChildren<Weapon>(true));
             }
             foreach (Weapon weap in weapons)
-                weap?.gameObject.SetActive(false);
+            {
+                weap?.Disable();
+            }
             if (weapons.Count > 0)
                 SwapWeapon(0);
         }
@@ -89,13 +90,11 @@ namespace Reaper.Controller
 
         private void SwapWeapon(int index)
         {
-            Debug.Log("Trying switch");
             if (weapons.Count <= index)
                 return;
-            Debug.Log("Switching");
-            currentWeapon?.gameObject.SetActive(false);
+            currentWeapon?.Disable();
             currentWeapon = weapons[index];
-            currentWeapon?.gameObject.SetActive(true);
+            currentWeapon?.Enable();
         }
 
         #region Input Registering

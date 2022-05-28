@@ -11,13 +11,13 @@ GameObject:
   - component: {fileID: 1781478719}
   - component: {fileID: 1781478721}
   - component: {fileID: 1781478720}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Scythe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1781478719
 Transform:
   m_ObjectHideFlags: 0
@@ -109,13 +109,13 @@ GameObject:
   - component: {fileID: 5300301728026348903}
   - component: {fileID: 696665427709397484}
   - component: {fileID: 5475531910675865134}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5300301728026348903
 Transform:
   m_ObjectHideFlags: 0
@@ -195,7 +195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: {x: 4, y: 3}
   interval: 1
-  flashes: 5
+  flashes: 20
 --- !u!1 &2519349897410287718
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 2519349897410287720}
   - component: {fileID: 2573089512655900205}
   - component: {fileID: 7308222591796384772}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
