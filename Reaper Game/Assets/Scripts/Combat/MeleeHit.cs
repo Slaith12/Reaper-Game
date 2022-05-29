@@ -38,7 +38,11 @@ namespace Reaper.Combat
         {
             Transform newObject = new GameObject("Melee").transform;
             newObject.parent = parent;
-            newObject.position = offset + (Vector2)newObject.parent.transform.position;
+            newObject.position = offset;
+            if(newObject.parent != null)
+            {
+                newObject.position += newObject.parent.position;
+            }
             newObject.eulerAngles = new Vector3(0, 0, rotation);
             newObject.localScale = size;
             newObject.gameObject.AddComponent<BoxCollider2D>();

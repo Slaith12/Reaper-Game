@@ -9,11 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 861440517080098794, guid: c70240c19ca40bf4a82e437159f42f6d, type: 3}
       propertyPath: acceleration
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 861440517080098794, guid: c70240c19ca40bf4a82e437159f42f6d, type: 3}
       propertyPath: knockbackRes
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 931331339885651780, guid: c70240c19ca40bf4a82e437159f42f6d, type: 3}
       propertyPath: damage

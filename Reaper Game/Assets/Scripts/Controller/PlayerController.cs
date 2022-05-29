@@ -144,6 +144,7 @@ namespace Reaper.Controller
             if(shopID != -1)
             {
                 shopIndicator.SetActive(false);
+                ShopManager.instance.OpenShop(shopID);
             }
         }
 
