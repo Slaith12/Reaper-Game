@@ -24,7 +24,7 @@ namespace Reaper.Combat
             if (attackCooldown > 0 || flashes <= 0)
                 return;
             canCapture = true;
-            MeleeHit.Create(0.5f, Capture, facing, size, new List<string> { "Soul" }, transform.parent, facing.ToAngle());
+            MeleeHit.Create(0.5f, Capture, (Vector2)transform.position + facing, size, new List<string> { "Soul" }, rotation: facing.ToAngle());
             attackCooldown = interval;
             flashes--;
         }

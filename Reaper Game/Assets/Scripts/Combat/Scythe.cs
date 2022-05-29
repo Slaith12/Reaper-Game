@@ -21,7 +21,7 @@ namespace Reaper.Combat
         {
             if (cooldown > 0)
                 return;
-            MeleeHit.Create(0.25f, c => Damage(c, facing), facing, new Vector2(1, 1), new List<string> { "Soul" }, transform.parent, facing.ToAngle());
+            MeleeHit.Create(0.25f, c => Damage(c, facing), Vector2.zero, new Vector2(1, 1), new List<string> { "Soul" }, transform, facing.ToAngle());
             cooldown = attackInterval;
         }
 

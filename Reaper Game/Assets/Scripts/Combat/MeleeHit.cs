@@ -34,11 +34,11 @@ namespace Reaper.Combat
             hitHandler?.Invoke(collision);
         }
 
-        public static MeleeHit Create(float duration, DamageObject.DamageHandler hitHandler, Vector2 position, Vector2 size, List<string> targets, Transform parent = null, float rotation = 0)
+        public static MeleeHit Create(float duration, DamageObject.DamageHandler hitHandler, Vector2 offset, Vector2 size, List<string> targets, Transform parent = null, float rotation = 0)
         {
             Transform newObject = new GameObject("Melee").transform;
             newObject.parent = parent;
-            newObject.position = position + (Vector2)newObject.parent.transform.position;
+            newObject.position = offset + (Vector2)newObject.parent.transform.position;
             newObject.eulerAngles = new Vector3(0, 0, rotation);
             newObject.localScale = size;
             newObject.gameObject.AddComponent<BoxCollider2D>();
