@@ -10,6 +10,8 @@ namespace Reaper.Movement
         private new Rigidbody2D rigidbody;
 
         [SerializeField] float acceleration;
+        [Min(-0.9f)]
+        [SerializeField] float knockbackRes;
         [HideInInspector] public Vector2 targetSpeed;
         private Vector2 currentSpeed;
         private float staggerTimer;
@@ -46,7 +48,7 @@ namespace Reaper.Movement
 
         public void Knockback(Vector2 strength, float stagger)
         {
-            currentSpeed = strength;
+            currentSpeed = strength/(1+knockbackRes);
             staggerTimer = stagger;
         }
     }

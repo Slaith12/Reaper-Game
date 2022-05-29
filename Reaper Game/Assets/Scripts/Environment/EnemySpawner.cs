@@ -18,6 +18,11 @@ namespace Reaper.Environment
 
         private float cooldown;
 
+        private void Awake()
+        {
+            cooldown = 3;
+        }
+
         private void Update()
         {
             if(cooldown > 0)

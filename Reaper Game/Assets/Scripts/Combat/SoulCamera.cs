@@ -5,7 +5,7 @@ using Reaper.Controller;
 
 namespace Reaper.Combat
 {
-    public class Camera : Weapon
+    public class SoulCamera : Weapon
     {
         [SerializeField] Vector2 size = new Vector2(4, 3);
         [SerializeField] float interval = 1;

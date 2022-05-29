@@ -100,6 +100,15 @@ namespace Reaper.Inputs
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Enter Shop"",
+                    ""type"": ""Button"",
+                    ""id"": ""16b3cf7b-47ea-4b54-a8f2-26b165633511"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -260,10 +269,21 @@ namespace Reaper.Inputs
                 {
                     ""name"": """",
                     ""id"": ""143bb1cd-cc10-4eca-a2f0-a3664166fe91"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""64c76b35-22b0-4b5c-b9a5-f3281eecd66a"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -430,6 +450,39 @@ namespace Reaper.Inputs
                     ""processors"": """",
                     ""groups"": ""Joystick"",
                     ""action"": ""Weapon 4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""74e6a1a9-68ec-4df8-981a-cd0211bd873e"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Enter Shop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8f97c97a-21a2-421e-9427-517dd03055e4"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Enter Shop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""357a2aa2-344c-4c4e-bcd7-9bfba6692c39"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Enter Shop"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -948,6 +1001,7 @@ namespace Reaper.Inputs
             m_Player_Weapon2 = m_Player.FindAction("Weapon 2", throwIfNotFound: true);
             m_Player_Weapon3 = m_Player.FindAction("Weapon 3", throwIfNotFound: true);
             m_Player_Weapon4 = m_Player.FindAction("Weapon 4", throwIfNotFound: true);
+            m_Player_EnterShop = m_Player.FindAction("Enter Shop", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1027,6 +1081,7 @@ namespace Reaper.Inputs
         private readonly InputAction m_Player_Weapon2;
         private readonly InputAction m_Player_Weapon3;
         private readonly InputAction m_Player_Weapon4;
+        private readonly InputAction m_Player_EnterShop;
         public struct PlayerActions
         {
             private @PlayerInputs m_Wrapper;
@@ -1039,6 +1094,7 @@ namespace Reaper.Inputs
             public InputAction @Weapon2 => m_Wrapper.m_Player_Weapon2;
             public InputAction @Weapon3 => m_Wrapper.m_Player_Weapon3;
             public InputAction @Weapon4 => m_Wrapper.m_Player_Weapon4;
+            public InputAction @EnterShop => m_Wrapper.m_Player_EnterShop;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1072,6 +1128,9 @@ namespace Reaper.Inputs
                     @Weapon4.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeapon4;
                     @Weapon4.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeapon4;
                     @Weapon4.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeapon4;
+                    @EnterShop.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnterShop;
+                    @EnterShop.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnterShop;
+                    @EnterShop.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnterShop;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -1100,6 +1159,9 @@ namespace Reaper.Inputs
                     @Weapon4.started += instance.OnWeapon4;
                     @Weapon4.performed += instance.OnWeapon4;
                     @Weapon4.canceled += instance.OnWeapon4;
+                    @EnterShop.started += instance.OnEnterShop;
+                    @EnterShop.performed += instance.OnEnterShop;
+                    @EnterShop.canceled += instance.OnEnterShop;
                 }
             }
         }
@@ -1246,6 +1308,7 @@ namespace Reaper.Inputs
             void OnWeapon2(InputAction.CallbackContext context);
             void OnWeapon3(InputAction.CallbackContext context);
             void OnWeapon4(InputAction.CallbackContext context);
+            void OnEnterShop(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

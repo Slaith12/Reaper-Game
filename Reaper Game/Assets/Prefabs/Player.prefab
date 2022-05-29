@@ -98,6 +98,36 @@ MonoBehaviour:
   damage: 3
   knockbackStrength: 15
   attackInterval: 0.5
+--- !u!1 &316064354650606803
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 416467613647678376}
+  m_Layer: 6
+  m_Name: Shop Indicator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &416467613647678376
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316064354650606803}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2519349897410287722}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1012278255028968566
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,6 +261,7 @@ Transform:
   m_Children:
   - {fileID: 1781478719}
   - {fileID: 5300301728026348903}
+  - {fileID: 416467613647678376}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -345,10 +376,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 8
-  knockbackStrength: 15
   weapons:
   - {fileID: 1781478720}
   - {fileID: 5475531910675865134}
+  shopIndicator: {fileID: 316064354650606803}
 --- !u!114 &2573089512655900205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,6 +393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   acceleration: 80
+  knockbackRes: 0
   targetSpeed: {x: 0, y: 0}
 --- !u!114 &7308222591796384772
 MonoBehaviour:

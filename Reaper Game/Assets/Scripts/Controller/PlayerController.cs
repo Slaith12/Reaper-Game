@@ -22,6 +22,15 @@ namespace Reaper.Controller
         public List<Weapon> weapons;
         private Weapon currentWeapon;
 
+        [SerializeField] GameObject shopIndicator;
+        public int atShop { get { return shopID; } set
+            {
+                shopID = value;
+                shopIndicator.SetActive(shopID >= 0);
+            }
+        }
+        private int shopID;
+
         void Awake()
         {
             mover = GetComponent<Mover>();
@@ -39,6 +48,7 @@ namespace Reaper.Controller
             }
             if (weapons.Count > 0)
                 SwapWeapon(0);
+            atShop = -1;
         }
 
         private void OnEnable()
@@ -66,6 +76,9 @@ namespace Reaper.Controller
             input.Player.Weapon3.Enable();
             input.Player.Weapon4.performed += _ => SwapWeapon(3);
             input.Player.Weapon4.Enable();
+
+            input.Player.EnterShop.performed += EnterShop;
+            input.Player.EnterShop.Enable();
         }
 
         private void OnDisable()
@@ -78,6 +91,7 @@ namespace Reaper.Controller
             input.Player.Weapon2.Disable();
             input.Player.Weapon3.Disable();
             input.Player.Weapon4.Disable();
+            input.Player.EnterShop.Disable();
         }
 
         private void Update()
@@ -123,6 +137,14 @@ namespace Reaper.Controller
         private void Attack(InputAction.CallbackContext obj)
         {
             currentWeapon?.Attack(facing);
+        }
+
+        private void EnterShop(InputAction.CallbackContext obj)
+        {
+            if(shopID != -1)
+            {
+                shopIndicator.SetActive(false);
+            }
         }
 
         #endregion
