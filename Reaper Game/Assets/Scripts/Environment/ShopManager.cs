@@ -6,9 +6,11 @@ public class ShopManager : MonoBehaviour
 {
     public static ShopManager instance { get; private set; }
 
-    [SerializeField] List<ShopItem> items;
-    [SerializeField] List<ShopContract> contracts;
+    [SerializeField] List<ItemDisplay> items;
+    [SerializeField] List<ContractDisplay> contracts;
     [SerializeField] ShopDescription description;
+    List<ShopData> shops;
+    ShopData currentShop;
 
     private void Awake()
     {
@@ -24,17 +26,22 @@ public class ShopManager : MonoBehaviour
             if (i / 2 == 1)
                 newPos.y = -50;
             ((RectTransform)newItem.transform).anchoredPosition = newPos;
-            items.Add(newItem.GetComponent<ShopItem>());
+            items.Add(newItem.GetComponent<ItemDisplay>());
             items[i].SetID(i);
 
             GameObject newContract = Instantiate(baseContract, baseContract.transform.parent);
             newPos = new Vector2(0, 60 - 50*i);
             ((RectTransform)newContract.transform).anchoredPosition = newPos;
-            contracts.Add(newContract.GetComponent<ShopContract>());
+            contracts.Add(newContract.GetComponent<ContractDisplay>());
             contracts[i].SetID(i);
         }
         items[0].SetID(0);
         contracts[0].SetID(0);
+
+        shops = new List<ShopData>();
+        shops.Add(new ShopData());
+        shops[0].AddItem(1, "Gives some film to pictures with.", "+1 camera ammo", 5, delegate { });
+
         gameObject.SetActive(false);
         description.Hide();
     }
@@ -53,18 +60,46 @@ public class ShopManager : MonoBehaviour
     {
         if(item)
         {
-            description.ShowItem(id.ToString(), null, "lol", "", "");
+            ShopData.Item currItem = currentShop.items[id];
+            description.ShowItem(currItem.name, currItem.image, currItem.flavorText, currItem.effects, currItem.price.ToString());
         }
         else
         {
-            description.ShowContract(id.ToString(), null, "", "", "", null, "", null);
+            ShopData.Contract currCont = currentShop.contracts[id];
+            //description.ShowContract(currCont.title, currCont.wantedImg, currCont., "", "", null, "", null);
         }
     }
 
     public void OpenShop(int shopID)
     {
+        if (shopID >= shops.Count)
+            return;
         description.Hide();
         gameObject.SetActive(true);
+        currentShop = shops[shopID];
+        for(int i = 0; i < 4; i++)
+        {
+            if (currentShop.items.Count <= i)
+            {
+                items[i].gameObject.SetActive(false);
+            }
+            else
+            {
+                items[i].gameObject.SetActive(true);
+                ShopData.Item currentItem = currentShop.items[i];
+                items[i].SetItem(currentItem.name, currentItem.image, currentItem.price);
+            }
+            if(currentShop.contracts.Count <= i)
+            {
+                contracts[i].gameObject.SetActive(false);
+            }
+            else
+            {
+                contracts[i].gameObject.SetActive(true);
+                ShopData.Contract currentContract = currentShop.contracts[i];
+                contracts[i].SetContract(currentContract.wantedNum, currentContract.wantedImg, currentContract.payNum, currentContract.payImg, currentContract.rewardNum, currentContract.rewardImg);
+            }
+        }
     }
 
     public void CloseShop()

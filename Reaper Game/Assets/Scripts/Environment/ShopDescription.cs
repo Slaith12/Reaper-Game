@@ -35,13 +35,13 @@ public class ShopDescription : MonoBehaviour
         reward.gameObject.SetActive(false);
     }
 
-    public void ShowContract(string name, Sprite image, string flavorText, string effects, string payNum, Sprite payType, string rewardNum, Sprite rewardType)
+    public void ShowContract(string name, Sprite image, string flavorText, string info, string payNum, Sprite payType, string rewardNum, Sprite rewardType)
     {
         gameObject.SetActive(true);
         this.name.text = name;
         this.image.sprite = image;
         this.flavorText.text = flavorText;
-        this.effects.text = effects;
+        effects.text = info;
         cost.text = "Payment:";
         costNum.text = payNum;
         costType.sprite = payType;

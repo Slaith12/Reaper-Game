@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShopItem : MonoBehaviour
+public class ItemDisplay : MonoBehaviour
 {
     [SerializeField] new Text name;
     [SerializeField] Image image;
@@ -33,10 +33,10 @@ public class ShopItem : MonoBehaviour
         button.OnSelection += () => ShopManager.instance.ShowDescription(num, true);
     }
 
-    public void SetItem(string name, Sprite image, string price)
+    public void SetItem(string name, Sprite image, int price)
     {
         this.name.text = name;
         this.image.sprite = image;
-        this.price.text = price;
+        this.price.text = price.ToString();
     }
 }

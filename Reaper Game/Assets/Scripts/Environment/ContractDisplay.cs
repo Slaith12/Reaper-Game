@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShopContract : MonoBehaviour
+public class ContractDisplay : MonoBehaviour
 {
     [SerializeField] Image wantedType;
     [SerializeField] Text wantedNum;
+    [SerializeField] Image payType;
+    [SerializeField] Text payNum;
     [SerializeField] Image rewardType;
     [SerializeField] Text rewardNum;
 
@@ -34,11 +36,13 @@ public class ShopContract : MonoBehaviour
         button.OnSelection += () => ShopManager.instance.ShowDescription(num, false);
     }
 
-    public void SetContract(Sprite wantedImage, string wantedText, Sprite rewardImage, string rewardText)
+    public void SetContract(string wantedText, Sprite wantedImage, string payText, Sprite payImage, string rewardText, Sprite rewardImage)
     {
-        wantedType.sprite = wantedImage;
         wantedNum.text = wantedText;
-        rewardType.sprite = rewardImage;
+        wantedType.sprite = wantedImage;
+        payNum.text = payText;
+        payType.sprite = payImage;
         rewardNum.text = rewardText;
+        rewardType.sprite = rewardImage;
     }
 }
