@@ -15,9 +15,13 @@ public class ShopManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+    }
+
+    private void Start()
+    {
         GameObject baseItem = items[0].gameObject;
         GameObject baseContract = contracts[0].gameObject;
-        for(int i = 1; i < 4; i++)
+        for (int i = 1; i < 4; i++)
         {
             GameObject newItem = Instantiate(baseItem, baseItem.transform.parent);
             Vector2 newPos = new Vector2(-50, 50);
@@ -30,7 +34,7 @@ public class ShopManager : MonoBehaviour
             items[i].SetID(i);
 
             GameObject newContract = Instantiate(baseContract, baseContract.transform.parent);
-            newPos = new Vector2(0, 60 - 50*i);
+            newPos = new Vector2(0, 60 - 50 * i);
             ((RectTransform)newContract.transform).anchoredPosition = newPos;
             contracts.Add(newContract.GetComponent<ContractDisplay>());
             contracts[i].SetID(i);

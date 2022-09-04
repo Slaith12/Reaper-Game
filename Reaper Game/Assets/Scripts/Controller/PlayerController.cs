@@ -36,6 +36,10 @@ namespace Reaper.Controller
             mover = GetComponent<Mover>();
             input = new PlayerInputs();
             player = this;
+        }
+
+        private void Start()
+        {
             facing = Vector2.up;
             if (weapons == null)
             {
