@@ -19,7 +19,7 @@ namespace Reaper.Combat
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (!targets.Contains(collision.tag))
+            if (targets != null && !targets.Contains(collision.tag))
             {
                 return;
             }

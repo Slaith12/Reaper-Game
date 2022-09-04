@@ -18,7 +18,7 @@ namespace Reaper.Environment
 
         private float cooldown;
 
-        private void Awake()
+        private void Start()
         {
             cooldown = 3;
         }

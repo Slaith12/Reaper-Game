@@ -27,14 +27,14 @@ namespace Reaper.Controller
         {
             mover = GetComponent<Mover>();
             combatTarget = GetComponent<CombatTarget>();
-            combatTarget.OnDeath +=  Demorph;
-            Demorph();
         }
 
         private void Start()
         {
             player = PlayerController.player;
             contact.OnHit += Damage;
+            combatTarget.OnDeath += Demorph;
+            Demorph();
         }
 
         void Update()
