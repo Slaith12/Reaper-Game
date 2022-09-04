@@ -83,7 +83,7 @@ GameObject:
   - component: {fileID: 931331339885651787}
   - component: {fileID: 931331339885651786}
   - component: {fileID: 931331339885651785}
-  - component: {fileID: 931331339885651784}
+  - component: {fileID: -7429449413578039653}
   - component: {fileID: 931331339885651780}
   - component: {fileID: 861440517080098794}
   - component: {fileID: 1394645972841971169}
@@ -181,8 +181,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &931331339885651784
-BoxCollider2D:
+--- !u!58 &-7429449413578039653
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -195,18 +195,8 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Radius: 0.5
 --- !u!114 &931331339885651780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,6 +215,9 @@ MonoBehaviour:
   damage: 1
   knockbackStrength: 15
   staggerDuration: 0.2
+  sightDistance: 10
+  memoryTime: 5
+  patrolSpeed: 5
   morphed: 0
 --- !u!114 &861440517080098794
 MonoBehaviour:
@@ -239,6 +232,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   acceleration: 80
+  knockbackRes: 0
+  partialKnockback: 0
   targetSpeed: {x: 0, y: 0}
 --- !u!114 &1394645972841971169
 MonoBehaviour:
