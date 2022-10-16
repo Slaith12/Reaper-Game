@@ -9,8 +9,8 @@ public class ShopManager : MonoBehaviour
     [SerializeField] List<ItemDisplay> items;
     [SerializeField] List<ContractDisplay> contracts;
     [SerializeField] ShopDescription description;
-    List<ShopData> shops;
-    ShopData currentShop;
+    List<BadShopData> shops;
+    BadShopData currentShop;
 
     private void Awake()
     {
@@ -42,8 +42,8 @@ public class ShopManager : MonoBehaviour
         items[0].SetID(0);
         contracts[0].SetID(0);
 
-        shops = new List<ShopData>();
-        shops.Add(new ShopData());
+        shops = new List<BadShopData>();
+        shops.Add(new BadShopData());
         shops[0].AddItem(1, "Gives some film to pictures with.", "+1 camera ammo", 5, delegate { });
 
         gameObject.SetActive(false);
@@ -64,12 +64,12 @@ public class ShopManager : MonoBehaviour
     {
         if(item)
         {
-            ShopData.Item currItem = currentShop.items[id];
+            BadShopData.Item currItem = currentShop.items[id];
             description.ShowItem(currItem.name, currItem.image, currItem.flavorText, currItem.effects, currItem.price.ToString());
         }
         else
         {
-            ShopData.Contract currCont = currentShop.contracts[id];
+            BadShopData.Contract currCont = currentShop.contracts[id];
             //description.ShowContract(currCont.title, currCont.wantedImg, currCont., "", "", null, "", null);
         }
     }
@@ -90,7 +90,7 @@ public class ShopManager : MonoBehaviour
             else
             {
                 items[i].gameObject.SetActive(true);
-                ShopData.Item currentItem = currentShop.items[i];
+                BadShopData.Item currentItem = currentShop.items[i];
                 items[i].SetItem(currentItem.name, currentItem.image, currentItem.price);
             }
             if(currentShop.contracts.Count <= i)
@@ -100,7 +100,7 @@ public class ShopManager : MonoBehaviour
             else
             {
                 contracts[i].gameObject.SetActive(true);
-                ShopData.Contract currentContract = currentShop.contracts[i];
+                BadShopData.Contract currentContract = currentShop.contracts[i];
                 contracts[i].SetContract(currentContract.wantedNum, currentContract.wantedImg, currentContract.payNum, currentContract.payImg, currentContract.rewardNum, currentContract.rewardImg);
             }
         }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShopData
+public class BadShopData
 {
     public struct Item
     {
@@ -64,7 +64,7 @@ public class ShopData
     public List<Item> items;
     public List<Contract> contracts;
 
-    public ShopData()
+    public BadShopData()
     {
         items = new List<Item>();
         contracts = new List<Contract>();
@@ -72,7 +72,7 @@ public class ShopData
 
     public void AddItem(int itemID, string flavorText, string effects, int price, Action OnBuy)
     {
-        AddItem(GlobalData.instance.itemNames[itemID], GlobalData.instance.itemSprites[itemID], flavorText, effects, price, OnBuy);
+        //AddItem(GlobalShopData.instance.itemNames[itemID], GlobalShopData.instance.itemSprites[itemID], flavorText, effects, price, OnBuy);
     }
 
     public void AddItem(string name, Sprite image, string flavorText, string effects, int price, Action OnBuy)
@@ -87,7 +87,7 @@ public class ShopData
 
     public void AddContract(string title, string wantedNum, int wantedID, string payNum, int payID, string rewardNum, int rewardID)
     {
-        AddContract(title, wantedNum, GlobalData.instance.enemySprites[wantedID], GlobalData.instance.enemyNames[wantedID], payNum, GlobalData.instance.itemSprites[payID], GlobalData.instance.itemNames[payID], rewardNum, GlobalData.instance.itemSprites[rewardID], GlobalData.instance.itemNames[rewardID]);
+        //AddContract(title, wantedNum, GlobalShopData.instance.enemySprites[wantedID], GlobalShopData.instance.enemyNames[wantedID], payNum, GlobalShopData.instance.itemSprites[payID], GlobalShopData.instance.itemNames[payID], rewardNum, GlobalShopData.instance.itemSprites[rewardID], GlobalShopData.instance.itemNames[rewardID]);
     }
 
     public void AddContract(string title, string wantedNum, Sprite wantedImg, string wantedType, string payNum, Sprite payImg, string payType, string rewardNum, Sprite rewardImg, string rewardType)
