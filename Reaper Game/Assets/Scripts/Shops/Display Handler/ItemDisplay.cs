@@ -33,10 +33,10 @@ public class ItemDisplay : MonoBehaviour
         button.OnSelection += () => ShopManager.instance.ShowDescription(num, true);
     }
 
-    public void SetItem(string name, Sprite image, int price)
+    public void SetItem(ShopItem shopItem)
     {
-        this.name.text = name;
-        this.image.sprite = image;
-        this.price.text = price.ToString();
+        name.text = shopItem.item.name;
+        image.sprite = shopItem.item.sprite;
+        price.text = shopItem.price.ToString();
     }
 }

@@ -1967,6 +1967,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wantedType: {fileID: 3561329905063911001}
   wantedNum: {fileID: 3561329905503780462}
+  payType: {fileID: 6949835812572960614}
+  payNum: {fileID: 6524962130838571439}
   rewardType: {fileID: 3561329906236391141}
   rewardNum: {fileID: 3561329906905440806}
 --- !u!1 &3561329906748112884

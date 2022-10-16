@@ -23,13 +23,13 @@ namespace Reaper.Controller
         private Weapon currentWeapon;
 
         [SerializeField] GameObject shopIndicator;
-        public int atShop { get { return shopID; } set
+        public ShopData atShop { get { return shopData; } set
             {
-                shopID = value;
-                shopIndicator.SetActive(shopID >= 0);
+                shopData = value;
+                shopIndicator.SetActive(shopData != null);
             }
         }
-        private int shopID;
+        private ShopData shopData;
 
         void Awake()
         {
@@ -52,8 +52,10 @@ namespace Reaper.Controller
             }
             if (weapons.Count > 0)
                 SwapWeapon(0);
-            atShop = -1;
+            atShop = null;
         }
+
+        #region Input System Handling
 
         private void OnEnable()
         {
@@ -97,6 +99,8 @@ namespace Reaper.Controller
             input.Player.Weapon4.Disable();
             input.Player.EnterShop.Disable();
         }
+
+        #endregion
 
         private void Update()
         {
@@ -145,10 +149,10 @@ namespace Reaper.Controller
 
         private void EnterShop(InputAction.CallbackContext obj)
         {
-            if(shopID != -1)
+            if(shopData != null)
             {
                 shopIndicator.SetActive(false);
-                ShopManager.instance.OpenShop(shopID);
+                ShopManager.instance.OpenShop(shopData);
             }
         }
 

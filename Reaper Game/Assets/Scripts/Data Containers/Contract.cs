@@ -6,6 +6,7 @@ using UnityEngine;
 public class Contract : ScriptableObject
 {
     public string title;
+    public string description;
     [Header("Soul type to get")]
     public EntityData targetEntity;
     public int targetQuota;

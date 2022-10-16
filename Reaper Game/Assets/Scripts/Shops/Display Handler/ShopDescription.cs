@@ -22,31 +22,31 @@ public class ShopDescription : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void ShowItem(string name, Sprite image, string flavorText, string effects, string costNum)
+    public void ShowItem(ShopItem shopItem)
     {
         gameObject.SetActive(true);
-        this.name.text = name;
-        this.image.sprite = image;
-        this.flavorText.text = flavorText;
-        this.effects.text = effects;
+        this.name.text = shopItem.item.name;
+        this.image.sprite = shopItem.item.sprite;
+        this.flavorText.text = shopItem.flavorText;
+        this.effects.text = shopItem.item.description;
         cost.text = "Cost:";
-        this.costNum.text = costNum;
+        this.costNum.text = shopItem.price.ToString();
         costType.sprite = defaultCurrency;
         reward.gameObject.SetActive(false);
     }
 
-    public void ShowContract(string name, Sprite image, string flavorText, string info, string payNum, Sprite payType, string rewardNum, Sprite rewardType)
+    public void ShowContract(Contract contract)
     {
         gameObject.SetActive(true);
-        this.name.text = name;
-        this.image.sprite = image;
-        this.flavorText.text = flavorText;
-        effects.text = info;
+        this.name.text = contract.title;
+        this.image.sprite = contract.targetEntity.sprite;
+        this.flavorText.text = contract.description;
+        effects.text = "";
         cost.text = "Payment:";
-        costNum.text = payNum;
-        costType.sprite = payType;
+        costNum.text = contract.payAmount.ToString();
+        costType.sprite = contract.payItem.sprite;
         reward.gameObject.SetActive(true);
-        this.rewardNum.text = rewardNum;
-        this.rewardType.sprite = rewardType;
+        this.rewardNum.text = contract.rewardAmount.ToString();
+        this.rewardType.sprite = contract.rewardItem.sprite;
     }
 }
