@@ -9,7 +9,6 @@ public class ShopManager : MonoBehaviour
     [SerializeField] List<ItemDisplay> items;
     [SerializeField] List<ContractDisplay> contracts;
     [SerializeField] ShopDescription description;
-    List<BadShopData> shops;
     ShopData currentShop;
 
     private void Awake()
@@ -41,10 +40,6 @@ public class ShopManager : MonoBehaviour
         }
         items[0].SetID(0);
         contracts[0].SetID(0);
-
-        shops = new List<BadShopData>();
-        shops.Add(new BadShopData());
-        shops[0].AddItem(1, "Gives some film to pictures with.", "+1 camera ammo", 5, delegate { });
 
         gameObject.SetActive(false);
         description.Hide();
