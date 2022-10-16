@@ -6,8 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Shop", menuName = "Data Container/Shop")]
 public class ShopData : ScriptableObject
 {
-    private List<ShopItem> items;
-    private List<Contract> contracts;
+    public List<ShopItem> items;
+    public List<Contract> contracts;
 
     private void Awake()
     {

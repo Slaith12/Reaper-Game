@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3d750b6ee8252144add6e2f31764355, type: 3}
+  m_Name: Film Normal
+  m_EditorClassIdentifier: 
+  item: {fileID: 11400000, guid: cc723e6ff06ea324294949e3b1695c7d, type: 2}
+  flavorText: Gives some film to take pictures with.
+  price: 5
