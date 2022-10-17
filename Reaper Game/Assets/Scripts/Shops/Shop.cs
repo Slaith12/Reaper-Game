@@ -7,8 +7,7 @@ namespace Reaper.Environment
 {
     public class Shop : MonoBehaviour
     {
-        private bool shopActive;
-        [SerializeField] int shopID;
+        [SerializeField] ShopData shopData;
 
         // Start is called before the first frame update
         void Start()
@@ -26,14 +25,14 @@ namespace Reaper.Environment
         {
             if (collision.tag != "Player" || collision.isTrigger)
                 return;
-            collision.GetComponent<PlayerController>().atShop = shopID;
+            collision.GetComponent<PlayerController>().atShop = shopData;
         }
 
         private void OnTriggerExit2D(Collider2D collision)
         {
             if (collision.tag != "Player" || collision.isTrigger)
                 return;
-            collision.GetComponent<PlayerController>().atShop = -1;
+            collision.GetComponent<PlayerController>().atShop = null;
         }
     }
 }

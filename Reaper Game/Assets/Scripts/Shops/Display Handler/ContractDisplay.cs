@@ -36,13 +36,13 @@ public class ContractDisplay : MonoBehaviour
         button.OnSelection += () => ShopManager.instance.ShowDescription(num, false);
     }
 
-    public void SetContract(string wantedText, Sprite wantedImage, string payText, Sprite payImage, string rewardText, Sprite rewardImage)
+    public void SetContract(Contract contract)
     {
-        wantedNum.text = wantedText;
-        wantedType.sprite = wantedImage;
-        payNum.text = payText;
-        payType.sprite = payImage;
-        rewardNum.text = rewardText;
-        rewardType.sprite = rewardImage;
+        wantedNum.text = contract.targetQuota.ToString();
+        wantedType.sprite = contract.targetEntity.sprite;
+        payNum.text = contract.payAmount.ToString();
+        payType.sprite = contract.payItem.sprite;
+        rewardNum.text = contract.rewardAmount.ToString();
+        rewardType.sprite = contract.rewardItem.sprite;
     }
 }
