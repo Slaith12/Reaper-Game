@@ -8,13 +8,21 @@ namespace Reaper.Environment
     {
         public List<GameObject> spawnPool;
         [SerializeField] float top, bottom, left, right;
-        [SerializeField] float spawnInterval = 2;
+        [Tooltip("When a cluster is spawned, how long will it take for all enemies to be spawned")]
+        [SerializeField] float spawnVariance = 2;
+
+        [Tooltip("Minimum Cluster Size")]
         public int clusterMin = 3;
+        [Tooltip("Maximum Cluster Size")]
         public int clusterMax = 5;
+
+        [Tooltip("Standard time between clusters")]
         public float clusterInterval = 15;
+        [Tooltip("Time between clusters")]
         public float clusterIntervalVariance = 3;
-        public float clusterSpacing = 8;
-        public float clusterSpacingVariance = 2;
+
+        [Tooltip("Space within clusters")]
+        public float enemySpacing = 8;
 
         private float cooldown;
 
@@ -30,11 +38,11 @@ namespace Reaper.Environment
                 cooldown -= Time.deltaTime;
                 return;
             }
-            StartCoroutine(SpawnCluster(getNewQuantity(), getNewLocation()));
+            SpawnCluster(getNewQuantity(), getNewLocation());
             cooldown = getNewCooldown();
         }
 
-        private IEnumerator SpawnCluster(int quantity, Vector2 location)
+        private void SpawnCluster(int quantity, Vector2 location)
         {
             Debug.Log($"Spawning cluster of size {quantity} at location {location}.");
             if (quantity < 1)
@@ -42,15 +50,20 @@ namespace Reaper.Environment
             while(quantity > 0)
             {
                 quantity--;
-                location += getNewSpacing();
+                Vector2 currentLocation = location + getNewSpacing();
                 //constrain the location to the boundaries
-                location.x = Mathf.Max(Mathf.Min(location.x, right), left);
-                location.y = Mathf.Max(Mathf.Min(location.y, top), bottom);
+                currentLocation.x = Mathf.Max(Mathf.Min(currentLocation.x, right), left);
+                currentLocation.y = Mathf.Max(Mathf.Min(currentLocation.y, top), bottom);
                 int enemyType = Random.Range(0, spawnPool.Count);
-                Debug.Log($"Creating enemy type {enemyType} at location {location}.");
-                Instantiate(spawnPool[enemyType], location, Quaternion.Euler(0, 0, 0));
-                yield return new WaitForSeconds(spawnInterval);
+                Debug.Log($"Creating enemy type {enemyType} at location {currentLocation}.");
+                StartCoroutine(SpawnDelayed(spawnPool[enemyType], currentLocation, getRandomDelay()));
             }
+        }
+
+        private IEnumerator SpawnDelayed(GameObject gameObject, Vector2 location, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            Instantiate(gameObject, location, Quaternion.Euler(0, 0, 0));
         }
 
         #region RNG Functions
@@ -72,7 +85,12 @@ namespace Reaper.Environment
 
         private Vector2 getNewSpacing()
         {
-            return (Random.value * 360).ToDirection() * (clusterSpacing + Random.value * clusterSpacingVariance - Random.value * clusterSpacingVariance);
+            return (Random.value * 360).ToDirection() * (enemySpacing * Random.value);
+        }
+
+        private float getRandomDelay()
+        {
+            return spawnVariance * Random.value;
         }
 
         #endregion

@@ -948,13 +948,12 @@ MonoBehaviour:
   bottom: -20
   left: -20
   right: 20
-  spawnInterval: 2
+  spawnVariance: 2
   clusterMin: 3
   clusterMax: 5
   clusterInterval: 30
   clusterIntervalVariance: 3
-  clusterSpacing: 8
-  clusterSpacingVariance: 2
+  enemySpacing: 5
 --- !u!4 &1247352406
 Transform:
   m_ObjectHideFlags: 0
