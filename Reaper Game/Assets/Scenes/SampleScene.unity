@@ -943,7 +943,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPool:
   - {fileID: 931331339885651791, guid: c70240c19ca40bf4a82e437159f42f6d, type: 3}
-  - {fileID: 4299168621181580481, guid: 58d283924340fbb47b4cd05c402401dc, type: 3}
   top: 20
   bottom: -20
   left: -20
@@ -1569,6 +1568,10 @@ PrefabInstance:
     - target: {fileID: 2519349897410287722, guid: 3eeab88c4dbc0f246a973e50ad7dc409, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5718362519208447483, guid: 3eeab88c4dbc0f246a973e50ad7dc409, type: 3}
+      propertyPath: pushForce
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3eeab88c4dbc0f246a973e50ad7dc409, type: 3}
