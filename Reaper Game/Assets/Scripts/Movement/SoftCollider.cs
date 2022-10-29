@@ -15,7 +15,6 @@ public class SoftCollider : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        Debug.Log("Collision with " + collision.name);
         if(collision.GetComponent<SoftCollider>()) //if the other object also has a soft collider
         {
             rigidbody?.AddForce((transform.position - collision.transform.position).normalized * pushForce);

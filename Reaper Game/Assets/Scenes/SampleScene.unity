@@ -941,8 +941,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b87223c21305be04395bf15d8425ed0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPool:
-  - {fileID: 931331339885651791, guid: c70240c19ca40bf4a82e437159f42f6d, type: 3}
+  spawnPool: {fileID: 11400000, guid: 74265757c420cd54db93582463313919, type: 2}
   top: 20
   bottom: -20
   left: -20

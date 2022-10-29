@@ -6,7 +6,7 @@ namespace Reaper.Environment
 {
     public class EnemySpawner : MonoBehaviour
     {
-        public List<GameObject> spawnPool;
+        public EnemySpawnPool spawnPool;
         [SerializeField] float top, bottom, left, right;
         [Tooltip("When a cluster is spawned, how long will it take for all enemies to be spawned")]
         [SerializeField] float spawnVariance = 2;
@@ -44,7 +44,6 @@ namespace Reaper.Environment
 
         private void SpawnCluster(int quantity, Vector2 location)
         {
-            Debug.Log($"Spawning cluster of size {quantity} at location {location}.");
             if (quantity < 1)
                 quantity = 1;
             while(quantity > 0)
@@ -54,9 +53,8 @@ namespace Reaper.Environment
                 //constrain the location to the boundaries
                 currentLocation.x = Mathf.Max(Mathf.Min(currentLocation.x, right), left);
                 currentLocation.y = Mathf.Max(Mathf.Min(currentLocation.y, top), bottom);
-                int enemyType = Random.Range(0, spawnPool.Count);
-                Debug.Log($"Creating enemy type {enemyType} at location {currentLocation}.");
-                StartCoroutine(SpawnDelayed(spawnPool[enemyType], currentLocation, getRandomDelay()));
+                GameObject enemyType = spawnPool.GetRandomEnemy();
+                StartCoroutine(SpawnDelayed(enemyType, currentLocation, getRandomDelay()));
             }
         }
 

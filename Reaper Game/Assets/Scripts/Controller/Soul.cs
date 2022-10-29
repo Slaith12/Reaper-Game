@@ -102,7 +102,6 @@ namespace Reaper.Controller
         {
             if (!morphed)
                 return;
-            Debug.Log("Player Hit");
             //Demorph();
             collision.GetComponent<CombatTarget>()?.Damage(damage, (player.transform.position - transform.position).normalized * knockbackStrength, staggerDuration);
         }
