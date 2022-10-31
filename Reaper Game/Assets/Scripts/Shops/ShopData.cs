@@ -13,7 +13,6 @@ public class ShopData : ScriptableObject
     {
         if(items != null || contracts != null)
         {
-            Debug.Log("Post-initialization Awake");
             return;
         }
         items = new List<ShopItem>();

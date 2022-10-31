@@ -36,11 +36,10 @@ public class SoftCollider : MonoBehaviour
                 enviroObject.position = transform.position;
             }
             enviroCollider = enviroObject.GetComponent<Collider2D>();
+            if (!enviroCollider)
+                enviroCollider = enviroObject.gameObject.AddComponent(GetComponent<Collider2D>());
         }
-        if (!enviroCollider)
-            Debug.Log("Add a collider to the environment collision object for " + gameObject.name + " and reset the SoftCollider script");
-        else
-            enviroCollider.gameObject.layer = 9;
+        enviroCollider.gameObject.layer = 9;
     }
 #endif
 
