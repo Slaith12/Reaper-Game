@@ -17,49 +17,84 @@ namespace Reaper.Enemy
         public GameObject templateObject;
 
         protected delegate void SoulAction(Soul soul);
-        public const int STATE_UNMORPHED = 0;
-        public const int STATE_PATROL = 1;
-        public const int STATE_ATTACK = 2;
+
         protected static Transform player { get => Player.PlayerController.player.transform; }
+
+        /// <summary>
+        /// The number of extra components used by this enemy. If a child enemy uses more, type
+        /// <code>protected override int EXTRACOMPS => base.EXTRACOMPS + [extra components];</code>
+        /// When accessing an extra component, do it in the style
+        /// <code>soul.extraComponents[base.EXTRACOMPS + offset]</code>
+        /// </summary>
+        protected virtual int EXTRACOMPS => 0;
+        /// <summary>
+        /// The number of extra timers used by this enemy. If a child enemy uses more, type
+        /// <code>protected override int EXTRATIMERS => base.EXTRATIMERS + [extra timers];</code>
+        /// When accessing an extra timer, do it in the style
+        /// <code>soul.extraTimers[base.EXTRATIMERS + offset]</code>
+        /// </summary>
+        protected virtual int EXTRATIMERS => 0;
 
         public virtual void InitState(Soul soul)
         {
-            soul.morphTimer = 5;
-            soul.state = STATE_UNMORPHED;
             soul.combatTarget.OnDeath += delegate { Demorph(soul); };
             Demorph(soul);
         }
 
-        public void Update(Soul soul)
+        public void UpdateSoul(Soul soul)
         {
-            Debug.Log($"Update {soul.state}");
             UpdateState(soul);
             DoStateBehavior(soul);
         }
+
+        #region State Definitions
+
+        protected struct StateInfo
+        {
+            public SoulAction stateCheck;
+            public SoulAction stateBehavior;
+
+            public StateInfo(SoulAction check, SoulAction behavior)
+            {
+                stateCheck = check;
+                stateBehavior = behavior;
+            }
+        }
+        public const int STATE_UNMORPHED = 0;
+        public const int STATE_PATROL = 1;
+        public const int STATE_ATTACK = 2;
+        protected virtual List<StateInfo> states
+        {
+            get
+            {
+                List<StateInfo> list = new List<StateInfo>();
+                list.Add(new StateInfo(UnmorphedCheck, UnmorphedBehavior));
+                list.Add(new StateInfo(PatrolCheck, PatrolBehavior));
+                list.Add(new StateInfo(AttackCheck, AttackBehavior));
+                return list;
+            }
+        }
+
+        #endregion
 
         #region State Behaviors
 
         private void DoStateBehavior(Soul soul)
         {
-            GetStateBehaviors()[soul.state](soul);
+            states[soul.state].stateBehavior(soul);
         }
 
-        protected virtual SoulAction[] GetStateBehaviors()
-        {
-            return new SoulAction[] { Unmorphed, Patrol, Attack };
-        }
-
-        protected virtual void Unmorphed(Soul soul)
+        protected virtual void UnmorphedBehavior(Soul soul)
         {
             soul.morphTimer -= Time.deltaTime;
         }
 
-        protected virtual void Patrol(Soul soul)
+        protected virtual void PatrolBehavior(Soul soul)
         {
             soul.mover.targetSpeed = new Vector2(0, -soul.behavior.patrolSpeed);
         }
 
-        protected virtual void Attack(Soul soul)
+        protected virtual void AttackBehavior(Soul soul)
         {
             soul.mover.targetSpeed = (player.transform.position - soul.transform.position).normalized * soul.behavior.attackSpeed;
             soul.memoryTimer -= Time.deltaTime;
@@ -73,12 +108,7 @@ namespace Reaper.Enemy
 
         private void UpdateState(Soul soul)
         {
-            GetStateChecks()[soul.state](soul);
-        }
-
-        protected virtual SoulAction[] GetStateChecks()
-        {
-            return new SoulAction[] { UnmorphedCheck, PatrolCheck, AttackCheck };
+            states[soul.state].stateCheck(soul);
         }
 
         protected virtual void UnmorphedCheck(Soul soul)

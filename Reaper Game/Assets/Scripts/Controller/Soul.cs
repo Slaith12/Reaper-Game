@@ -18,6 +18,7 @@ namespace Reaper.Enemy
 
         [HideInInspector] public float memoryTimer;
         [HideInInspector] public float morphTimer;
+        [HideInInspector] public List<float> extraTimers;
         [HideInInspector] public int state;
 
         void Awake()
@@ -25,6 +26,7 @@ namespace Reaper.Enemy
             mover = GetComponent<Mover>();
             combatTarget = GetComponent<CombatTarget>();
             extraComponents = GetComponent<ComponentCache>();
+            extraTimers = new List<float>();
         }
 
         protected virtual void Start()
@@ -34,7 +36,7 @@ namespace Reaper.Enemy
 
         void Update()
         {
-            behavior.Update(this);
+            behavior.UpdateSoul(this);
         }
     }
 }

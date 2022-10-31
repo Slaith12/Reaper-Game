@@ -11,12 +11,26 @@ namespace Reaper.Enemy
     {
         public float knockbackStrength;
         public float staggerDuration;
+        
+        protected override int EXTRACOMPS => base.EXTRACOMPS + 1; //DamageObject (contact damage)
+        protected DamageObject GetContact(Soul soul) => (DamageObject)soul.extraComponents[base.EXTRACOMPS];
 
         public override void InitState(Soul soul)
         {
             base.InitState(soul);
-            DamageObject contact = (DamageObject)soul.extraComponents[0];
-            contact.OnHit += collision => Damage(soul, collision);
+            GetContact(soul).OnHit += collision => Damage(soul, collision);
+        }
+
+        protected override void Morph(Soul soul)
+        {
+            base.Morph(soul);
+            GetContact(soul).gameObject.SetActive(true);
+        }
+
+        protected override void Demorph(Soul soul)
+        {
+            base.Demorph(soul);
+            GetContact(soul).gameObject.SetActive(false);
         }
 
         private void Damage(Soul soul, Collider2D collision)
