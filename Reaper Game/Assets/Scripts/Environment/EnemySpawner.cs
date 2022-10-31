@@ -1,3 +1,4 @@
+using Reaper.Enemy;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -53,15 +54,15 @@ namespace Reaper.Environment
                 //constrain the location to the boundaries
                 currentLocation.x = Mathf.Max(Mathf.Min(currentLocation.x, right), left);
                 currentLocation.y = Mathf.Max(Mathf.Min(currentLocation.y, top), bottom);
-                GameObject enemyType = spawnPool.GetRandomEnemy();
+                EnemyInfo enemyType = spawnPool.GetRandomEnemy();
                 StartCoroutine(SpawnDelayed(enemyType, currentLocation, getRandomDelay()));
             }
         }
 
-        private IEnumerator SpawnDelayed(GameObject gameObject, Vector2 location, float delay)
+        private IEnumerator SpawnDelayed(EnemyInfo enemy, Vector2 location, float delay)
         {
             yield return new WaitForSeconds(delay);
-            Instantiate(gameObject, location, Quaternion.Euler(0, 0, 0));
+            enemy.Create(location);
         }
 
         #region RNG Functions

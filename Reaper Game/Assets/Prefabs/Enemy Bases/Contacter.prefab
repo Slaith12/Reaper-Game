@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &931331338684121544
 Transform:
   m_ObjectHideFlags: 0
@@ -88,8 +88,9 @@ GameObject:
   - component: {fileID: 861440517080098794}
   - component: {fileID: 1394645972841971169}
   - component: {fileID: 777993150497901790}
+  - component: {fileID: 8663396556815593167}
   m_Layer: 7
-  m_Name: Soul
+  m_Name: Contacter
   m_TagString: Soul
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -151,8 +152,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 0, g: 1, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: ca02e75ef9ada2747b1619b59afefe49, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -211,16 +212,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72eb3a298d531cb418f2478261ddf908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  contact: {fileID: 931331338684121545}
-  maxHealth: 5
-  maxSpeed: 5
-  damage: 1
-  knockbackStrength: 15
-  staggerDuration: 0.2
-  sightDistance: 10
-  memoryTime: 5
-  patrolSpeed: 5
-  morphed: 0
+  behavior: {fileID: 0}
+  mover: {fileID: 0}
+  combatTarget: {fileID: 0}
+  extraComponents: {fileID: 0}
+  memoryTimer: 0
+  morphTimer: 0
+  state: 0
 --- !u!114 &861440517080098794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,6 +262,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pushForce: 25
+--- !u!114 &8663396556815593167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931331339885651791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f196bc082b6c9cb40939c744f1ddff3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  components:
+  - {fileID: 931331338684121545}
 --- !u!1 &4041358072660374755
 GameObject:
   m_ObjectHideFlags: 0

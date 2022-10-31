@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Reaper.Enemy;
 
 namespace Reaper.Environment
 {
     [CreateAssetMenu(fileName = "New Enemy Pool", menuName = "Data Container/Enemy Pool")]
     public class EnemySpawnPool : ScriptableObject
     {
-        [SerializeField] private List<GameObject> enemyPool;
+        [SerializeField] private List<EnemyInfo> enemyPool;
         [SerializeField] private List<int> weights;
         [SerializeField] private int totalWeight;
 
-        public GameObject GetRandomEnemy()
+        public EnemyInfo GetRandomEnemy()
         {
             if (enemyPool == null || totalWeight == 0)
                 return null;
@@ -29,19 +30,19 @@ namespace Reaper.Environment
 
         public void Init()
         {
-            enemyPool = new List<GameObject>();
+            enemyPool = new List<EnemyInfo>();
             weights = new List<int>();
             totalWeight = 0;
         }
 
-        public void Add(GameObject enemy, int weight)
+        public void Add(EnemyInfo enemy, int weight)
         {
             enemyPool.Add(enemy);
             weights.Add(weight);
             totalWeight += weight;
         }
 
-        public void Insert(int index, GameObject enemy, int weight)
+        public void Insert(int index, EnemyInfo enemy, int weight)
         {
             enemyPool.Insert(index, enemy);
             weights.Insert(index, weight);
@@ -63,7 +64,7 @@ namespace Reaper.Environment
             weights.RemoveRange(index, count);
         }
 
-        public (GameObject, int) this[int i]
+        public (EnemyInfo, int) this[int i]
         {
             get { return (enemyPool[i], weights[i]); }
             set
@@ -81,7 +82,7 @@ namespace Reaper.Environment
         {
             if (enemyPool == null)
             {
-                enemyPool = new List<GameObject>();
+                enemyPool = new List<EnemyInfo>();
             }
             if(enemyPool.Count != weights.Count)
             {

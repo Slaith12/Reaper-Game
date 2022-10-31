@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Basic Enemy Pool
   m_EditorClassIdentifier: 
   enemyPool:
-  - {fileID: 931331339885651791, guid: c70240c19ca40bf4a82e437159f42f6d, type: 3}
-  - {fileID: 4299168621181580481, guid: 58d283924340fbb47b4cd05c402401dc, type: 3}
-  weights: 0200000001000000
-  totalWeight: 3
+  - {fileID: 11400000, guid: 9022400289b37794893ee17ed4bdd373, type: 2}
+  weights: 02000000
+  totalWeight: 2

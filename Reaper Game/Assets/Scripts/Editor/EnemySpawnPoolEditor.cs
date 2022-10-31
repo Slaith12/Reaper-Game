@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using Reaper.Enemy;
 
 namespace Reaper.Environment
 {
@@ -29,8 +30,8 @@ namespace Reaper.Environment
             for (int i = 0; i < length; i++)
             {
                 EditorGUILayout.BeginHorizontal();
-                (GameObject, int) item = pool[i];
-                item.Item1 = (GameObject)EditorGUILayout.ObjectField(item.Item1, typeof(GameObject), false);
+                (EnemyInfo, int) item = pool[i];
+                item.Item1 = (EnemyInfo)EditorGUILayout.ObjectField(item.Item1, typeof(EnemyInfo), false);
                 item.Item2 = EditorGUILayout.IntField(item.Item2);
                 pool[i] = item;
                 EditorGUILayout.EndHorizontal();

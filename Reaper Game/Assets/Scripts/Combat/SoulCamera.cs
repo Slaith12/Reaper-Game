@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Reaper.Controller;
+using Reaper.Enemy;
 
 namespace Reaper.Combat
 {
@@ -32,7 +32,7 @@ namespace Reaper.Combat
         private void Capture(Collider2D collision)
         {
             Soul soul = collision.GetComponent<Soul>();
-            if(!soul.morphed)
+            if(soul.state != EnemyInfo.STATE_UNMORPHED)
             {
                 if (canCapture)
                 {

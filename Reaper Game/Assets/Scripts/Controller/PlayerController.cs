@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 using Reaper.Movement;
 using Reaper.Combat;
 
-namespace Reaper.Controller
+namespace Reaper.Player
 {
     [RequireComponent(typeof(CombatTarget))]
     [RequireComponent(typeof(Mover))]
