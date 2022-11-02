@@ -3,19 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Shop", menuName = "Data Container/Shop")]
-public class ShopData : ScriptableObject
+namespace Reaper.Shops
 {
-    public List<ShopItem> items;
-    public List<Contract> contracts;
-
-    private void Awake()
+    [CreateAssetMenu(fileName = "New Shop", menuName = "Data Container/Shop")]
+    public class ShopData : ScriptableObject
     {
-        if(items != null || contracts != null)
+        public List<ShopItem> items;
+        public List<Contract> contracts;
+
+        private void Awake()
         {
-            return;
+            if (items != null || contracts != null)
+            {
+                return;
+            }
+            items = new List<ShopItem>();
+            contracts = new List<Contract>();
         }
-        items = new List<ShopItem>();
-        contracts = new List<Contract>();
     }
 }

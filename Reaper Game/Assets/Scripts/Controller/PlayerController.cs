@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Reaper.Movement;
 using Reaper.Combat;
+using Reaper.Shops;
 
 namespace Reaper.Player
 {
@@ -23,13 +24,6 @@ namespace Reaper.Player
         private Weapon currentWeapon;
 
         [SerializeField] GameObject shopIndicator;
-        public ShopData atShop { get { return shopData; } set
-            {
-                shopData = value;
-                shopIndicator.SetActive(shopData != null);
-            }
-        }
-        private ShopData shopData;
 
         void Awake()
         {
@@ -52,7 +46,8 @@ namespace Reaper.Player
             }
             if (weapons.Count > 0)
                 SwapWeapon(0);
-            atShop = null;
+            ShopManager.instance.OnApproachShop += delegate { shopIndicator.SetActive(true); };
+            ShopManager.instance.OnLeaveShop += delegate { shopIndicator.SetActive(false); };
         }
 
         #region Input System Handling
@@ -149,11 +144,7 @@ namespace Reaper.Player
 
         private void EnterShop(InputAction.CallbackContext obj)
         {
-            if(shopData != null)
-            {
-                shopIndicator.SetActive(false);
-                ShopManager.instance.OpenShop(shopData);
-            }
+            ShopManager.instance.OpenShop();
         }
 
         #endregion
