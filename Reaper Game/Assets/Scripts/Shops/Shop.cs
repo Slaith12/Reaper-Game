@@ -23,14 +23,14 @@ namespace Reaper.Environment
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.tag != "Player" || collision.isTrigger)
+            if (collision.tag != "Player")
                 return;
             collision.GetComponent<PlayerController>().atShop = shopData;
         }
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            if (collision.tag != "Player" || collision.isTrigger)
+            if (collision.tag != "Player")
                 return;
             collision.GetComponent<PlayerController>().atShop = null;
         }
