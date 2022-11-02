@@ -941,20 +941,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b87223c21305be04395bf15d8425ed0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPool:
-  - {fileID: 931331339885651791, guid: c70240c19ca40bf4a82e437159f42f6d, type: 3}
-  - {fileID: 4299168621181580481, guid: 58d283924340fbb47b4cd05c402401dc, type: 3}
+  spawnPool: {fileID: 11400000, guid: 74265757c420cd54db93582463313919, type: 2}
   top: 20
   bottom: -20
   left: -20
   right: 20
-  spawnInterval: 2
+  spawnVariance: 2
   clusterMin: 3
   clusterMax: 5
   clusterInterval: 30
   clusterIntervalVariance: 3
-  clusterSpacing: 8
-  clusterSpacingVariance: 2
+  enemySpacing: 5
 --- !u!4 &1247352406
 Transform:
   m_ObjectHideFlags: 0
@@ -1570,6 +1567,10 @@ PrefabInstance:
     - target: {fileID: 2519349897410287722, guid: 3eeab88c4dbc0f246a973e50ad7dc409, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5718362519208447483, guid: 3eeab88c4dbc0f246a973e50ad7dc409, type: 3}
+      propertyPath: pushForce
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3eeab88c4dbc0f246a973e50ad7dc409, type: 3}

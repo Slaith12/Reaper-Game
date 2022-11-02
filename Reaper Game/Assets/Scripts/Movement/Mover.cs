@@ -14,7 +14,7 @@ namespace Reaper.Movement
         public float knockbackRes;
         public bool partialKnockback;
         [HideInInspector] public Vector2 targetSpeed;
-        public Vector2 currentSpeed { get; private set; }
+        public Vector2 currentSpeed { get { return rigidbody.velocity; } private set { rigidbody.velocity = value; } }
         private float staggerTimer;
 
         private void Awake()
@@ -25,7 +25,6 @@ namespace Reaper.Movement
         private void FixedUpdate()
         {
             UpdateSpeed();
-            rigidbody.velocity = currentSpeed;
         }
 
         private void UpdateSpeed()

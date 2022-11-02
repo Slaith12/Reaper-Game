@@ -24,7 +24,6 @@ namespace Reaper.Combat
             if (invuln)
                 return;
             health -= damage;
-            Debug.Log(health);
             if (health <= 0)
                 OnDeath?.Invoke();
             mover?.Knockback(knockback, stagger);

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Basic Contract
   m_EditorClassIdentifier: 
   title: Basic Contract
-  targetEntity: {fileID: 11400000, guid: 895e688f04e9ae14f893ed7848714873, type: 2}
+  description: 
+  targetEntity: {fileID: 11400000, guid: 9022400289b37794893ee17ed4bdd373, type: 2}
   targetQuota: 15
   payItem: {fileID: 11400000, guid: cc723e6ff06ea324294949e3b1695c7d, type: 2}
   payAmount: 2
