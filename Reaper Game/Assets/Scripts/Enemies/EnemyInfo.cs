@@ -9,11 +9,14 @@ namespace Reaper.Enemy
         public new string name;
         public Sprite sprite;
         public int maxHealth = 5;
+        public float acceleration = 80;
+        public float patrolSpeed = 5;
         public float attackSpeed = 5;
         public int damage = 1;
-        public float sightDistance = 10;
+        public float knockbackRes = 0;
+        public float sightDistance = 7;
+        public float chaseDistance = 10;
         public float memoryTime = 5;
-        public float patrolSpeed = 5;
         public GameObject templateObject;
 
         protected delegate void SoulAction(Soul soul);
@@ -98,7 +101,7 @@ namespace Reaper.Enemy
         {
             soul.mover.targetSpeed = (player.transform.position - soul.transform.position).normalized * soul.behavior.attackSpeed;
             soul.memoryTimer -= Time.deltaTime;
-            if ((player.transform.position - soul.transform.position).magnitude <= sightDistance)
+            if ((player.transform.position - soul.transform.position).magnitude <= chaseDistance)
                 soul.memoryTimer = memoryTime;
         }
 
@@ -173,6 +176,10 @@ namespace Reaper.Enemy
         {
             Soul soul = Instantiate(templateObject, position, Quaternion.Euler(0, 0, 0)).GetComponent<Soul>();
             soul.behavior = this;
+            soul.GetComponent<SpriteRenderer>().sprite = sprite;
+            soul.gameObject.name = name;
+            soul.mover.acceleration = acceleration;
+            soul.mover.knockbackRes = knockbackRes;
             return soul;
         }
     }

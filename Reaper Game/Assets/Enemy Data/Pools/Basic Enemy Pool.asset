@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPool:
   - {fileID: 11400000, guid: 9022400289b37794893ee17ed4bdd373, type: 2}
-  weights: 02000000
-  totalWeight: 2
+  - {fileID: 11400000, guid: b6ab8565f2cc24e4983e141ffc9f111a, type: 2}
+  weights: 0200000001000000
+  totalWeight: 3

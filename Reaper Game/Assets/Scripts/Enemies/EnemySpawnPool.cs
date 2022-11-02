@@ -20,6 +20,7 @@ namespace Reaper.Environment
             int savedNum = num;
             int index = 0;
             for (; index < enemyPool.Count && num >= weights[index]; num -= weights[index], index++) ;
+            Debug.Log($"num: {savedNum} index: {index} enemy: {enemyPool[index].name}");
             return enemyPool[index];
         }
 

@@ -9,8 +9,8 @@ namespace Reaper.Enemy
     [CreateAssetMenu(fileName = "New Contacter", menuName = "Enemies/Contacter")]
     public class ContacterInfo : EnemyInfo
     {
-        public float knockbackStrength;
-        public float staggerDuration;
+        public float knockbackStrength = 15;
+        public float staggerDuration = 0.2f;
         
         protected override int EXTRACOMPS => base.EXTRACOMPS + 1; //DamageObject (contact damage)
         protected DamageObject GetContact(Soul soul) => (DamageObject)soul.extraComponents[base.EXTRACOMPS];
