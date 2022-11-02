@@ -32,7 +32,7 @@ namespace Reaper.Combat
         private void Capture(Collider2D collision)
         {
             Soul soul = collision.GetComponent<Soul>();
-            if(soul.state != EnemyInfo.STATE_UNMORPHED)
+            if(soul.state == EnemyInfo.STATE_UNMORPHED)
             {
                 if (canCapture)
                 {
