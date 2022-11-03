@@ -68,13 +68,11 @@ namespace Reaper.Combat
                 return;
             if (primaryFiring)
             {
-                currentWeapon.PrimaryFireUp(this, facing);
-                primaryFiring = false;
+                EndPrimaryAttack();
             }
             if(secondaryFiring)
             {
-                currentWeapon.SecondaryFireUp(this, facing);
-                secondaryFiring = false;
+                EndSecondaryAttack();
             }
             currentWeapon = weapons[index];
         }

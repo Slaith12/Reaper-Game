@@ -7,12 +7,12 @@ namespace Reaper.Combat
     [CreateAssetMenu(menuName = "Weapons/Melee Weapon")]
     public class StandardMelee : Weapon
     {
-        [SerializeField] int damage = 3;
-        [SerializeField] float attackCooldown = 0.5f;
-        [SerializeField] float knockbackStrength = 15;
-        [SerializeField] float staggerLength = 0.2f;
-        [SerializeField] float swingDistance = 1;
-        [SerializeField] Vector2 swingSize = Vector2.one;
+        [SerializeField] protected int damage = 3;
+        [SerializeField] protected float attackCooldown = 0.5f;
+        [SerializeField] protected float knockbackStrength = 15;
+        [SerializeField] protected float staggerLength = 0.2f;
+        [SerializeField] protected float swingDistance = 1;
+        [SerializeField] protected Vector2 swingSize = Vector2.one;
 
         public override void PrimaryFireDown(WeaponUser user, Vector2 facing)
         {
