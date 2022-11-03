@@ -4,27 +4,16 @@ using UnityEngine;
 
 namespace Reaper.Combat
 {
-    public abstract class Weapon : MonoBehaviour
+    public abstract class Weapon : ScriptableObject
     {
-        private new Renderer renderer;
+        [SerializeField] Sprite sprite;
 
-        protected virtual void Awake()
-        {
-            renderer = GetComponent<Renderer>();
-        }
+        public virtual void PrimaryFireDown(WeaponUser user, Vector2 facing) { }
+        public virtual void PrimaryFireHold(WeaponUser user, Vector2 facing) { }
+        public virtual void PrimaryFireUp(WeaponUser user, Vector2 facing) { }
 
-        public abstract void Attack(Vector2 facing);
-
-        public void Enable()
-        {
-            if (renderer != null)
-                renderer.enabled = true;
-        }
-
-        public void Disable()
-        {
-            if (renderer != null)
-                renderer.enabled = false;
-        }
+        public virtual void SecondaryFireDown(WeaponUser user, Vector2 facing) { }
+        public virtual void SecondaryFireHold(WeaponUser user, Vector2 facing) { }
+        public virtual void SecondaryFireUp(WeaponUser user, Vector2 facing) { }
     }
 }
