@@ -6,7 +6,7 @@ namespace Reaper.Combat
 {
     public abstract class Weapon : ScriptableObject
     {
-        [SerializeField] Sprite sprite;
+        public Sprite sprite;
 
         public virtual void PrimaryFireDown(WeaponUser user, Vector2 facing) { }
         public virtual void PrimaryFireHold(WeaponUser user, Vector2 facing) { }

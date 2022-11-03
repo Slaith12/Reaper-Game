@@ -8,7 +8,7 @@ namespace Reaper.Combat
     public class WeaponUser : MonoBehaviour
     {
         [SerializeField] List<Weapon> weapons;
-        Weapon currentWeapon;
+        public Weapon currentWeapon { get; private set; }
 
         [HideInInspector] public Vector2 facing;
 
