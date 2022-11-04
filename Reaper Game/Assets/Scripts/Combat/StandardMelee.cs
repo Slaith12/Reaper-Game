@@ -16,11 +16,17 @@ namespace Reaper.Combat
 
         public override void PrimaryFireDown(WeaponUser user, Vector2 facing)
         {
-            MeleeHit.Create(0.25f, c => Damage(c, facing), facing*swingDistance, swingSize, new List<string> { "Soul" }, user.transform, facing.ToAngle());
-            user.SetCooldown(attackCooldown);
+            Swing(user, facing, new AttackInfo { type = AttackType.Primary });
         }
 
-        private void Damage(Collider2D collision, Vector2 facing)
+        protected virtual void Swing(WeaponUser user, Vector2 facing, AttackInfo info)
+        {
+            MeleeHit.Create(0.25f, c => Damage(c, facing), facing * swingDistance, swingSize, new List<string> { "Soul" }, user.transform, facing.ToAngle());
+            user.SetCooldown(attackCooldown);
+            InvokeAttack(info);
+        }
+
+        protected virtual void Damage(Collider2D collision, Vector2 facing)
         {
             collision.GetComponent<CombatTarget>()?.Damage(damage, facing * knockbackStrength, staggerLength);
         }

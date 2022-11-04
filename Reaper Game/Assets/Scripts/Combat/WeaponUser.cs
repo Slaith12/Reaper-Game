@@ -17,7 +17,6 @@ namespace Reaper.Combat
         private float primaryCooldown;
         private float secondaryCooldown;
         
-        public enum AttackType { Primary, Secondary, Both }
 
         void Start()
         {
@@ -75,6 +74,7 @@ namespace Reaper.Combat
                 EndSecondaryAttack();
             }
             currentWeapon = weapons[index];
+            currentWeapon.Equip();
         }
 
         public void SwitchWeapon(Weapon weapon)

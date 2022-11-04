@@ -7,8 +7,6 @@ namespace Reaper.Combat
     [RequireComponent(typeof(Collider2D))]
     public class DamageObject : MonoBehaviour
     {
-        public delegate void DamageHandler(Collider2D collision);
-
         public List<string> targets;
 
         private void Awake()
