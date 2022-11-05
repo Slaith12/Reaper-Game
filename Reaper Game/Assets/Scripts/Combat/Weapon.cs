@@ -7,7 +7,6 @@ namespace Reaper.Combat
 {
     public abstract class Weapon : ScriptableObject
     {
-
         public Sprite sprite;
 
         //will likely be used for animations

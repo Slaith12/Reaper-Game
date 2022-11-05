@@ -14,8 +14,9 @@ namespace Reaper.Player
     public class PlayerController : MonoBehaviour
     {
         private Mover mover;
-        private WeaponUser weapons;
+        private WeaponUser weaponUser;
         private PlayerInputs input;
+        [SerializeField] List<Weapon> weapons;
         [SerializeField] SpriteRenderer weaponDisplay; //will be replaced when animations are implemented
         public static PlayerController player { get; private set; }
 
@@ -26,7 +27,7 @@ namespace Reaper.Player
         void Awake()
         {
             mover = GetComponent<Mover>();
-            weapons = GetComponent<WeaponUser>();
+            weaponUser = GetComponent<WeaponUser>();
             input = new PlayerInputs();
             player = this;
         }
@@ -51,15 +52,15 @@ namespace Reaper.Player
 
         private void ChangeFacing(Vector2 direction)
         {
-            weapons.facing = direction;
+            weaponUser.facing = direction;
             weaponDisplay.transform.position = (Vector2)transform.position + direction;
             weaponDisplay.transform.eulerAngles = new Vector3(0, 0, direction.ToAngle());
         }
 
-        private void SwapWeapon(int weapon)
+        private void SwapWeapon(int weaponIndex)
         {
-            weapons.SwitchWeapon(weapon);
-            weaponDisplay.sprite = weapons.currentWeapon.sprite;
+            weaponUser.SwitchWeapon(weapons[weaponIndex]);
+            weaponDisplay.sprite = weaponUser.weapon.sprite;
         }
 
         #region Input Handling
@@ -74,8 +75,8 @@ namespace Reaper.Player
             input.Player.LookStick.performed += StickLookDirection;
             input.Player.LookMouse.performed += MouseLookDirection;
 
-            input.Player.Attack.performed += delegate { weapons.StartPrimaryAttack(); };
-            input.Player.Attack.canceled += delegate { weapons.EndPrimaryAttack(); };
+            input.Player.Attack.performed += delegate { weaponUser.StartPrimaryAttack(); };
+            input.Player.Attack.canceled += delegate { weaponUser.EndPrimaryAttack(); };
 
             input.Player.Weapon1.performed += delegate { SwapWeapon(0); };
             input.Player.Weapon2.performed += delegate { SwapWeapon(1); };

@@ -7,8 +7,7 @@ namespace Reaper.Combat
 {
     public class WeaponUser : MonoBehaviour
     {
-        [SerializeField] List<Weapon> weapons;
-        public Weapon currentWeapon { get; private set; }
+        public Weapon weapon { get; private set; }
 
         [HideInInspector] public Vector2 facing;
 
@@ -16,12 +15,10 @@ namespace Reaper.Combat
         private bool secondaryFiring;
         private float primaryCooldown;
         private float secondaryCooldown;
-        
 
         void Start()
         {
             facing = Vector2.up;
-            SwitchWeapon(0);
             primaryCooldown = 1;
             secondaryCooldown = 1;
             primaryFiring = false;
@@ -35,9 +32,9 @@ namespace Reaper.Combat
             if (secondaryCooldown > 0)
                 secondaryCooldown -= Time.deltaTime;
             if (primaryFiring)
-                currentWeapon.PrimaryFireHold(this, facing);
+                weapon.PrimaryFireHold(this, facing);
             if (secondaryFiring)
-                currentWeapon.SecondaryFireHold(this, facing);
+                weapon.SecondaryFireHold(this, facing);
         }
 
         public void SetCooldown(float duration, AttackType type = AttackType.Both)
@@ -48,74 +45,52 @@ namespace Reaper.Combat
                 secondaryCooldown = duration;
         }
 
-        #region Weapon Swapping
-
-        public int AddWeapon(Weapon weapon)
+        public void SwitchWeapon(Weapon weapon)
         {
-            int index = weapons.FindIndex(w => w == weapon);
-            if(index < 0)
-            {
-                index = weapons.Count;
-                weapons.Add(weapon);
-            }
-            return index;
-        }
-
-        public void SwitchWeapon(int index)
-        {
-            if (weapons == null || weapons.Count <= index)
-                return;
             if (primaryFiring)
             {
                 EndPrimaryAttack();
             }
-            if(secondaryFiring)
+            if (secondaryFiring)
             {
                 EndSecondaryAttack();
             }
-            currentWeapon = weapons[index];
-            currentWeapon.Equip();
+            this.weapon = weapon;
+            this.weapon.Equip();
         }
-
-        public void SwitchWeapon(Weapon weapon)
-        {
-            SwitchWeapon(AddWeapon(weapon));
-        }
-
-        #endregion
 
         #region Attack Events
 
         public void StartPrimaryAttack()
         {
-            if (primaryCooldown > 0)
+            if (!weapon || primaryCooldown > 0)
                 return;
             primaryFiring = true;
-            currentWeapon.PrimaryFireDown(this, facing);
+            weapon.PrimaryFireDown(this, facing);
         }
 
         public void EndPrimaryAttack()
         {
-            if (!primaryFiring)
+            if (!weapon || !primaryFiring)
                 return;
             primaryFiring = false;
-            currentWeapon.PrimaryFireUp(this, facing);
+            weapon.PrimaryFireUp(this, facing);
         }
 
         public void StartSecondaryAttack()
         {
-            if (secondaryCooldown > 0)
+            if (!weapon || secondaryCooldown > 0)
                 return;
             secondaryFiring = true;
-            currentWeapon.SecondaryFireDown(this, facing);
+            weapon.SecondaryFireDown(this, facing);
         }
 
         public void EndSecondaryAttack()
         {
-            if (!secondaryFiring)
+            if (!weapon || !secondaryFiring)
                 return;
             secondaryFiring = false;
-            currentWeapon.SecondaryFireUp(this, facing);
+            weapon.SecondaryFireUp(this, facing);
         }
 
         #endregion
