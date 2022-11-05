@@ -10,7 +10,7 @@ namespace Reaper.Combat
         private float duration;
         private List<Collider2D> prevHits;
 
-        public void Init(float duration, DamageObject.DamageHandler hitHandler)
+        public void Init(float duration, DamageHandler hitHandler)
         {
             this.duration = duration;
             prevHits = new List<Collider2D>();
@@ -26,7 +26,7 @@ namespace Reaper.Combat
             }
         }
 
-        private void validateHit(Collider2D collision, DamageObject.DamageHandler hitHandler)
+        private void validateHit(Collider2D collision, DamageHandler hitHandler)
         {
             if (prevHits.Contains(collision))
                 return;
@@ -34,7 +34,7 @@ namespace Reaper.Combat
             hitHandler?.Invoke(collision);
         }
 
-        public static MeleeHit Create(float duration, DamageObject.DamageHandler hitHandler, Vector2 offset, Vector2 size, List<string> targets, Transform parent = null, float rotation = 0)
+        public static MeleeHit Create(float duration, DamageHandler hitHandler, Vector2 offset, Vector2 size, List<string> targets, Transform parent = null, float rotation = 0)
         {
             Transform newObject = new GameObject("Melee").transform;
             newObject.parent = parent;
