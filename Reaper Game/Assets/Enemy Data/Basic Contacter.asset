@@ -15,12 +15,15 @@ MonoBehaviour:
   name: I need a new name
   sprite: {fileID: 21300000, guid: ca02e75ef9ada2747b1619b59afefe49, type: 3}
   maxHealth: 5
-  attackSpeed: 5
-  damage: 1
+  acceleration: 80
+  patrolSpeed: 5
+  chaseSpeed: 5
+  closeOptimalRange: 0.75
+  farOptimalRange: 1.5
+  knockbackRes: 0
   sightDistance: 7
   chaseDistance: 10
   memoryTime: 5
-  patrolSpeed: 5
+  mainWeapon: {fileID: 11400000, guid: a1870c54acbe49d46ae0373c8be56138, type: 2}
   templateObject: {fileID: 931331339885651791, guid: c70240c19ca40bf4a82e437159f42f6d, type: 3}
-  knockbackStrength: 15
-  staggerDuration: 0.2
+  swingRange: 1.75

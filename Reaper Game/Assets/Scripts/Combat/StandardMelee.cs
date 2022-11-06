@@ -13,6 +13,11 @@ namespace Reaper.Combat
         [SerializeField] protected float staggerLength = 0.2f;
         [SerializeField] protected float swingDistance = 1;
         [SerializeField] protected Vector2 swingSize = Vector2.one;
+        [SerializeField] protected List<string> targets;
+
+        public override bool primaryHasHold => false;
+
+        public override bool secondaryHasHold => false;
 
         public override void PrimaryFireDown(WeaponUser user, Vector2 facing)
         {
@@ -21,7 +26,7 @@ namespace Reaper.Combat
 
         protected virtual void Swing(WeaponUser user, Vector2 facing, AttackInfo info)
         {
-            MeleeHit.Create(0.25f, c => Damage(c, facing), facing * swingDistance, swingSize, new List<string> { "Soul" }, user.transform, facing.ToAngle());
+            MeleeHit.Create(0.25f, c => Damage(c, facing), facing * swingDistance, swingSize, targets, user.transform, facing.ToAngle());
             user.SetCooldown(attackCooldown);
             InvokeAttack(info);
         }

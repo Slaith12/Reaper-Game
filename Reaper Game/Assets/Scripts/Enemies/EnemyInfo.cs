@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Reaper.Combat;
 
 namespace Reaper.Enemy
 {
@@ -11,12 +12,14 @@ namespace Reaper.Enemy
         public int maxHealth = 5;
         public float acceleration = 80;
         public float patrolSpeed = 5;
-        public float attackSpeed = 5;
-        public int damage = 1;
+        public float chaseSpeed = 5;
+        public float closeOptimalRange = 0.75f;
+        public float farOptimalRange = 1.5f;
         public float knockbackRes = 0;
         public float sightDistance = 7;
         public float chaseDistance = 10;
         public float memoryTime = 5;
+        public Weapon mainWeapon;
         public GameObject templateObject;
 
         protected delegate void SoulAction(Soul soul);
@@ -41,6 +44,7 @@ namespace Reaper.Enemy
         public virtual void InitState(Soul soul)
         {
             soul.combatTarget.OnDeath += delegate { Demorph(soul); };
+            soul.weaponUser.SwitchWeapon(mainWeapon);
             Demorph(soul);
         }
 
@@ -63,9 +67,10 @@ namespace Reaper.Enemy
                 stateBehavior = behavior;
             }
         }
-        public const int STATE_UNMORPHED = 0;
-        public const int STATE_PATROL = 1;
-        public const int STATE_ATTACK = 2;
+        protected virtual int NUM_STATES => 3;
+        public int STATE_UNMORPHED => 0;
+        public int STATE_PATROL => 1;
+        public int STATE_ATTACK => 2;
         protected virtual List<StateInfo> states
         {
             get
@@ -94,15 +99,46 @@ namespace Reaper.Enemy
 
         protected virtual void PatrolBehavior(Soul soul)
         {
-            soul.mover.targetSpeed = new Vector2(0, -soul.behavior.patrolSpeed);
+            soul.mover.targetSpeed = new Vector2(0, -patrolSpeed);
+            soul.weaponUser.facing = soul.mover.currentSpeed.normalized;
         }
 
         protected virtual void AttackBehavior(Soul soul)
         {
-            soul.mover.targetSpeed = (player.transform.position - soul.transform.position).normalized * soul.behavior.attackSpeed;
-            soul.memoryTimer -= Time.deltaTime;
-            if ((player.transform.position - soul.transform.position).magnitude <= chaseDistance)
+            if (Vector2.Distance(player.transform.position, soul.transform.position) <= chaseDistance)
+            {
                 soul.memoryTimer = memoryTime;
+                soul.targetLocation = player.transform.position;
+                AttackMovement(soul);
+            }
+            else
+            {
+                soul.memoryTimer -= Time.deltaTime;
+                SearchMovement(soul);
+            }
+            soul.weaponUser.facing = (soul.targetLocation - (Vector2)soul.transform.position).normalized;
+        }
+
+        protected virtual void AttackMovement(Soul soul)
+        {
+            float distance = Vector2.Distance(soul.targetLocation, soul.transform.position);
+            Vector2 direction = (soul.targetLocation - (Vector2)soul.transform.position).normalized;
+            if (distance > farOptimalRange)
+                soul.mover.targetSpeed = direction * chaseSpeed;
+            else if (distance < closeOptimalRange)
+                soul.mover.targetSpeed = -direction * chaseSpeed;
+            else
+                soul.mover.targetSpeed = Vector2.zero;
+        }
+
+        protected virtual void SearchMovement(Soul soul)
+        {
+            float distance = Vector2.Distance(soul.targetLocation, soul.transform.position);
+            Vector2 direction = (soul.targetLocation - (Vector2)soul.transform.position).normalized;
+            if (distance > 1)
+                soul.mover.targetSpeed = direction * chaseSpeed;
+            else
+                soul.mover.targetSpeed = Vector2.zero;
         }
 
         #endregion
@@ -122,7 +158,7 @@ namespace Reaper.Enemy
 
         protected virtual void PatrolCheck(Soul soul)
         {
-            if ((player.position - soul.transform.position).magnitude <= soul.behavior.sightDistance)
+            if (Vector2.Distance(player.position, soul.transform.position) <= sightDistance)
                 StartAttack(soul);
             //death check handled in InitState
         }
@@ -144,7 +180,7 @@ namespace Reaper.Enemy
         protected virtual void StartAttack(Soul soul)
         {
             soul.state = STATE_ATTACK;
-            soul.memoryTimer = soul.behavior.memoryTime;
+            soul.memoryTimer = memoryTime;
         }
 
         //Attack -> Patrol
@@ -157,7 +193,7 @@ namespace Reaper.Enemy
         protected virtual void Morph(Soul soul)
         {
             soul.state = STATE_PATROL;
-            soul.combatTarget.health = soul.behavior.maxHealth;
+            soul.combatTarget.health = maxHealth;
             soul.combatTarget.invuln = false;
         }
 

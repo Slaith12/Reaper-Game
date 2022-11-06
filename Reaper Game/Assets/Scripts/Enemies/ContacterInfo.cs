@@ -9,35 +9,13 @@ namespace Reaper.Enemy
     [CreateAssetMenu(fileName = "New Contacter", menuName = "Enemies/Contacter")]
     public class ContacterInfo : EnemyInfo
     {
-        public float knockbackStrength = 15;
-        public float staggerDuration = 0.2f;
-        
-        protected override int EXTRACOMPS => base.EXTRACOMPS + 1; //DamageObject (contact damage)
-        protected DamageObject GetContact(Soul soul) => (DamageObject)soul.extraComponents[base.EXTRACOMPS];
+        public float swingRange = 2;
 
-        public override void InitState(Soul soul)
+        protected override void AttackBehavior(Soul soul)
         {
-            base.InitState(soul);
-            GetContact(soul).OnHit += collision => Damage(soul, collision);
-        }
-
-        protected override void Morph(Soul soul)
-        {
-            base.Morph(soul);
-            GetContact(soul).gameObject.SetActive(true);
-        }
-
-        protected override void Demorph(Soul soul)
-        {
-            base.Demorph(soul);
-            GetContact(soul).gameObject.SetActive(false);
-        }
-
-        private void Damage(Soul soul, Collider2D collision)
-        {
-            if (soul.state == STATE_UNMORPHED)
-                return;
-            collision.GetComponent<CombatTarget>()?.Damage(damage, (collision.transform.position - soul.transform.position).normalized * knockbackStrength, staggerDuration);
+            base.AttackBehavior(soul);
+            if (Vector2.Distance(player.transform.position, soul.transform.position) <= swingRange)
+                soul.weaponUser.StartPrimaryAttack();
         }
     }
 }

@@ -65,32 +65,34 @@ namespace Reaper.Combat
         {
             if (!weapon || primaryCooldown > 0)
                 return;
-            primaryFiring = true;
             weapon.PrimaryFireDown(this, facing);
+            if(weapon.primaryHasHold)
+                primaryFiring = true;
         }
 
         public void EndPrimaryAttack()
         {
             if (!weapon || !primaryFiring)
                 return;
-            primaryFiring = false;
             weapon.PrimaryFireUp(this, facing);
+            primaryFiring = false;
         }
 
         public void StartSecondaryAttack()
         {
             if (!weapon || secondaryCooldown > 0)
                 return;
-            secondaryFiring = true;
             weapon.SecondaryFireDown(this, facing);
+            if(weapon.secondaryHasHold)
+                secondaryFiring = true;
         }
 
         public void EndSecondaryAttack()
         {
             if (!weapon || !secondaryFiring)
                 return;
-            secondaryFiring = false;
             weapon.SecondaryFireUp(this, facing);
+            secondaryFiring = false;
         }
 
         #endregion

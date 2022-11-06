@@ -6,16 +6,17 @@ using Reaper.Combat;
 
 namespace Reaper.Enemy
 {
-    [RequireComponent(typeof(CombatTarget))]
-    [RequireComponent(typeof(Mover))]
+    [RequireComponent(typeof(CombatTarget), typeof(Mover), typeof(WeaponUser))]
     public class Soul : MonoBehaviour
     {
         public EnemyInfo behavior;
 
         [HideInInspector] public Mover mover;
         [HideInInspector] public CombatTarget combatTarget;
+        [HideInInspector] public WeaponUser weaponUser;
         [HideInInspector] public ComponentCache extraComponents;
 
+        [HideInInspector] public Vector2 targetLocation;
         [HideInInspector] public float memoryTimer;
         [HideInInspector] public float morphTimer;
         [HideInInspector] public List<float> extraTimers;
@@ -25,6 +26,7 @@ namespace Reaper.Enemy
         {
             mover = GetComponent<Mover>();
             combatTarget = GetComponent<CombatTarget>();
+            weaponUser = GetComponent<WeaponUser>();
             extraComponents = GetComponent<ComponentCache>();
             extraTimers = new List<float>();
         }
