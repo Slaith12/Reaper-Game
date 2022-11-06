@@ -254,6 +254,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d06207eca3b3644a921449f1aa585ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weapons:
+  - {fileID: 11400000, guid: 84649eaf75ac6a94c8e616cc02e3286e, type: 2}
   weaponDisplay: {fileID: 7678851687564953731}
   maxSpeed: 8
   shopIndicator: {fileID: 316064354650606803}
@@ -312,8 +314,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e52eee026c72f7419abd34911bc5107, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapons:
-  - {fileID: 11400000, guid: 84649eaf75ac6a94c8e616cc02e3286e, type: 2}
   facing: {x: 0, y: 0}
 --- !u!1 &3582836007213291482
 GameObject:

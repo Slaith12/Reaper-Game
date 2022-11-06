@@ -59,6 +59,8 @@ namespace Reaper.Player
 
         private void SwapWeapon(int weaponIndex)
         {
+            if (weapons == null || weapons.Count <= weaponIndex)
+                return;
             weaponUser.SwitchWeapon(weapons[weaponIndex]);
             weaponDisplay.sprite = weaponUser.weapon.sprite;
         }
