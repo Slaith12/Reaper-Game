@@ -256,6 +256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapons:
   - {fileID: 11400000, guid: 84649eaf75ac6a94c8e616cc02e3286e, type: 2}
+  - {fileID: 11400000, guid: c2936034809b6e945a8d5a50ceb41406, type: 2}
   weaponDisplay: {fileID: 7678851687564953731}
   maxSpeed: 8
   shopIndicator: {fileID: 316064354650606803}

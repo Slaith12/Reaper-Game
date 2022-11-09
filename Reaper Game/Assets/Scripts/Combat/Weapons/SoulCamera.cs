@@ -5,6 +5,8 @@ using Reaper.Enemy;
 
 namespace Reaper.Combat
 {
+    //this whole weapon is being replaced by the restrainer weapon. will be deleted once all mechanics from this script are migrated to the restrainer.
+
     //public class SoulCamera : Weapon
     //{
     //    //[SerializeField] Vector2 size = new Vector2(4, 3);
