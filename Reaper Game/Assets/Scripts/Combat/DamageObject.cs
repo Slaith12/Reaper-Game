@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Reaper.Combat
 {
     [RequireComponent(typeof(Collider2D))]
-    public class DamageObject : MonoBehaviour
+    public abstract class DamageObject : MonoBehaviour
     {
         public List<string> targets;
 
@@ -17,11 +17,15 @@ namespace Reaper.Combat
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (targets != null && !targets.Contains(collision.tag))
+            if (ValidateHit(collision))
             {
-                return;
+                OnHit?.Invoke(collision);
             }
-            OnHit?.Invoke(collision);
+        }
+
+        protected virtual bool ValidateHit(Collider2D collision)
+        {
+            return targets == null || targets.Contains(collision.tag);
         }
 
         public event DamageHandler OnHit;
