@@ -13,3 +13,10 @@ MonoBehaviour:
   m_Name: Restrainer (Not Final Name)
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 6cd86626d62d90549b9f90ff0c23d990, type: 3}
+  projectileSprite: {fileID: 21300000, guid: ec35a754a2d52844fa2ba244761270eb, type: 3}
+  fireCooldown: 0.5
+  shotSpeed: 20
+  shotSize: {x: 1, y: 1}
+  shotDuration: 1
+  targets:
+  - Soul
