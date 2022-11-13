@@ -57,9 +57,18 @@ namespace Reaper.Inputs
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Attack"",
+                    ""name"": ""Primary Attack"",
                     ""type"": ""Button"",
                     ""id"": ""f12718ac-1c5e-42c0-b69f-b642bd1207e9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Secondary Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""3a6abfac-ce37-4135-bddd-b0ba2533feb7"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -273,18 +282,7 @@ namespace Reaper.Inputs
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
-                    ""action"": ""Attack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""64c76b35-22b0-4b5c-b9a5-f3281eecd66a"",
-                    ""path"": ""<Gamepad>/buttonWest"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Attack"",
+                    ""action"": ""Primary Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -295,7 +293,7 @@ namespace Reaper.Inputs
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Attack"",
+                    ""action"": ""Primary Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -306,7 +304,7 @@ namespace Reaper.Inputs
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Joystick"",
-                    ""action"": ""Attack"",
+                    ""action"": ""Primary Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -483,6 +481,28 @@ namespace Reaper.Inputs
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Enter Shop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ae773e81-a857-4870-84f8-ca02b073f4d2"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Secondary Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e51072fb-6aa3-4f66-a04b-81d599956a18"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Secondary Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -996,7 +1016,8 @@ namespace Reaper.Inputs
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_LookStick = m_Player.FindAction("Look (Stick)", throwIfNotFound: true);
             m_Player_LookMouse = m_Player.FindAction("Look (Mouse)", throwIfNotFound: true);
-            m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
+            m_Player_PrimaryAttack = m_Player.FindAction("Primary Attack", throwIfNotFound: true);
+            m_Player_SecondaryAttack = m_Player.FindAction("Secondary Attack", throwIfNotFound: true);
             m_Player_Weapon1 = m_Player.FindAction("Weapon 1", throwIfNotFound: true);
             m_Player_Weapon2 = m_Player.FindAction("Weapon 2", throwIfNotFound: true);
             m_Player_Weapon3 = m_Player.FindAction("Weapon 3", throwIfNotFound: true);
@@ -1076,7 +1097,8 @@ namespace Reaper.Inputs
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_LookStick;
         private readonly InputAction m_Player_LookMouse;
-        private readonly InputAction m_Player_Attack;
+        private readonly InputAction m_Player_PrimaryAttack;
+        private readonly InputAction m_Player_SecondaryAttack;
         private readonly InputAction m_Player_Weapon1;
         private readonly InputAction m_Player_Weapon2;
         private readonly InputAction m_Player_Weapon3;
@@ -1089,7 +1111,8 @@ namespace Reaper.Inputs
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @LookStick => m_Wrapper.m_Player_LookStick;
             public InputAction @LookMouse => m_Wrapper.m_Player_LookMouse;
-            public InputAction @Attack => m_Wrapper.m_Player_Attack;
+            public InputAction @PrimaryAttack => m_Wrapper.m_Player_PrimaryAttack;
+            public InputAction @SecondaryAttack => m_Wrapper.m_Player_SecondaryAttack;
             public InputAction @Weapon1 => m_Wrapper.m_Player_Weapon1;
             public InputAction @Weapon2 => m_Wrapper.m_Player_Weapon2;
             public InputAction @Weapon3 => m_Wrapper.m_Player_Weapon3;
@@ -1113,9 +1136,12 @@ namespace Reaper.Inputs
                     @LookMouse.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLookMouse;
                     @LookMouse.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLookMouse;
                     @LookMouse.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLookMouse;
-                    @Attack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
-                    @Attack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
-                    @Attack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
+                    @PrimaryAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrimaryAttack;
+                    @PrimaryAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrimaryAttack;
+                    @PrimaryAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrimaryAttack;
+                    @SecondaryAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSecondaryAttack;
+                    @SecondaryAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSecondaryAttack;
+                    @SecondaryAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSecondaryAttack;
                     @Weapon1.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeapon1;
                     @Weapon1.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeapon1;
                     @Weapon1.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeapon1;
@@ -1144,9 +1170,12 @@ namespace Reaper.Inputs
                     @LookMouse.started += instance.OnLookMouse;
                     @LookMouse.performed += instance.OnLookMouse;
                     @LookMouse.canceled += instance.OnLookMouse;
-                    @Attack.started += instance.OnAttack;
-                    @Attack.performed += instance.OnAttack;
-                    @Attack.canceled += instance.OnAttack;
+                    @PrimaryAttack.started += instance.OnPrimaryAttack;
+                    @PrimaryAttack.performed += instance.OnPrimaryAttack;
+                    @PrimaryAttack.canceled += instance.OnPrimaryAttack;
+                    @SecondaryAttack.started += instance.OnSecondaryAttack;
+                    @SecondaryAttack.performed += instance.OnSecondaryAttack;
+                    @SecondaryAttack.canceled += instance.OnSecondaryAttack;
                     @Weapon1.started += instance.OnWeapon1;
                     @Weapon1.performed += instance.OnWeapon1;
                     @Weapon1.canceled += instance.OnWeapon1;
@@ -1303,7 +1332,8 @@ namespace Reaper.Inputs
             void OnMove(InputAction.CallbackContext context);
             void OnLookStick(InputAction.CallbackContext context);
             void OnLookMouse(InputAction.CallbackContext context);
-            void OnAttack(InputAction.CallbackContext context);
+            void OnPrimaryAttack(InputAction.CallbackContext context);
+            void OnSecondaryAttack(InputAction.CallbackContext context);
             void OnWeapon1(InputAction.CallbackContext context);
             void OnWeapon2(InputAction.CallbackContext context);
             void OnWeapon3(InputAction.CallbackContext context);

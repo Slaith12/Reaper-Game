@@ -77,8 +77,10 @@ namespace Reaper.Player
             input.Player.LookStick.performed += StickLookDirection;
             input.Player.LookMouse.performed += MouseLookDirection;
 
-            input.Player.Attack.performed += delegate { weaponUser.StartPrimaryAttack(); };
-            input.Player.Attack.canceled += delegate { weaponUser.EndPrimaryAttack(); };
+            input.Player.PrimaryAttack.performed += delegate { weaponUser.StartPrimaryAttack(); };
+            input.Player.PrimaryAttack.canceled += delegate { weaponUser.EndPrimaryAttack(); };
+            input.Player.SecondaryAttack.performed += delegate { weaponUser.StartSecondaryAttack(); };
+            input.Player.SecondaryAttack.canceled += delegate { weaponUser.EndSecondaryAttack(); };
 
             input.Player.Weapon1.performed += delegate { SwapWeapon(0); };
             input.Player.Weapon2.performed += delegate { SwapWeapon(1); };
