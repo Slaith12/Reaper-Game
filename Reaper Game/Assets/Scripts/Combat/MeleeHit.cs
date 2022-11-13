@@ -35,18 +35,9 @@ namespace Reaper.Combat
             return true;
         }
 
-        public static MeleeHit Create(float duration, Vector2 offset, Vector2 size, List<string> targets, Transform parent = null, float rotation = 0)
+        public static MeleeHit Create(List<string> targets, float duration)
         {
-            Transform newObject = new GameObject("Melee", typeof(BoxCollider2D), typeof(MeleeHit)).transform;
-            newObject.parent = parent;
-            newObject.position = offset;
-            if(newObject.parent != null)
-            {
-                newObject.position += newObject.parent.position;
-            }
-            newObject.eulerAngles = new Vector3(0, 0, rotation);
-            newObject.localScale = size;
-            MeleeHit melee = newObject.GetComponent<MeleeHit>();
+            MeleeHit melee = new GameObject("Melee", typeof(BoxCollider2D), typeof(MeleeHit)).GetComponent<MeleeHit>();
             melee.Init(targets, duration);
             return melee;
         }

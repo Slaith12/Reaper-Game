@@ -26,7 +26,9 @@ namespace Reaper.Combat
 
         protected virtual void Swing(WeaponUser user, Vector2 facing, AttackInfo info)
         {
-            MeleeHit melee = MeleeHit.Create(0.25f, facing * swingDistance, swingSize, targets, user.transform, facing.ToAngle());
+            MeleeHit melee = MeleeHit.Create(targets, 0.25f);
+            melee.transform.parent = user.transform;
+            melee.transform.SetTransform(facing * swingDistance, facing.ToAngle(), swingSize);
             melee.OnHit += (c, d) => Damage(c, d, facing);
             user.SetCooldown(attackCooldown);
             InvokeAttack(info);
