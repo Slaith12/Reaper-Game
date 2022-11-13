@@ -9,12 +9,11 @@ namespace Reaper.Combat
         private float duration;
         private List<Collider2D> prevHits;
 
-        public void Init(List<string> targets, float duration, DamageHandler hitHandler)
+        public void Init(List<string> targets, float duration)
         {
             this.targets = targets;
             this.duration = duration;
             prevHits = new List<Collider2D>();
-            OnHit += hitHandler;
         }
 
         private void Update()
@@ -36,7 +35,7 @@ namespace Reaper.Combat
             return true;
         }
 
-        public static MeleeHit Create(float duration, DamageHandler hitHandler, Vector2 offset, Vector2 size, List<string> targets, Transform parent = null, float rotation = 0)
+        public static MeleeHit Create(float duration, Vector2 offset, Vector2 size, List<string> targets, Transform parent = null, float rotation = 0)
         {
             Transform newObject = new GameObject("Melee", typeof(BoxCollider2D), typeof(MeleeHit)).transform;
             newObject.parent = parent;
@@ -48,7 +47,7 @@ namespace Reaper.Combat
             newObject.eulerAngles = new Vector3(0, 0, rotation);
             newObject.localScale = size;
             MeleeHit melee = newObject.GetComponent<MeleeHit>();
-            melee.Init(targets, duration, hitHandler);
+            melee.Init(targets, duration);
             return melee;
         }
     }

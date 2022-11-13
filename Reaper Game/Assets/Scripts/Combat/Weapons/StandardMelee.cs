@@ -26,14 +26,15 @@ namespace Reaper.Combat
 
         protected virtual void Swing(WeaponUser user, Vector2 facing, AttackInfo info)
         {
-            MeleeHit.Create(0.25f, c => Damage(c, facing), facing * swingDistance, swingSize, targets, user.transform, facing.ToAngle());
+            MeleeHit melee = MeleeHit.Create(0.25f, facing * swingDistance, swingSize, targets, user.transform, facing.ToAngle());
+            melee.OnHit += (c, d) => Damage(c, d, facing);
             user.SetCooldown(attackCooldown);
             InvokeAttack(info);
         }
 
-        protected virtual void Damage(Collider2D collision, Vector2 facing)
+        protected virtual void Damage(Collider2D collision, DamageObject damager, Vector2 facing)
         {
-            collision.GetComponent<CombatTarget>()?.Damage(damage, facing * knockbackStrength, staggerLength);
+            collision.GetComponent<CombatTarget>().Damage(damage, facing * knockbackStrength, staggerLength);
         }
     }
 }

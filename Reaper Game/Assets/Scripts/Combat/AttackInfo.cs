@@ -6,7 +6,7 @@ namespace Reaper.Combat
 {
     public enum AttackType { Primary, Secondary, Both }
     public delegate void AttackResponse(AttackInfo info);
-    public delegate void DamageHandler(Collider2D collision);
+    public delegate void DamageHandler(Collider2D collision, DamageObject damager);
 
     public struct AttackInfo
     {
