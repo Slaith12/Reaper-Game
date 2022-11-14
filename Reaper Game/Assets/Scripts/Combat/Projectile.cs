@@ -47,20 +47,8 @@ namespace Reaper.Combat
             base.OnTriggerEnter2D(collision);
             if (environmentTargets.Contains(collision.tag))
             {
-                if (OnEnvironmentHit == null)
-                {
-                    DefaultEnvironmentAction(collision);
-                }
-                else
-                {
-                    OnEnvironmentHit.Invoke(collision, this);
-                }
+                OnEnvironmentHit?.Invoke(collision, this);
             }
-        }
-
-        protected virtual void DefaultEnvironmentAction(Collider2D collision)
-        {
-            Destroy(gameObject);
         }
 
         public static Projectile Create(Sprite sprite, List<string> hitTargets, List<string> environmentTargets, Vector2 velocity, float duration)

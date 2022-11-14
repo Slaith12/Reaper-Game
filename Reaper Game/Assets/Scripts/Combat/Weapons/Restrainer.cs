@@ -21,7 +21,15 @@ namespace Reaper.Combat
         {
             Projectile projectile = Projectile.Create(projectileSprite, targets, Projectile.defaultEnviroTargets, facing * shotSpeed, shotDuration);
             projectile.transform.SetTransform(user.transform.position, facing.ToAngle(), shotSize);
+            projectile.OnHit += Capture;
+            projectile.OnEnvironmentHit += (_, net) => Destroy(net.gameObject); //will replace this with an animation when implemented
             user.SetCooldown(fireCooldown);
+        }
+
+        private void Capture(Collider2D collision, DamageObject net)
+        {
+            Debug.Log($"Capturing {collision.name}");
+            Destroy(net.gameObject);
         }
     }
 }
