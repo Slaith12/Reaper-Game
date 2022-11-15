@@ -7,11 +7,12 @@ using UnityEngine.InputSystem;
 using Reaper.Movement;
 using Reaper.Combat;
 using Reaper.Shops;
+using Reaper.Messaging;
 
 namespace Reaper.Player
 {
     [RequireComponent(typeof(CombatTarget), typeof(Mover), typeof(WeaponUser))]
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, IMessageHandler
     {
         private Mover mover;
         private WeaponUser weaponUser;
@@ -114,6 +115,20 @@ namespace Reaper.Player
         private void EnterShop(InputAction.CallbackContext obj)
         {
             ShopManager.instance.OpenShop();
+        }
+
+        #endregion
+
+        #region Message Handling
+
+        public bool CanRecieveMessage(string message)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void InvokeMessage(string message)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Reaper.Movement;
 using Reaper.Combat;
+using Reaper.Messaging;
 
 namespace Reaper.Enemy
 {
     [RequireComponent(typeof(CombatTarget), typeof(Mover), typeof(WeaponUser))]
-    public class Soul : MonoBehaviour
+    public class Soul : MonoBehaviour, IMessageHandler
     {
         public EnemyInfo behavior;
 
@@ -39,6 +40,16 @@ namespace Reaper.Enemy
         void Update()
         {
             behavior.UpdateSoul(this);
+        }
+
+        public bool CanRecieveMessage(string message)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void InvokeMessage(string message)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
