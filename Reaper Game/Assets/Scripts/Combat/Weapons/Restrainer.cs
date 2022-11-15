@@ -24,6 +24,8 @@ namespace Reaper.Combat
             projectile.OnHit += Capture;
             projectile.OnEnvironmentHit += (_, net) => Destroy(net.gameObject); //will replace this with an animation when implemented
             user.SetCooldown(fireCooldown);
+            InvokeAttack(new AttackInfo() { type = AttackType.Secondary });
+            
         }
 
         private void Capture(Collider2D collision, DamageObject net)
