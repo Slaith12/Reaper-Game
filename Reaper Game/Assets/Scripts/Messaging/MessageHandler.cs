@@ -6,8 +6,8 @@ namespace Reaper.Messaging
 {
     public interface IMessageHandler
     {
-        public bool CanRecieveMessage(string message);
+        public bool CanRecieveMessage<T>() where T : Message;
 
-        public void InvokeMessage(string message);
+        public void InvokeMessage<T>(T message) where T: Message;
     }
 }

@@ -65,7 +65,7 @@ namespace Reaper.Enemy
         protected override void AttackCheck(Soul soul)
         {
             Vector2 diff = player.position - soul.transform.position;
-            if (soul.mover.currentSpeed.magnitude > 0.5f && Vector2.Dot(diff, soul.mover.currentSpeed) < 0)
+            if (soul.mover.effectiveSpeed.magnitude > 0.5f && Vector2.Dot(diff, soul.mover.effectiveSpeed) < 0)
                 StartWindup(soul);
         }
 

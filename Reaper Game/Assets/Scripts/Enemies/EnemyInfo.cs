@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Reaper.Combat;
+using Reaper.Messaging;
+using System;
 
 namespace Reaper.Enemy
 {
@@ -41,9 +43,13 @@ namespace Reaper.Enemy
         /// </summary>
         protected virtual int EXTRATIMERS => 0;
 
+        private void OnEnable()
+        {
+            InitMessages(); //it would be really nice if this could be done during compililation rather than during run-time, but I don't know how to do that
+        }
+
         public virtual void InitState(Soul soul)
         {
-            soul.combatTarget.OnDeath += delegate { Demorph(soul); };
             soul.weaponUser.SwitchWeapon(mainWeapon);
             Demorph(soul);
         }
@@ -100,7 +106,7 @@ namespace Reaper.Enemy
         protected virtual void PatrolBehavior(Soul soul)
         {
             soul.mover.targetSpeed = new Vector2(0, -patrolSpeed);
-            soul.weaponUser.facing = soul.mover.currentSpeed.normalized;
+            soul.weaponUser.facing = soul.mover.effectiveSpeed.normalized;
         }
 
         protected virtual void AttackBehavior(Soul soul)
@@ -193,17 +199,73 @@ namespace Reaper.Enemy
         protected virtual void Morph(Soul soul)
         {
             soul.state = STATE_PATROL;
-            soul.combatTarget.health = maxHealth;
-            soul.combatTarget.invuln = false;
+            soul.health = maxHealth;
         }
 
         //Any -> Unmorphed
         protected virtual void Demorph(Soul soul)
         {
             soul.state = STATE_UNMORPHED;
-            soul.combatTarget.invuln = true;
             soul.morphTimer = 5;
             soul.mover.targetSpeed = Vector2.zero;
+        }
+
+        #endregion
+
+        #region Message Responses
+
+        protected Dictionary<string, Func<Soul, bool>> messageValidators;
+        protected Dictionary<string, Action<Soul, Message>> messageResponses;
+
+        protected virtual void InitMessages()
+        {
+            messageValidators = new Dictionary<string, Func<Soul, bool>>();
+            messageResponses = new Dictionary<string, Action<Soul, Message>>();
+
+            AddMessageResponse<DamageMessage>(HandleDamage, ValidateDamage);
+
+        }
+
+        protected void AddMessageResponse<T>(Action<Soul, T> response, Func<Soul, bool> validator = null) where T : Message
+        {
+            string type = typeof(T).ToString();
+            messageResponses.Add(type, (s, m) => response(s, (T)m));
+            if (validator != null)
+                messageValidators.Add(type, validator);
+        }
+
+        public bool CanRecieveMessage<T>(Soul soul) where T : Message
+        {
+            string type = typeof(T).ToString();
+            if (messageResponses == null || !messageResponses.ContainsKey(type))
+                return false;
+            bool hasValidator = messageValidators.TryGetValue(type, out Func<Soul, bool> validator);
+            if (messageValidators == null || !hasValidator) //a missing validator is treated as simply "does this message handler have a response to this message?"
+                return true;
+            return validator.Invoke(soul);
+        }
+
+        public void InvokeMessage<T>(Soul soul, T message) where T : Message
+        {
+            if (CanRecieveMessage<T>(soul))
+            {
+                messageResponses.TryGetValue(typeof(T).ToString(), out Action<Soul, Message> handler);
+                handler.Invoke(soul, message);
+            }
+        }
+
+        protected virtual bool ValidateDamage(Soul soul)
+        {
+            return soul.state != STATE_UNMORPHED;
+        }
+
+        protected virtual void HandleDamage(Soul soul, DamageMessage message)
+        {
+            soul.health -= message.damage;
+            if (soul.health <= 0)
+                Demorph(soul);
+            soul.mover.Knockback(message.knockback, message.staggerDuration, message.staggerIntensity);
+            message.consumed = true;
         }
 
         #endregion

@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: -7429449413578039653}
   - component: {fileID: 931331339885651780}
   - component: {fileID: 861440517080098794}
-  - component: {fileID: 1394645972841971169}
   - component: {fileID: 777993150497901790}
   - component: {fileID: 1999763385492020603}
   m_Layer: 7
@@ -141,7 +140,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   behavior: {fileID: 0}
   mover: {fileID: 0}
-  combatTarget: {fileID: 0}
   weaponUser: {fileID: 0}
   extraComponents: {fileID: 0}
   targetLocation: {x: 0, y: 0}
@@ -149,6 +147,7 @@ MonoBehaviour:
   morphTimer: 0
   extraTimers: []
   state: 0
+  health: 0
 --- !u!114 &861440517080098794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,20 +164,6 @@ MonoBehaviour:
   knockbackRes: 0
   partialKnockback: 0
   targetSpeed: {x: 0, y: 0}
---- !u!114 &1394645972841971169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 931331339885651791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43f41dd464852d04a896395fd29459c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 0
-  invuln: 0
 --- !u!114 &777993150497901790
 MonoBehaviour:
   m_ObjectHideFlags: 0

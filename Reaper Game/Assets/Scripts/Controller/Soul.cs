@@ -7,13 +7,12 @@ using Reaper.Messaging;
 
 namespace Reaper.Enemy
 {
-    [RequireComponent(typeof(CombatTarget), typeof(Mover), typeof(WeaponUser))]
+    [RequireComponent(typeof(Mover), typeof(WeaponUser))]
     public class Soul : MonoBehaviour, IMessageHandler
     {
         public EnemyInfo behavior;
 
         [HideInInspector] public Mover mover;
-        [HideInInspector] public CombatTarget combatTarget;
         [HideInInspector] public WeaponUser weaponUser;
         [HideInInspector] public ComponentCache extraComponents;
 
@@ -22,11 +21,11 @@ namespace Reaper.Enemy
         [HideInInspector] public float morphTimer;
         [HideInInspector] public List<float> extraTimers;
         [HideInInspector] public int state;
+        [HideInInspector] public int health;
 
         void Awake()
         {
             mover = GetComponent<Mover>();
-            combatTarget = GetComponent<CombatTarget>();
             weaponUser = GetComponent<WeaponUser>();
             extraComponents = GetComponent<ComponentCache>();
             extraTimers = new List<float>();
@@ -42,14 +41,14 @@ namespace Reaper.Enemy
             behavior.UpdateSoul(this);
         }
 
-        public bool CanRecieveMessage(string message)
+        public bool CanRecieveMessage<T>() where T : Message
         {
-            throw new System.NotImplementedException();
+            return behavior.CanRecieveMessage<T>(this);
         }
 
-        public void InvokeMessage(string message)
+        public void InvokeMessage<T>(T message) where T : Message
         {
-            throw new System.NotImplementedException();
+            behavior.InvokeMessage(this, message);
         }
     }
 }

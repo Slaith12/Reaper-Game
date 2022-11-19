@@ -11,7 +11,7 @@ using Reaper.Messaging;
 
 namespace Reaper.Player
 {
-    [RequireComponent(typeof(CombatTarget), typeof(Mover), typeof(WeaponUser))]
+    [RequireComponent(typeof(Mover), typeof(WeaponUser))]
     public class PlayerController : MonoBehaviour, IMessageHandler
     {
         private Mover mover;
@@ -39,6 +39,7 @@ namespace Reaper.Player
             ShopManager.instance.OnLeaveShop += delegate { shopIndicator.SetActive(false); };
             SetupInput();
             SwapWeapon(0);
+            InitMessages();
         }
 
         private void OnEnable()
@@ -121,14 +122,33 @@ namespace Reaper.Player
 
         #region Message Handling
 
-        public bool CanRecieveMessage(string message)
+        Dictionary<string, Action<Message>> messageResponses;
+
+        private void InitMessages()
         {
-            throw new NotImplementedException();
+            messageResponses = new Dictionary<string, Action<Message>>();
+            messageResponses.Add(typeof(DamageMessage).ToString(), m => HandleDamage((DamageMessage)m));
         }
 
-        public void InvokeMessage(string message)
+        public bool CanRecieveMessage<T>() where T : Message
         {
-            throw new NotImplementedException();
+            return messageResponses.ContainsKey(typeof(T).ToString());
+        }
+
+        public void InvokeMessage<T>(T message) where T : Message
+        {
+            if (CanRecieveMessage<T>())
+            {
+                messageResponses.TryGetValue(typeof(T).ToString(), out Action<Message> handler);
+                handler.Invoke(message);
+            }
+        }
+
+        public void HandleDamage(DamageMessage message)
+        {
+            //health -= message.damage;
+            mover.Knockback(message.knockback, message.staggerDuration, message.staggerIntensity);
+            message.consumed = true;
         }
 
         #endregion

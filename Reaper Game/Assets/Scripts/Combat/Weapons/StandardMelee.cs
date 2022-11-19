@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Reaper.Messaging;
 
 namespace Reaper.Combat
 {
@@ -29,14 +30,20 @@ namespace Reaper.Combat
             MeleeHit melee = MeleeHit.Create(targets, 0.25f);
             melee.transform.parent = user.transform;
             melee.transform.SetTransform(facing * swingDistance, facing.ToAngle(), swingSize);
-            melee.OnHit += (c, d) => Damage(c, d, facing);
+            melee.OnHit += (c, _) => Damage(c, facing);
             user.SetCooldown(attackCooldown);
             InvokeAttack(info);
         }
 
-        protected virtual void Damage(Collider2D collision, DamageObject damager, Vector2 facing)
+        protected virtual void Damage(Collider2D collision, Vector2 facing)
         {
-            collision.GetComponent<CombatTarget>().Damage(damage, facing * knockbackStrength, staggerLength);
+            DamageMessage message = new DamageMessage(damage, facing * knockbackStrength, staggerDuration: staggerLength);
+            foreach(IMessageHandler handler in collision.GetComponents<IMessageHandler>())
+            {
+                handler.InvokeMessage(message);
+                if (message.consumed)
+                    break;
+            }
         }
     }
 }
