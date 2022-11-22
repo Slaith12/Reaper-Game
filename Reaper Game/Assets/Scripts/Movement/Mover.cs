@@ -27,7 +27,7 @@ namespace Reaper.Movement
         public float knockbackRes;
         public bool partialKnockback;
         [HideInInspector] public Vector2 targetSpeed;
-        public Vector2 effectiveSpeed { get; private set; }
+        public Vector2 effectiveSpeed { get => actualSpeed / speedMultiplier; private set => actualSpeed = value * speedMultiplier; }
         public Vector2 actualSpeed { get => rigidbody.velocity; set => rigidbody.velocity = value; }
         private List<SpeedModifier> speedModifiers;
         private float speedMultiplier { 
@@ -48,11 +48,10 @@ namespace Reaper.Movement
         private void FixedUpdate()
         {
             UpdateModifiers();
-            UpdateEffectiveSpeed();
-            ApplyEffectiveSpeed();
+            UpdateSpeed();
         }
 
-        private void UpdateEffectiveSpeed()
+        private void UpdateSpeed()
         {
             effectiveSpeed = actualSpeed / speedMultiplier;
             if (effectiveSpeed == targetSpeed)
@@ -75,11 +74,6 @@ namespace Reaper.Movement
                 if (speedModifiers[i].duration <= 0)
                     speedModifiers.RemoveAt(i);
             }
-        }
-
-        private void ApplyEffectiveSpeed()
-        {
-            actualSpeed = effectiveSpeed * speedMultiplier;
         }
 
         public void Knockback(Vector2 strength, float staggerDuration, float staggerStrength)
