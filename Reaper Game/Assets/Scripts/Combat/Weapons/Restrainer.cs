@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Reaper.Messaging;
 
 namespace Reaper.Combat
 {
@@ -30,8 +31,17 @@ namespace Reaper.Combat
 
         private void Capture(Collider2D collision, DamageObject net)
         {
-            Debug.Log($"Capturing {collision.name}");
-            Destroy(net.gameObject);
+            NetCaptureMessage message = new NetCaptureMessage();
+            foreach(IMessageHandler messageHandler in collision.GetComponents<IMessageHandler>())
+            {
+                messageHandler.InvokeMessage(message);
+                if (message.consumed)
+                {
+                    Debug.Log($"Capturing {collision.name}");
+                    Destroy(net.gameObject);
+                    break;
+                }
+            }
         }
     }
 }

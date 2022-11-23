@@ -223,7 +223,7 @@ namespace Reaper.Enemy
             messageResponses = new Dictionary<string, Action<Soul, Message>>();
 
             AddMessageResponse<DamageMessage>(HandleDamage, ValidateDamage);
-
+            AddMessageResponse<NetCaptureMessage>(HandleNetCapture);
         }
 
         protected void AddMessageResponse<T>(Action<Soul, T> response, Func<Soul, bool> validator = null) where T : Message
@@ -265,6 +265,19 @@ namespace Reaper.Enemy
             if (soul.health <= 0)
                 Demorph(soul);
             soul.mover.Knockback(message.knockback, message.staggerDuration, message.staggerIntensity);
+            message.consumed = true;
+        }
+
+        protected virtual void HandleNetCapture(Soul soul, NetCaptureMessage message)
+        {
+            if(soul.state == STATE_UNMORPHED)
+            {
+                //become item
+            }
+            else
+            {
+                soul.mover.Stun(5);
+            }
             message.consumed = true;
         }
 
