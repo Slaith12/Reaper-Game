@@ -77,6 +77,7 @@ namespace Reaper.Enemy
         public int STATE_UNMORPHED => 0;
         public int STATE_PATROL => 1;
         public int STATE_ATTACK => 2;
+        public int STATE_IMMOBILIZED => 3;
         protected virtual List<StateInfo> states
         {
             get
@@ -85,6 +86,7 @@ namespace Reaper.Enemy
                 list.Add(new StateInfo(UnmorphedCheck, UnmorphedBehavior));
                 list.Add(new StateInfo(PatrolCheck, PatrolBehavior));
                 list.Add(new StateInfo(AttackCheck, AttackBehavior));
+                list.Add(new StateInfo(ImmobileCheck, ImmobileBehavior));
                 return list;
             }
         }
@@ -147,6 +149,11 @@ namespace Reaper.Enemy
                 soul.mover.targetSpeed = Vector2.zero;
         }
 
+        protected virtual void ImmobileBehavior(Soul soul)
+        {
+            
+        }
+
         #endregion
 
         #region State Checks
@@ -176,6 +183,14 @@ namespace Reaper.Enemy
                 EndAttack(soul);
             }
             //death check handled in InitState
+        }
+
+        protected virtual void ImmobileCheck(Soul soul)
+        {
+            if(soul.mover.speedMultiplier > 0)
+            {
+                EndImmobilize(soul);
+            }
         }
 
         #endregion
@@ -210,6 +225,19 @@ namespace Reaper.Enemy
             soul.mover.targetSpeed = Vector2.zero;
         }
 
+        //Non-Unmorphed -> Immobilized
+        protected virtual void StartImmobilize(Soul soul)
+        {
+            soul.state = STATE_IMMOBILIZED;
+            soul.mover.Stun(5);
+        }
+
+        //Immobilized -> Patrol
+        protected virtual void EndImmobilize(Soul soul)
+        {
+            soul.state = STATE_PATROL;
+        }
+
         #endregion
 
         #region Message Responses
@@ -223,7 +251,7 @@ namespace Reaper.Enemy
             messageResponses = new Dictionary<string, Action<Soul, Message>>();
 
             AddMessageResponse<DamageMessage>(HandleDamage, ValidateDamage);
-            AddMessageResponse<NetCaptureMessage>(HandleNetCapture);
+            AddMessageResponse<NetCaptureMessage>(HandleNetCapture, ValidateNetCapture);
         }
 
         protected void AddMessageResponse<T>(Action<Soul, T> response, Func<Soul, bool> validator = null) where T : Message
@@ -268,6 +296,11 @@ namespace Reaper.Enemy
             message.consumed = true;
         }
 
+        protected virtual bool ValidateNetCapture(Soul soul)
+        {
+            return soul.state != STATE_IMMOBILIZED;
+        }
+
         protected virtual void HandleNetCapture(Soul soul, NetCaptureMessage message)
         {
             if(soul.state == STATE_UNMORPHED)
@@ -276,7 +309,7 @@ namespace Reaper.Enemy
             }
             else
             {
-                soul.mover.Stun(5);
+                StartImmobilize(soul);
             }
             message.consumed = true;
         }

@@ -30,7 +30,7 @@ namespace Reaper.Movement
         public Vector2 effectiveSpeed { get => speedMultiplier == 0 ? Vector2.zero : actualSpeed / speedMultiplier; private set => actualSpeed = value * speedMultiplier; }
         public Vector2 actualSpeed { get => rigidbody.velocity; set => rigidbody.velocity = value; }
         private List<SpeedModifier> speedModifiers;
-        private float speedMultiplier { 
+        public float speedMultiplier { 
             get 
             { 
                 float num = 1;
@@ -53,7 +53,6 @@ namespace Reaper.Movement
 
         private void UpdateSpeed()
         {
-            effectiveSpeed = actualSpeed / speedMultiplier;
             if (effectiveSpeed == targetSpeed)
                 return;
             float accelSpeed = acceleration * Time.fixedDeltaTime;
