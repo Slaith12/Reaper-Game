@@ -27,6 +27,7 @@ namespace Reaper.Enemy
         protected delegate void SoulAction(Soul soul);
 
         protected static Transform player { get => Player.PlayerController.player.transform; }
+        protected const string NET_IDENTIFIER = "Net";
 
         /// <summary>
         /// The number of extra components used by this enemy. If a child enemy uses more, type
@@ -73,7 +74,7 @@ namespace Reaper.Enemy
                 stateBehavior = behavior;
             }
         }
-        protected virtual int NUM_STATES => 3;
+        protected virtual int NUM_STATES => 4;
         public int STATE_UNMORPHED => 0;
         public int STATE_PATROL => 1;
         public int STATE_ATTACK => 2;
@@ -187,7 +188,7 @@ namespace Reaper.Enemy
 
         protected virtual void ImmobileCheck(Soul soul)
         {
-            if(soul.mover.speedMultiplier > 0)
+            if(soul.mover.HasModifierType(NET_IDENTIFIER))
             {
                 EndImmobilize(soul);
             }
@@ -229,7 +230,7 @@ namespace Reaper.Enemy
         protected virtual void StartImmobilize(Soul soul)
         {
             soul.state = STATE_IMMOBILIZED;
-            soul.mover.Stun(5);
+            soul.mover.Stun(5, type: NET_IDENTIFIER);
         }
 
         //Immobilized -> Patrol

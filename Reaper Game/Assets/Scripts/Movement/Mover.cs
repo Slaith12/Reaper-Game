@@ -9,14 +9,14 @@ namespace Reaper.Movement
     {
         private class SpeedModifier
         {
-            public SpeedModifier(float multiplier, float duration, string name = "")
+            public SpeedModifier(float multiplier, float duration, string type = "None")
             {
                 this.multiplier = multiplier;
                 this.duration = duration;
-                this.name = name;
+                this.type = type;
             }
 
-            public readonly string name;
+            public readonly string type;
             public readonly float multiplier;
             public float duration;
         }
@@ -75,20 +75,28 @@ namespace Reaper.Movement
             }
         }
 
-        public void Knockback(Vector2 strength, float staggerDuration, float staggerStrength)
+        public bool HasModifierType(string type)
+        {
+            foreach (SpeedModifier modifier in speedModifiers)
+                if (modifier.type == type)
+                    return true;
+            return false;
+        }
+
+        public void Knockback(Vector2 strength, float staggerDuration, float staggerStrength, string staggerType = "Stagger")
         {
             if (partialKnockback)
                 actualSpeed += strength / (1 + knockbackRes);
             else
                 actualSpeed = strength / (1 + knockbackRes);
-            speedModifiers.Add(new SpeedModifier(1 - staggerStrength, staggerDuration, name: "Stagger"));
+            speedModifiers.Add(new SpeedModifier(1 - staggerStrength, staggerDuration, staggerType));
         }
 
-        public void Stun(float duration, bool immediateStop = true)
+        public void Stun(float duration, bool immediateStop = false, string type = "Stun")
         {
             if (immediateStop)
                 actualSpeed = Vector2.zero;
-            speedModifiers.Add(new SpeedModifier(0, duration, name: "Stun"));
+            speedModifiers.Add(new SpeedModifier(0, duration, type));
         }
     }
 }
