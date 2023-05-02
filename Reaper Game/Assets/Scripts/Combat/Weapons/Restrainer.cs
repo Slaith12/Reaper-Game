@@ -12,6 +12,7 @@ namespace Reaper.Combat
         [SerializeField] protected Sprite projectileSprite;
         [SerializeField] protected float fireCooldown = 0.5f;
         [SerializeField] protected float shotSpeed = 2;
+        [SerializeField] protected float shotForce = 3;
         [SerializeField] protected Vector2 shotSize = Vector2.one;
         [SerializeField] protected float shotDuration = 3;
         [SerializeField] protected List<string> targets;
@@ -31,7 +32,8 @@ namespace Reaper.Combat
 
         private void Capture(Collider2D collision, DamageObject net)
         {
-            NetCaptureMessage message = new NetCaptureMessage();
+            Vector2 knockback = net.GetComponent<Rigidbody2D>().velocity.normalized * shotForce;
+            NetCaptureMessage message = new NetCaptureMessage(knockback);
             foreach(IMessageHandler messageHandler in collision.GetComponents<IMessageHandler>())
             {
                 messageHandler.InvokeMessage(message);

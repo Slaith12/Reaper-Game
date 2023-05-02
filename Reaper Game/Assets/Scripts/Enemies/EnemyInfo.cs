@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Reaper.Combat;
+using Reaper.Items;
 using Reaper.Messaging;
 using System;
+using Reaper.Movement;
 
 namespace Reaper.Enemy
 {
@@ -11,6 +13,7 @@ namespace Reaper.Enemy
     {
         public new string name;
         public Sprite sprite;
+        public ItemData captureItem;
         public int maxHealth = 5;
         public float acceleration = 80;
         public float patrolSpeed = 5;
@@ -304,9 +307,12 @@ namespace Reaper.Enemy
 
         protected virtual void HandleNetCapture(Soul soul, NetCaptureMessage message)
         {
-            if(soul.state == STATE_UNMORPHED)
+            if(soul.state == STATE_UNMORPHED && captureItem != null)
             {
-                //become item
+                Pickup capturedEnemy = Pickup.Create(captureItem, soul.transform.position, typeof(Rigidbody2D), typeof(Mover));
+                capturedEnemy.GetComponent<Rigidbody2D>().AddForce(message.impactForce, ForceMode2D.Impulse);
+                capturedEnemy.GetComponent<Mover>().acceleration = captureItem.friction;
+                Destroy(soul.gameObject);
             }
             else
             {

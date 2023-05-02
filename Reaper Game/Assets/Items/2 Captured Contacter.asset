@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ea59c3ca1f0f2641b0296b07fced06d, type: 3}
-  m_Name: 0 Money
+  m_Name: 2 Captured Contacter
   m_EditorClassIdentifier: 
-  name: Money
-  sprite: {fileID: 21300000, guid: 6cd86626d62d90549b9f90ff0c23d990, type: 3}
+  name: Capture
+  sprite: {fileID: 21300000, guid: 28500e85d928ac14aa1d3135067313b6, type: 3}
   animator: {fileID: 0}
-  description: Currency used to buy and sell things.
-  friction: 0
+  description: Oh no!
+  friction: 10

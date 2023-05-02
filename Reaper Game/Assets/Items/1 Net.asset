@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Net
   sprite: {fileID: 21300000, guid: ec35a754a2d52844fa2ba244761270eb, type: 3}
+  animator: {fileID: 0}
   description: Shot out by the restrainer to capture souls.
+  friction: 0
