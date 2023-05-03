@@ -10,27 +10,30 @@ namespace Reaper.Items
         /// <summary>
         /// The item that this pickup corresponds to.
         /// </summary>
-        public ItemData item;
+        public ItemData itemType { get; private set; }
 
-        public static Pickup Create(ItemData item, Vector2 position, params Type[] extraComponents)
+        public static Pickup Create(ItemData itemType, Vector2 position, params Type[] extraComponents)
         {
-            return Create<Pickup>(item, position, extraComponents);
+            return Create<Pickup>(itemType, position, extraComponents);
         }
 
-        public static T Create<T>(ItemData item, Vector2 position, params Type[] extraComponents) where T : Pickup
+        public static T Create<T>(ItemData itemType, Vector2 position, params Type[] extraComponents) where T : Pickup
         {
-            GameObject newObject = new GameObject(item.name);
+            GameObject newObject = new GameObject(itemType.name);
             newObject.transform.position = position;
-            newObject.AddComponent<SpriteRenderer>().sprite = item.sprite;
-            if (item.animator != null)
+            newObject.AddComponent<SpriteRenderer>().sprite = itemType.sprite;
+            //collider added for pickup detection
+            newObject.AddComponent<CircleCollider2D>().isTrigger = true;
+            if (itemType.animator != null)
             {
-                newObject.AddComponent<Animator>().runtimeAnimatorController = item.animator;
+                newObject.AddComponent<Animator>().runtimeAnimatorController = itemType.animator;
             }
             foreach(Type component in extraComponents)
             {
                 newObject.AddComponent(component);
             }
             T newPickup = newObject.AddComponent<T>();
+            newPickup.itemType = itemType;
             return newPickup;
         }
     }
