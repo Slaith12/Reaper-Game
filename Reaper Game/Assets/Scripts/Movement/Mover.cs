@@ -22,10 +22,15 @@ namespace Reaper.Movement
         }
         private new Rigidbody2D rigidbody;
 
-        public float acceleration;
+        [Min(0)]
+        public float acceleration = 80;
+        [Min(0)]
+        [Tooltip("How much higher deceleration is than acceleration. This is not affected by speed modifiers.")]
+        public float friction = 30;
         [Min(-0.9f)]
-        public float knockbackRes;
+        public float knockbackRes = 0;
         public bool partialKnockback;
+
         [HideInInspector] public Vector2 targetSpeed;
         public Vector2 effectiveSpeed { get => speedMultiplier == 0 ? Vector2.zero : actualSpeed / speedMultiplier; private set => actualSpeed = value * speedMultiplier; }
         public Vector2 actualSpeed { get => rigidbody.velocity; set => rigidbody.velocity = value; }
@@ -53,16 +58,30 @@ namespace Reaper.Movement
 
         private void UpdateSpeed()
         {
-            if (effectiveSpeed == targetSpeed)
-                return;
-            float accelSpeed = acceleration * Time.fixedDeltaTime;
             Vector2 accelDirection = targetSpeed - effectiveSpeed;
-            if (accelDirection.magnitude <= accelSpeed)
+            if (targetSpeed != effectiveSpeed)
             {
-                effectiveSpeed = targetSpeed;
-                return;
+                float accelSpeed = acceleration * Time.fixedDeltaTime;
+                if (accelDirection.magnitude <= accelSpeed)
+                {
+                    effectiveSpeed = targetSpeed;
+                    return;
+                }
+                effectiveSpeed += accelDirection.normalized * accelSpeed;
             }
-            effectiveSpeed += accelDirection.normalized * accelSpeed;
+
+            if(speedMultiplier == 0)
+            {
+                //speed should drift towards 0
+                accelDirection = -actualSpeed;
+            }
+
+            Vector2 velDirection = actualSpeed.normalized;
+            float frictionMult = Vector2.Dot(velDirection, accelDirection.normalized);
+            if(frictionMult < 0)
+            {
+                actualSpeed += friction * frictionMult * Time.fixedDeltaTime * velDirection;
+            }
         }
 
         private void UpdateModifiers()

@@ -191,7 +191,7 @@ namespace Reaper.Enemy
 
         protected virtual void ImmobileCheck(Soul soul)
         {
-            if(soul.mover.HasModifierType(NET_IDENTIFIER))
+            if(!soul.mover.HasModifierType(NET_IDENTIFIER))
             {
                 EndImmobilize(soul);
             }

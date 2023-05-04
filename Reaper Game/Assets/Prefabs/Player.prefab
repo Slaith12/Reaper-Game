@@ -272,7 +272,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95b04592d144d3e419d8fa1e7cb73f2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 80
+  acceleration: 60
+  friction: 30
   knockbackRes: 0
   partialKnockback: 0
   targetSpeed: {x: 0, y: 0}

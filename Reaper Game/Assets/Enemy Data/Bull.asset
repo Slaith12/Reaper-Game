@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Bull
   sprite: {fileID: 21300000, guid: 9d5467045b9c9904085ecc09aac7e7bc, type: 3}
+  captureItem: {fileID: 0}
   maxHealth: 5
-  acceleration: 20
+  acceleration: 30
   patrolSpeed: 4
   chaseSpeed: 5
   closeOptimalRange: 0.75

@@ -39,7 +39,7 @@ namespace Reaper.Combat
                 messageHandler.InvokeMessage(message);
                 if (message.consumed)
                 {
-                    Debug.Log($"Capturing {collision.name}");
+                    //Debug.Log($"Capturing {collision.name}");
                     Destroy(net.gameObject);
                     break;
                 }
