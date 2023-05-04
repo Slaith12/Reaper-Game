@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: I need a new name
   sprite: {fileID: 21300000, guid: ca02e75ef9ada2747b1619b59afefe49, type: 3}
+  captureItem: {fileID: 11400000, guid: d22ad6a3389b79045a4f4b9c702123d7, type: 2}
   maxHealth: 5
-  acceleration: 80
+  acceleration: 60
   patrolSpeed: 5
   chaseSpeed: 5
   closeOptimalRange: 0.75

@@ -9,28 +9,33 @@ namespace Reaper.Movement
     {
         private class SpeedModifier
         {
-            public SpeedModifier(float multiplier, float duration, string name = "")
+            public SpeedModifier(float multiplier, float duration, string type = "None")
             {
                 this.multiplier = multiplier;
                 this.duration = duration;
-                this.name = name;
+                this.type = type;
             }
 
-            public readonly string name;
+            public readonly string type;
             public readonly float multiplier;
             public float duration;
         }
         private new Rigidbody2D rigidbody;
 
-        public float acceleration;
+        [Min(0)]
+        public float acceleration = 80;
+        [Min(0)]
+        [Tooltip("How much higher deceleration is than acceleration. This is not affected by speed modifiers.")]
+        public float friction = 30;
         [Min(-0.9f)]
-        public float knockbackRes;
+        public float knockbackRes = 0;
         public bool partialKnockback;
+
         [HideInInspector] public Vector2 targetSpeed;
-        public Vector2 effectiveSpeed { get => actualSpeed / speedMultiplier; private set => actualSpeed = value * speedMultiplier; }
+        public Vector2 effectiveSpeed { get => speedMultiplier == 0 ? Vector2.zero : actualSpeed / speedMultiplier; private set { if (speedMultiplier != 0) actualSpeed = value * speedMultiplier; } }
         public Vector2 actualSpeed { get => rigidbody.velocity; set => rigidbody.velocity = value; }
         private List<SpeedModifier> speedModifiers;
-        private float speedMultiplier { 
+        public float speedMultiplier { 
             get 
             { 
                 float num = 1;
@@ -53,17 +58,30 @@ namespace Reaper.Movement
 
         private void UpdateSpeed()
         {
-            effectiveSpeed = actualSpeed / speedMultiplier;
-            if (effectiveSpeed == targetSpeed)
-                return;
-            float accelSpeed = acceleration * Time.fixedDeltaTime;
             Vector2 accelDirection = targetSpeed - effectiveSpeed;
-            if (accelDirection.magnitude <= accelSpeed)
+            if (targetSpeed != effectiveSpeed)
             {
-                effectiveSpeed = targetSpeed;
-                return;
+                float accelSpeed = acceleration * Time.fixedDeltaTime;
+                if (accelDirection.magnitude <= accelSpeed)
+                {
+                    effectiveSpeed = targetSpeed;
+                    return;
+                }
+                effectiveSpeed += accelDirection.normalized * accelSpeed;
             }
-            effectiveSpeed += accelDirection.normalized * accelSpeed;
+
+            if(speedMultiplier == 0)
+            {
+                //speed should drift towards 0
+                accelDirection = -actualSpeed;
+            }
+
+            Vector2 velDirection = actualSpeed.normalized;
+            float frictionMult = Vector2.Dot(velDirection, accelDirection.normalized);
+            if(frictionMult < 0)
+            {
+                actualSpeed += friction * frictionMult * Time.fixedDeltaTime * velDirection;
+            }
         }
 
         private void UpdateModifiers()
@@ -76,13 +94,28 @@ namespace Reaper.Movement
             }
         }
 
-        public void Knockback(Vector2 strength, float staggerDuration, float staggerStrength)
+        public bool HasModifierType(string type)
+        {
+            foreach (SpeedModifier modifier in speedModifiers)
+                if (modifier.type == type)
+                    return true;
+            return false;
+        }
+
+        public void Knockback(Vector2 strength, float staggerDuration, float staggerStrength, string staggerType = "Stagger")
         {
             if (partialKnockback)
                 actualSpeed += strength / (1 + knockbackRes);
             else
                 actualSpeed = strength / (1 + knockbackRes);
-            speedModifiers.Add(new SpeedModifier(1 - staggerStrength, staggerDuration, name: "Stagger"));
+            speedModifiers.Add(new SpeedModifier(1 - staggerStrength, staggerDuration, staggerType));
+        }
+
+        public void Stun(float duration, bool immediateStop = false, string type = "Stun")
+        {
+            if (immediateStop)
+                actualSpeed = Vector2.zero;
+            speedModifiers.Add(new SpeedModifier(0, duration, type));
         }
     }
 }

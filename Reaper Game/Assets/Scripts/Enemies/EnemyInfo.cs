@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Reaper.Combat;
+using Reaper.Items;
 using Reaper.Messaging;
 using System;
+using Reaper.Movement;
 
 namespace Reaper.Enemy
 {
@@ -11,6 +13,7 @@ namespace Reaper.Enemy
     {
         public new string name;
         public Sprite sprite;
+        public ItemData captureItem;
         public int maxHealth = 5;
         public float acceleration = 80;
         public float patrolSpeed = 5;
@@ -27,6 +30,7 @@ namespace Reaper.Enemy
         protected delegate void SoulAction(Soul soul);
 
         protected static Transform player { get => Player.PlayerController.player.transform; }
+        protected const string NET_IDENTIFIER = "Net";
 
         /// <summary>
         /// The number of extra components used by this enemy. If a child enemy uses more, type
@@ -73,10 +77,11 @@ namespace Reaper.Enemy
                 stateBehavior = behavior;
             }
         }
-        protected virtual int NUM_STATES => 3;
+        protected virtual int NUM_STATES => 4;
         public int STATE_UNMORPHED => 0;
         public int STATE_PATROL => 1;
         public int STATE_ATTACK => 2;
+        public int STATE_IMMOBILIZED => 3;
         protected virtual List<StateInfo> states
         {
             get
@@ -85,6 +90,7 @@ namespace Reaper.Enemy
                 list.Add(new StateInfo(UnmorphedCheck, UnmorphedBehavior));
                 list.Add(new StateInfo(PatrolCheck, PatrolBehavior));
                 list.Add(new StateInfo(AttackCheck, AttackBehavior));
+                list.Add(new StateInfo(ImmobileCheck, ImmobileBehavior));
                 return list;
             }
         }
@@ -147,6 +153,11 @@ namespace Reaper.Enemy
                 soul.mover.targetSpeed = Vector2.zero;
         }
 
+        protected virtual void ImmobileBehavior(Soul soul)
+        {
+            
+        }
+
         #endregion
 
         #region State Checks
@@ -176,6 +187,14 @@ namespace Reaper.Enemy
                 EndAttack(soul);
             }
             //death check handled in InitState
+        }
+
+        protected virtual void ImmobileCheck(Soul soul)
+        {
+            if(!soul.mover.HasModifierType(NET_IDENTIFIER))
+            {
+                EndImmobilize(soul);
+            }
         }
 
         #endregion
@@ -210,6 +229,19 @@ namespace Reaper.Enemy
             soul.mover.targetSpeed = Vector2.zero;
         }
 
+        //Non-Unmorphed -> Immobilized
+        protected virtual void StartImmobilize(Soul soul)
+        {
+            soul.state = STATE_IMMOBILIZED;
+            soul.mover.Stun(5, type: NET_IDENTIFIER);
+        }
+
+        //Immobilized -> Patrol
+        protected virtual void EndImmobilize(Soul soul)
+        {
+            soul.state = STATE_PATROL;
+        }
+
         #endregion
 
         #region Message Responses
@@ -223,7 +255,7 @@ namespace Reaper.Enemy
             messageResponses = new Dictionary<string, Action<Soul, Message>>();
 
             AddMessageResponse<DamageMessage>(HandleDamage, ValidateDamage);
-
+            AddMessageResponse<NetCaptureMessage>(HandleNetCapture, ValidateNetCapture);
         }
 
         protected void AddMessageResponse<T>(Action<Soul, T> response, Func<Soul, bool> validator = null) where T : Message
@@ -265,6 +297,27 @@ namespace Reaper.Enemy
             if (soul.health <= 0)
                 Demorph(soul);
             soul.mover.Knockback(message.knockback, message.staggerDuration, message.staggerIntensity);
+            message.consumed = true;
+        }
+
+        protected virtual bool ValidateNetCapture(Soul soul)
+        {
+            return soul.state != STATE_IMMOBILIZED;
+        }
+
+        protected virtual void HandleNetCapture(Soul soul, NetCaptureMessage message)
+        {
+            if(soul.state == STATE_UNMORPHED && captureItem != null)
+            {
+                Pickup capturedEnemy = Pickup.Create(captureItem, soul.transform.position, typeof(Rigidbody2D), typeof(Mover));
+                capturedEnemy.GetComponent<Rigidbody2D>().AddForce(message.impactForce, ForceMode2D.Impulse);
+                capturedEnemy.GetComponent<Mover>().acceleration = captureItem.friction;
+                Destroy(soul.gameObject);
+            }
+            else
+            {
+                StartImmobilize(soul);
+            }
             message.consumed = true;
         }
 

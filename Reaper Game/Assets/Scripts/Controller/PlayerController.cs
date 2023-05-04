@@ -79,6 +79,7 @@ namespace Reaper.Player
             input.Player.LookStick.performed += StickLookDirection;
             input.Player.LookMouse.performed += MouseLookDirection;
 
+            //these are wrapped in delegates to discard the parameter the events come with
             input.Player.PrimaryAttack.performed += delegate { weaponUser.StartPrimaryAttack(); };
             input.Player.PrimaryAttack.canceled += delegate { weaponUser.EndPrimaryAttack(); };
             input.Player.SecondaryAttack.performed += delegate { weaponUser.StartSecondaryAttack(); };
