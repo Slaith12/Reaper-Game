@@ -32,7 +32,7 @@ namespace Reaper.Movement
         public bool partialKnockback;
 
         [HideInInspector] public Vector2 targetSpeed;
-        public Vector2 effectiveSpeed { get => speedMultiplier == 0 ? Vector2.zero : actualSpeed / speedMultiplier; private set => actualSpeed = value * speedMultiplier; }
+        public Vector2 effectiveSpeed { get => speedMultiplier == 0 ? Vector2.zero : actualSpeed / speedMultiplier; private set { if (speedMultiplier != 0) actualSpeed = value * speedMultiplier; } }
         public Vector2 actualSpeed { get => rigidbody.velocity; set => rigidbody.velocity = value; }
         private List<SpeedModifier> speedModifiers;
         public float speedMultiplier { 
