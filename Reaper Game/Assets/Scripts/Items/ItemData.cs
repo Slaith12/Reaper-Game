@@ -7,5 +7,7 @@ public class ItemData : ScriptableObject
 {
     public new string name;
     public Sprite sprite;
+    public RuntimeAnimatorController animator;
     public string description;
+    public float friction;
 }

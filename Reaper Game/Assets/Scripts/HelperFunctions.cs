@@ -63,4 +63,11 @@ public static class HelperFunctions
         }
         return copy;
     }
+
+    public static void SetTransform(this Transform transform, Vector3 localPosition, float rotation, Vector2 localScale)
+    {
+        transform.localPosition = localPosition;
+        transform.eulerAngles = new Vector3(0, 0, rotation);
+        transform.localScale = localScale;
+    }
 }

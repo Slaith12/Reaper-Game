@@ -4,17 +4,16 @@ using UnityEngine;
 
 namespace Reaper.Combat
 {
-    [RequireComponent(typeof(DamageObject))]
-    public class MeleeHit : MonoBehaviour
+    public class MeleeHit : DamageObject
     {
         private float duration;
         private List<Collider2D> prevHits;
 
-        public void Init(float duration, DamageObject.DamageHandler hitHandler)
+        public void Init(List<string> targets, float duration)
         {
+            this.targets = targets;
             this.duration = duration;
             prevHits = new List<Collider2D>();
-            GetComponent<DamageObject>().OnHit += c => validateHit(c, hitHandler);
         }
 
         private void Update()
@@ -26,30 +25,20 @@ namespace Reaper.Combat
             }
         }
 
-        private void validateHit(Collider2D collision, DamageObject.DamageHandler hitHandler)
+        protected override bool ValidateHit(Collider2D collision)
         {
+            if (!base.ValidateHit(collision))
+                return false;
             if (prevHits.Contains(collision))
-                return;
+                return false;
             prevHits.Add(collision);
-            hitHandler?.Invoke(collision);
+            return true;
         }
 
-        public static MeleeHit Create(float duration, DamageObject.DamageHandler hitHandler, Vector2 offset, Vector2 size, List<string> targets, Transform parent = null, float rotation = 0)
+        public static MeleeHit Create(List<string> targets, float duration)
         {
-            Transform newObject = new GameObject("Melee").transform;
-            newObject.parent = parent;
-            newObject.position = offset;
-            if(newObject.parent != null)
-            {
-                newObject.position += newObject.parent.position;
-            }
-            newObject.eulerAngles = new Vector3(0, 0, rotation);
-            newObject.localScale = size;
-            newObject.gameObject.AddComponent<BoxCollider2D>();
-            DamageObject damage = newObject.gameObject.AddComponent<DamageObject>();
-            damage.targets = targets;
-            MeleeHit melee = newObject.gameObject.AddComponent<MeleeHit>();
-            melee.Init(duration, hitHandler);
+            MeleeHit melee = new GameObject("Melee", typeof(BoxCollider2D), typeof(MeleeHit)).GetComponent<MeleeHit>();
+            melee.Init(targets, duration);
             return melee;
         }
     }

@@ -5,25 +5,27 @@ using UnityEngine;
 namespace Reaper.Combat
 {
     [RequireComponent(typeof(Collider2D))]
-    public class DamageObject : MonoBehaviour
+    public abstract class DamageObject : MonoBehaviour
     {
-        public delegate void DamageHandler(Collider2D collision);
-
         public List<string> targets;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             GetComponent<Collider2D>().isTrigger = true;
             gameObject.layer = LayerMask.NameToLayer("Damage Zone");
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        protected virtual void OnTriggerEnter2D(Collider2D collision)
         {
-            if (targets != null && !targets.Contains(collision.tag))
+            if (ValidateHit(collision))
             {
-                return;
+                OnHit?.Invoke(collision, this);
             }
-            OnHit?.Invoke(collision);
+        }
+
+        protected virtual bool ValidateHit(Collider2D collision)
+        {
+            return targets == null || targets.Contains(collision.tag);
         }
 
         public event DamageHandler OnHit;

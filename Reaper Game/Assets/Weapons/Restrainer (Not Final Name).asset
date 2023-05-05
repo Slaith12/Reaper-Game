@@ -9,9 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ea59c3ca1f0f2641b0296b07fced06d, type: 3}
-  m_Name: 0_Money
+  m_Script: {fileID: 11500000, guid: 3d9b026c1006ed74bb6327e8229c4318, type: 3}
+  m_Name: Restrainer (Not Final Name)
   m_EditorClassIdentifier: 
-  name: Money
   sprite: {fileID: 21300000, guid: 6cd86626d62d90549b9f90ff0c23d990, type: 3}
-  description: Currency used to buy and sell things.
+  projectileSprite: {fileID: 21300000, guid: ec35a754a2d52844fa2ba244761270eb, type: 3}
+  fireCooldown: 0.5
+  shotSpeed: 20
+  shotSize: {x: 1, y: 1}
+  shotDuration: 1
+  targets:
+  - Soul

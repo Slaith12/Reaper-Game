@@ -23,7 +23,8 @@ namespace Reaper.Enemy
             soul.extraTimers.Add(0);
         }
 
-        public const int STATE_WINDUP = 3;
+        protected override int NUM_STATES => base.NUM_STATES + 1;
+        public int STATE_WINDUP => base.NUM_STATES;
 
         protected override List<StateInfo> states
         {
@@ -64,13 +65,13 @@ namespace Reaper.Enemy
         protected override void AttackCheck(Soul soul)
         {
             Vector2 diff = player.position - soul.transform.position;
-            if (soul.mover.currentSpeed.magnitude > 0.5f && Vector2.Dot(diff, soul.mover.currentSpeed) < 0)
+            if (soul.mover.effectiveSpeed.magnitude > 0.5f && Vector2.Dot(diff, soul.mover.effectiveSpeed) < 0)
                 StartWindup(soul);
         }
 
         protected override void AttackBehavior(Soul soul)
         {
-            soul.mover.targetSpeed = (player.transform.position - soul.transform.position).normalized * soul.behavior.attackSpeed;
+            soul.mover.targetSpeed = (player.transform.position - soul.transform.position).normalized * soul.behavior.chaseSpeed;
         }
 
         protected virtual void WindupCheck(Soul soul)
@@ -83,7 +84,7 @@ namespace Reaper.Enemy
 
         protected virtual void WindupBehavior(Soul soul)
         {
-            if((player.transform.position - soul.transform.position).magnitude <= chaseDistance)
+            if(Vector2.Distance(player.transform.position, soul.transform.position) <= chaseDistance)
             {
                 soul.extraTimers[WINDUPINDEX] -= Time.deltaTime;
                 soul.memoryTimer = memoryTime;
