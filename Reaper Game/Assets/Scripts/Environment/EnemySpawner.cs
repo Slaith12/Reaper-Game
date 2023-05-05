@@ -39,8 +39,8 @@ namespace Reaper.Environment
                 cooldown -= Time.deltaTime;
                 return;
             }
-            SpawnCluster(getNewQuantity(), getNewLocation());
-            cooldown = getNewCooldown();
+            SpawnCluster(GetNewQuantity(), GetNewLocation());
+            cooldown = GetNewCooldown();
         }
 
         private void SpawnCluster(int quantity, Vector2 location)
@@ -50,12 +50,12 @@ namespace Reaper.Environment
             while(quantity > 0)
             {
                 quantity--;
-                Vector2 currentLocation = location + getNewSpacing();
+                Vector2 currentLocation = location + GetNewSpacing();
                 //constrain the location to the boundaries
                 currentLocation.x = Mathf.Max(Mathf.Min(currentLocation.x, right), left);
                 currentLocation.y = Mathf.Max(Mathf.Min(currentLocation.y, top), bottom);
                 EnemyInfo enemyType = spawnPool.GetRandomEnemy();
-                StartCoroutine(SpawnDelayed(enemyType, currentLocation, getRandomDelay()));
+                StartCoroutine(SpawnDelayed(enemyType, currentLocation, GetRandomDelay()));
             }
         }
 
@@ -67,27 +67,27 @@ namespace Reaper.Environment
 
         #region RNG Functions
 
-        private int getNewQuantity()
+        private int GetNewQuantity()
         {
             return Random.Range(clusterMin, clusterMax);
         }
 
-        private Vector2 getNewLocation()
+        private Vector2 GetNewLocation()
         {
             return new Vector2(Random.Range(left, right), Random.Range(bottom, top));
         }
 
-        private float getNewCooldown()
+        private float GetNewCooldown()
         {
             return clusterInterval + Random.value * clusterIntervalVariance - Random.value * clusterIntervalVariance;
         }
 
-        private Vector2 getNewSpacing()
+        private Vector2 GetNewSpacing()
         {
             return (Random.value * 360).ToDirection() * (enemySpacing * Random.value);
         }
 
-        private float getRandomDelay()
+        private float GetRandomDelay()
         {
             return spawnVariance * Random.value;
         }
