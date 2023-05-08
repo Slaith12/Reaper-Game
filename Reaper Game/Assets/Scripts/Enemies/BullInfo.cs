@@ -39,7 +39,7 @@ namespace Reaper.Enemy
         protected override void Demorph(Soul soul)
         {
             base.Demorph(soul);
-            soul.mover.partialKnockback = false;
+            //soul.mover.partialKnockback = false;
         }
 
         protected override void StartAttack(Soul soul)
@@ -53,13 +53,13 @@ namespace Reaper.Enemy
             soul.memoryTimer = memoryTime;
             soul.extraTimers[WINDUPINDEX] = windUpTime;
             soul.mover.targetSpeed = Vector2.zero;
-            soul.mover.partialKnockback = false;
+            //soul.mover.partialKnockback = false;
         }
 
         protected virtual void StartCharge(Soul soul)
         {
             soul.state = STATE_ATTACK;
-            soul.mover.partialKnockback = true;
+            //soul.mover.partialKnockback = true;
         }
 
         protected override void AttackCheck(Soul soul)

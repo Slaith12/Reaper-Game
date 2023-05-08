@@ -6,6 +6,7 @@ using Reaper.Items;
 using Reaper.Messaging;
 using System;
 using Reaper.Movement;
+using Reaper.Data;
 
 namespace Reaper.Enemy
 {
@@ -309,9 +310,9 @@ namespace Reaper.Enemy
         {
             if(soul.state == STATE_UNMORPHED && captureItem != null)
             {
-                Pickup capturedEnemy = Pickup.Create(captureItem, soul.transform.position, typeof(Rigidbody2D), typeof(Mover));
+                Pickup capturedEnemy = Pickup.Create(captureItem, soul.transform.position, typeof(Rigidbody2D), typeof(Mover), typeof(BasicAttributes));
                 capturedEnemy.GetComponent<Rigidbody2D>().AddForce(message.impactForce, ForceMode2D.Impulse);
-                capturedEnemy.GetComponent<Mover>().acceleration = captureItem.friction;
+                capturedEnemy.GetComponent<BasicAttributes>().AddAttributes<MoverAttributes>(new BasicMoverAttributes(acceleration: 0, friction: captureItem.friction));
                 Destroy(soul.gameObject);
             }
             else
@@ -329,8 +330,6 @@ namespace Reaper.Enemy
             soul.behavior = this;
             soul.GetComponent<SpriteRenderer>().sprite = sprite;
             soul.gameObject.name = name;
-            soul.mover.acceleration = acceleration;
-            soul.mover.knockbackRes = knockbackRes;
             return soul;
         }
     }

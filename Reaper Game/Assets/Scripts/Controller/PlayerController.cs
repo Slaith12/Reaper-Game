@@ -8,21 +8,21 @@ using Reaper.Movement;
 using Reaper.Combat;
 using Reaper.Shops;
 using Reaper.Messaging;
+using Reaper.Data;
 
 namespace Reaper.Player
 {
     [RequireComponent(typeof(Mover), typeof(WeaponUser))]
-    public class PlayerController : MonoBehaviour, IMessageHandler
+    public class PlayerController : MonoBehaviour, IMessageHandler, AttributeContainer
     {
         private Mover mover;
         private WeaponUser weaponUser;
         private PlayerInputs input;
-        [SerializeField] List<Weapon> weapons;
-        [SerializeField] SpriteRenderer weaponDisplay; //will be replaced when animations are implemented
         public static PlayerController player { get; private set; }
 
-        [SerializeField] float maxSpeed;
-
+        [SerializeField] List<Weapon> weapons;
+        [SerializeField] SpriteRenderer weaponDisplay; //will be replaced when animations are implemented
+        [SerializeField] PlayerAttributes attributes;
         [SerializeField] GameObject shopIndicator; //will be replaced when animations are implemented
 
         void Awake()
@@ -98,7 +98,7 @@ namespace Reaper.Player
             Vector2 inputSpeed = obj.ReadValue<Vector2>();
             if (inputSpeed.magnitude > 1)
                 inputSpeed.Normalize();
-            mover.targetSpeed = inputSpeed * maxSpeed;
+            mover.targetSpeed = inputSpeed * attributes.moveSpeed;
         }
 
         private void StickLookDirection(InputAction.CallbackContext obj)
@@ -117,6 +117,27 @@ namespace Reaper.Player
         private void EnterShop(InputAction.CallbackContext obj)
         {
             ShopManager.instance.OpenShop();
+        }
+
+        #endregion
+
+        #region Attribute Handling
+
+        public AttributeType GetAttributes<AttributeType>()
+        {
+            if(typeof(AttributeType).IsAssignableFrom(typeof(PlayerAttributes)))
+            {
+                return (AttributeType)(object)attributes;
+            }
+            return default;
+        }
+
+        public event Action OnAttributesChange;
+
+        public void ChangeAttributes(PlayerAttributes newAttributes)
+        {
+            attributes = newAttributes;
+            OnAttributesChange?.Invoke();
         }
 
         #endregion
