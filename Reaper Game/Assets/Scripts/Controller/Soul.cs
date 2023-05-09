@@ -8,7 +8,7 @@ using Reaper.Messaging;
 namespace Reaper.Enemy
 {
     [RequireComponent(typeof(Mover), typeof(WeaponUser))]
-    public class Soul : MonoBehaviour, IMessageHandler
+    public class Soul : MonoBehaviour, MessageHandler
     {
         public EnemyInfo behavior;
 

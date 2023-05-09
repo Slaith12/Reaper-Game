@@ -13,7 +13,7 @@ using Reaper.Data;
 namespace Reaper.Player
 {
     [RequireComponent(typeof(Mover), typeof(WeaponUser))]
-    public class PlayerController : MonoBehaviour, IMessageHandler, AttributeContainer
+    public class PlayerController : MonoBehaviour, MessageHandler, AttributeContainer
     {
         private Mover mover;
         private WeaponUser weaponUser;
