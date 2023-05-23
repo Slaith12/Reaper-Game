@@ -40,6 +40,18 @@ namespace Reaper.Data
             return (AttributeType)attributes[type];
         }
 
+        public void SetAttributes<AttributeType>(AttributeType attributeSet)
+        {
+            foreach(Type type in defaultAttributes.Keys)
+            {
+                if(type.IsAssignableFrom(typeof(AttributeType)))
+                {
+                    attributes[type] = attributeSet;
+                }
+            }
+            OnAttributesChange?.Invoke();
+        }
+
         public void AddAttributes<AttributeType>(AttributeType attributes)
         {
             this.attributes[typeof(AttributeType)] = attributes;
@@ -48,8 +60,11 @@ namespace Reaper.Data
 
         static BasicAttributes()
         {
-            defaultAttributes.Add(typeof(MoverAttributes), new BasicMoverAttributes());
-            defaultAttributes.Add(typeof(SoftColliderAttributes), new BasicSoftColliderAttributes());
+            defaultAttributes = new Dictionary<Type, object>
+            {
+                { typeof(MoverAttributes), new BasicMoverAttributes() },
+                { typeof(SoftColliderAttributes), new BasicSoftColliderAttributes() }
+            };
         }
     }
 }

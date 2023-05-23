@@ -6,5 +6,6 @@ namespace Reaper.Data
     {
         public event Action OnAttributesChange;
         public AttributeType GetAttributes<AttributeType>();
+        public void SetAttributes<AttributeType>(AttributeType attributeSet);
     }
 }

@@ -134,10 +134,13 @@ namespace Reaper.Player
 
         public event Action OnAttributesChange;
 
-        public void ChangeAttributes(PlayerAttributes newAttributes)
+        public void SetAttributes<AttributeType>(AttributeType attributeSet)
         {
-            attributes = newAttributes;
-            OnAttributesChange?.Invoke();
+            if (typeof(PlayerAttributes).IsAssignableFrom(typeof(AttributeType)))
+            {
+                attributes = (PlayerAttributes)(object)attributeSet;
+                OnAttributesChange?.Invoke();
+            }
         }
 
         #endregion
