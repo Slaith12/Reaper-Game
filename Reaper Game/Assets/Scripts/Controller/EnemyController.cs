@@ -233,13 +233,13 @@ namespace Reaper.Enemy
 
         #region Message Responses
 
-        protected Dictionary<string, Func<bool>> messageValidators;
-        protected Dictionary<string, Action<Message>> messageResponses;
+        protected Dictionary<Type, Func<bool>> messageValidators;
+        protected Dictionary<Type, Action<Message>> messageResponses;
 
         protected virtual void InitMessages()
         {
-            messageValidators = new Dictionary<string, Func<bool>>();
-            messageResponses = new Dictionary<string, Action<Message>>();
+            messageValidators = new Dictionary<Type, Func<bool>>();
+            messageResponses = new Dictionary<Type, Action<Message>>();
 
             AddMessageResponse<DamageMessage>(HandleDamage, ValidateDamage);
             AddMessageResponse<NetCaptureMessage>(HandleNetCapture, ValidateNetCapture);
@@ -247,7 +247,7 @@ namespace Reaper.Enemy
 
         protected void AddMessageResponse<T>(Action<T> response, Func<bool> validator = null) where T : Message
         {
-            string type = typeof(T).ToString();
+            Type type = typeof(T);
             messageResponses.Add(type, m => response((T)m));
             if (validator != null)
                 messageValidators.Add(type, validator);
@@ -255,7 +255,7 @@ namespace Reaper.Enemy
 
         public bool CanRecieveMessage<T>() where T : Message
         {
-            string type = typeof(T).ToString();
+            Type type = typeof(T);
             if (messageResponses == null || !messageResponses.ContainsKey(type))
                 return false;
             bool hasValidator = messageValidators.TryGetValue(type, out Func<bool> validator);
@@ -266,11 +266,8 @@ namespace Reaper.Enemy
 
         public void InvokeMessage<T>(T message) where T : Message
         {
-            if (CanRecieveMessage<T>())
-            {
-                messageResponses.TryGetValue(typeof(T).ToString(), out Action<Message> handler);
-                handler.Invoke(message);
-            }
+            messageResponses.TryGetValue(typeof(T), out Action<Message> handler);
+            handler?.Invoke(message);
         }
 
         protected virtual bool ValidateDamage()

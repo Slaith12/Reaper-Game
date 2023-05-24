@@ -147,26 +147,29 @@ namespace Reaper.Player
 
         #region Message Handling
 
-        Dictionary<string, Action<Message>> messageResponses;
+        Dictionary<Type, Action<Message>> messageResponses;
 
         private void InitMessages()
         {
-            messageResponses = new Dictionary<string, Action<Message>>();
-            messageResponses.Add(typeof(DamageMessage).ToString(), m => HandleDamage((DamageMessage)m));
+            messageResponses = new Dictionary<Type, Action<Message>>();
+            AddMessageResponse<DamageMessage>(HandleDamage);
+        }
+
+        protected void AddMessageResponse<T>(Action<T> response) where T : Message
+        {
+            Type type = typeof(T);
+            messageResponses.Add(type, m => response((T)m));
         }
 
         public bool CanRecieveMessage<T>() where T : Message
         {
-            return messageResponses.ContainsKey(typeof(T).ToString());
+            return messageResponses.ContainsKey(typeof(T));
         }
 
         public void InvokeMessage<T>(T message) where T : Message
         {
-            if (CanRecieveMessage<T>())
-            {
-                messageResponses.TryGetValue(typeof(T).ToString(), out Action<Message> handler);
-                handler.Invoke(message);
-            }
+            messageResponses.TryGetValue(typeof(T), out Action<Message> handler);
+            handler?.Invoke(message);
         }
 
         public void HandleDamage(DamageMessage message)

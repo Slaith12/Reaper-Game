@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Reaper.Combat;
 using Reaper.Data;
+using Reaper.Items;
 
 namespace Reaper.Enemy
 {
