@@ -1,3 +1,4 @@
+using Reaper.Data;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,15 +23,7 @@ namespace Reaper.Movement
         }
         private new Rigidbody2D rigidbody;
 
-        [Min(0)]
-        public float acceleration = 80;
-        [Min(0)]
-        [Tooltip("How much higher deceleration is than acceleration. This is not affected by speed modifiers.")]
-        public float friction = 30;
-        [Min(-0.9f)]
-        public float knockbackRes = 0;
-        public bool partialKnockback;
-
+        private MoverAttributes attributes;
         [HideInInspector] public Vector2 targetSpeed;
         public Vector2 effectiveSpeed { get => speedMultiplier == 0 ? Vector2.zero : actualSpeed / speedMultiplier; private set { if (speedMultiplier != 0) actualSpeed = value * speedMultiplier; } }
         public Vector2 actualSpeed { get => rigidbody.velocity; set => rigidbody.velocity = value; }
@@ -50,6 +43,23 @@ namespace Reaper.Movement
             speedModifiers = new List<SpeedModifier>();
         }
 
+        private void Start()
+        {
+            AttributeContainer container = GetComponent<AttributeContainer>();
+            GetAttributes(container);
+            container.OnAttributesChange += delegate { GetAttributes(container); };
+        }
+
+        private void GetAttributes(AttributeContainer container)
+        {
+            attributes = container.GetAttributes<MoverAttributes>();
+            if(attributes == null)
+            {
+                Debug.LogError($"Object {gameObject.name}'s attributes do not include attributes for the mover component. Using default attributes.");
+                attributes = BasicAttributes.GetDefaultAttributes<MoverAttributes>();
+            }
+        }
+
         private void FixedUpdate()
         {
             UpdateModifiers();
@@ -61,7 +71,7 @@ namespace Reaper.Movement
             Vector2 accelDirection = targetSpeed - effectiveSpeed;
             if (targetSpeed != effectiveSpeed)
             {
-                float accelSpeed = acceleration * Time.fixedDeltaTime;
+                float accelSpeed = attributes.acceleration * Time.fixedDeltaTime;
                 if (accelDirection.magnitude <= accelSpeed)
                 {
                     effectiveSpeed = targetSpeed;
@@ -80,7 +90,7 @@ namespace Reaper.Movement
             float frictionMult = Vector2.Dot(velDirection, accelDirection.normalized);
             if(frictionMult < 0)
             {
-                actualSpeed += friction * frictionMult * Time.fixedDeltaTime * velDirection;
+                actualSpeed += attributes.friction * frictionMult * Time.fixedDeltaTime * velDirection;
             }
         }
 
@@ -104,10 +114,10 @@ namespace Reaper.Movement
 
         public void Knockback(Vector2 strength, float staggerDuration, float staggerStrength, string staggerType = "Stagger")
         {
-            if (partialKnockback)
-                actualSpeed += strength / (1 + knockbackRes);
+            if (attributes.partialKnockback)
+                actualSpeed += strength * attributes.knockbackMult;
             else
-                actualSpeed = strength / (1 + knockbackRes);
+                actualSpeed = strength * attributes.knockbackMult;
             speedModifiers.Add(new SpeedModifier(1 - staggerStrength, staggerDuration, staggerType));
         }
 

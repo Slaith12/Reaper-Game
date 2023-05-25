@@ -8,21 +8,21 @@ using Reaper.Movement;
 using Reaper.Combat;
 using Reaper.Shops;
 using Reaper.Messaging;
+using Reaper.Data;
 
 namespace Reaper.Player
 {
     [RequireComponent(typeof(Mover), typeof(WeaponUser))]
-    public class PlayerController : MonoBehaviour, IMessageHandler
+    public class PlayerController : MonoBehaviour, MessageHandler, AttributeContainer
     {
         private Mover mover;
         private WeaponUser weaponUser;
         private PlayerInputs input;
-        [SerializeField] List<Weapon> weapons;
-        [SerializeField] SpriteRenderer weaponDisplay; //will be replaced when animations are implemented
         public static PlayerController player { get; private set; }
 
-        [SerializeField] float maxSpeed;
-
+        [SerializeField] List<Weapon> weapons;
+        [SerializeField] SpriteRenderer weaponDisplay; //will be replaced when animations are implemented
+        [SerializeField] PlayerAttributes attributes;
         [SerializeField] GameObject shopIndicator; //will be replaced when animations are implemented
 
         void Awake()
@@ -98,7 +98,7 @@ namespace Reaper.Player
             Vector2 inputSpeed = obj.ReadValue<Vector2>();
             if (inputSpeed.magnitude > 1)
                 inputSpeed.Normalize();
-            mover.targetSpeed = inputSpeed * maxSpeed;
+            mover.targetSpeed = inputSpeed * attributes.moveSpeed;
         }
 
         private void StickLookDirection(InputAction.CallbackContext obj)
@@ -121,28 +121,55 @@ namespace Reaper.Player
 
         #endregion
 
+        #region Attribute Handling
+
+        public AttributeType GetAttributes<AttributeType>()
+        {
+            if(typeof(AttributeType).IsAssignableFrom(typeof(PlayerAttributes)))
+            {
+                return (AttributeType)(object)attributes;
+            }
+            return default;
+        }
+
+        public event Action OnAttributesChange;
+
+        public void SetAttributes<AttributeType>(AttributeType attributeSet)
+        {
+            if (typeof(PlayerAttributes).IsAssignableFrom(typeof(AttributeType)))
+            {
+                attributes = (PlayerAttributes)(object)attributeSet;
+                OnAttributesChange?.Invoke();
+            }
+        }
+
+        #endregion
+
         #region Message Handling
 
-        Dictionary<string, Action<Message>> messageResponses;
+        Dictionary<Type, Action<Message>> messageResponses;
 
         private void InitMessages()
         {
-            messageResponses = new Dictionary<string, Action<Message>>();
-            messageResponses.Add(typeof(DamageMessage).ToString(), m => HandleDamage((DamageMessage)m));
+            messageResponses = new Dictionary<Type, Action<Message>>();
+            AddMessageResponse<DamageMessage>(HandleDamage);
+        }
+
+        protected void AddMessageResponse<T>(Action<T> response) where T : Message
+        {
+            Type type = typeof(T);
+            messageResponses.Add(type, m => response((T)m));
         }
 
         public bool CanRecieveMessage<T>() where T : Message
         {
-            return messageResponses.ContainsKey(typeof(T).ToString());
+            return messageResponses.ContainsKey(typeof(T));
         }
 
         public void InvokeMessage<T>(T message) where T : Message
         {
-            if (CanRecieveMessage<T>())
-            {
-                messageResponses.TryGetValue(typeof(T).ToString(), out Action<Message> handler);
-                handler.Invoke(message);
-            }
+            messageResponses.TryGetValue(typeof(T), out Action<Message> handler);
+            handler?.Invoke(message);
         }
 
         public void HandleDamage(DamageMessage message)

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Reaper.Messaging
 {
-    public interface IMessageHandler
+    public interface MessageHandler
     {
         public bool CanRecieveMessage<T>() where T : Message;
 

@@ -34,7 +34,7 @@ namespace Reaper.Combat
         {
             Vector2 knockback = net.GetComponent<Rigidbody2D>().velocity.normalized * shotForce;
             NetCaptureMessage message = new NetCaptureMessage(knockback);
-            foreach(IMessageHandler messageHandler in collision.GetComponents<IMessageHandler>())
+            foreach(MessageHandler messageHandler in collision.GetComponents<MessageHandler>())
             {
                 messageHandler.InvokeMessage(message);
                 if (message.consumed)

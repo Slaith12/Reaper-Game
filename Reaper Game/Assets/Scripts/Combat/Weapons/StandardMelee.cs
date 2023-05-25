@@ -38,7 +38,7 @@ namespace Reaper.Combat
         protected virtual void Damage(Collider2D collision, Vector2 facing)
         {
             DamageMessage message = new DamageMessage(damage, facing * knockbackStrength, staggerDuration: staggerLength);
-            foreach(IMessageHandler handler in collision.GetComponents<IMessageHandler>())
+            foreach(MessageHandler handler in collision.GetComponents<MessageHandler>())
             {
                 handler.InvokeMessage(message);
                 if (message.consumed)

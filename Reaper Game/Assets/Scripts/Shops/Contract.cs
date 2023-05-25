@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Reaper.Enemy;
+using Reaper.Items;
 
 namespace Reaper.Shops
 {
