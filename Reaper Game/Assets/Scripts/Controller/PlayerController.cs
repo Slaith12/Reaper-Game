@@ -18,6 +18,7 @@ namespace Reaper.Player
         private Mover mover;
         private WeaponUser weaponUser;
         private PlayerInputs input;
+        private PlayerInteract interact;
         public static PlayerController player { get; private set; }
 
         [SerializeField] List<Weapon> weapons;
@@ -30,7 +31,9 @@ namespace Reaper.Player
             mover = GetComponent<Mover>();
             weaponUser = GetComponent<WeaponUser>();
             input = new PlayerInputs();
+            interact = GetComponent<PlayerInteract>();
             player = this;
+            shopIndicator.SetActive(false);
         }
 
         private void Start()
@@ -90,7 +93,7 @@ namespace Reaper.Player
             input.Player.Weapon3.performed += delegate { SwapWeapon(2); };
             input.Player.Weapon4.performed += delegate { SwapWeapon(3); };
 
-            input.Player.EnterShop.performed += EnterShop;
+            input.Player.Interact.performed += delegate { interact.Interact(); };
         }
 
         private void ChangeMoveDirection(InputAction.CallbackContext obj)

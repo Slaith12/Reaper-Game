@@ -111,7 +111,7 @@ namespace Reaper.Inputs
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Enter Shop"",
+                    ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""16b3cf7b-47ea-4b54-a8f2-26b165633511"",
                     ""expectedControlType"": ""Button"",
@@ -458,7 +458,7 @@ namespace Reaper.Inputs
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Enter Shop"",
+                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -469,7 +469,7 @@ namespace Reaper.Inputs
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Enter Shop"",
+                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -480,7 +480,7 @@ namespace Reaper.Inputs
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Enter Shop"",
+                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1022,7 +1022,7 @@ namespace Reaper.Inputs
             m_Player_Weapon2 = m_Player.FindAction("Weapon 2", throwIfNotFound: true);
             m_Player_Weapon3 = m_Player.FindAction("Weapon 3", throwIfNotFound: true);
             m_Player_Weapon4 = m_Player.FindAction("Weapon 4", throwIfNotFound: true);
-            m_Player_EnterShop = m_Player.FindAction("Enter Shop", throwIfNotFound: true);
+            m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1103,7 +1103,7 @@ namespace Reaper.Inputs
         private readonly InputAction m_Player_Weapon2;
         private readonly InputAction m_Player_Weapon3;
         private readonly InputAction m_Player_Weapon4;
-        private readonly InputAction m_Player_EnterShop;
+        private readonly InputAction m_Player_Interact;
         public struct PlayerActions
         {
             private @PlayerInputs m_Wrapper;
@@ -1117,7 +1117,7 @@ namespace Reaper.Inputs
             public InputAction @Weapon2 => m_Wrapper.m_Player_Weapon2;
             public InputAction @Weapon3 => m_Wrapper.m_Player_Weapon3;
             public InputAction @Weapon4 => m_Wrapper.m_Player_Weapon4;
-            public InputAction @EnterShop => m_Wrapper.m_Player_EnterShop;
+            public InputAction @Interact => m_Wrapper.m_Player_Interact;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1154,9 +1154,9 @@ namespace Reaper.Inputs
                     @Weapon4.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeapon4;
                     @Weapon4.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeapon4;
                     @Weapon4.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeapon4;
-                    @EnterShop.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnterShop;
-                    @EnterShop.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnterShop;
-                    @EnterShop.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnterShop;
+                    @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                    @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                    @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -1188,9 +1188,9 @@ namespace Reaper.Inputs
                     @Weapon4.started += instance.OnWeapon4;
                     @Weapon4.performed += instance.OnWeapon4;
                     @Weapon4.canceled += instance.OnWeapon4;
-                    @EnterShop.started += instance.OnEnterShop;
-                    @EnterShop.performed += instance.OnEnterShop;
-                    @EnterShop.canceled += instance.OnEnterShop;
+                    @Interact.started += instance.OnInteract;
+                    @Interact.performed += instance.OnInteract;
+                    @Interact.canceled += instance.OnInteract;
                 }
             }
         }
@@ -1338,7 +1338,7 @@ namespace Reaper.Inputs
             void OnWeapon2(InputAction.CallbackContext context);
             void OnWeapon3(InputAction.CallbackContext context);
             void OnWeapon4(InputAction.CallbackContext context);
-            void OnEnterShop(InputAction.CallbackContext context);
+            void OnInteract(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

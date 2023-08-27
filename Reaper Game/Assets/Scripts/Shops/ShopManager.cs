@@ -29,7 +29,7 @@ namespace Reaper.Shops
             }
         }
         ShopData currentShop;
-
+        
         private void Awake()
         {
             instance = this;

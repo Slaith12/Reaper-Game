@@ -87,7 +87,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Enter Shop",
+                    "name": "Interact",
                     "type": "Button",
                     "id": "16b3cf7b-47ea-4b54-a8f2-26b165633511",
                     "expectedControlType": "Button",
@@ -434,7 +434,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Enter Shop",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -445,7 +445,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Enter Shop",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -456,7 +456,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Enter Shop",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
