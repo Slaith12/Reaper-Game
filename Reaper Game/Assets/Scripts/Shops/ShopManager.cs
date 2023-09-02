@@ -12,22 +12,6 @@ namespace Reaper.Shops
         [SerializeField] List<ContractDisplay> contracts;
         [SerializeField] ShopDescription description;
 
-        public delegate void ShopHandler(ShopData shop);
-        public event ShopHandler OnApproachShop;
-        public event ShopHandler OnLeaveShop;
-
-        public ShopData atShop { get => currentShop; 
-            set
-            {
-                if (currentShop == value)
-                    return;
-                if (currentShop != null)
-                    OnLeaveShop?.Invoke(currentShop);
-                currentShop = value;
-                if (currentShop != null)
-                    OnApproachShop?.Invoke(currentShop);
-            }
-        }
         ShopData currentShop;
         
         private void Awake()
@@ -88,10 +72,9 @@ namespace Reaper.Shops
             }
         }
 
-        public void OpenShop()
+        public void OpenShop(ShopData shop)
         {
-            if (currentShop == null)
-                return;
+            currentShop = shop;
             description.Hide();
             gameObject.SetActive(true);
             for (int i = 0; i < 4; i++)

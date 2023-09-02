@@ -24,7 +24,6 @@ namespace Reaper.Player
         [SerializeField] List<Weapon> weapons;
         [SerializeField] SpriteRenderer weaponDisplay; //will be replaced when animations are implemented
         [SerializeField] PlayerAttributes attributes;
-        [SerializeField] GameObject shopIndicator; //will be replaced when animations are implemented
 
         void Awake()
         {
@@ -33,13 +32,10 @@ namespace Reaper.Player
             input = new PlayerInputs();
             interact = GetComponent<PlayerInteract>();
             player = this;
-            shopIndicator.SetActive(false);
         }
 
         private void Start()
         {
-            ShopManager.instance.OnApproachShop += delegate { shopIndicator.SetActive(true); };
-            ShopManager.instance.OnLeaveShop += delegate { shopIndicator.SetActive(false); };
             SetupInput();
             SwapWeapon(0);
             InitMessages();
@@ -115,11 +111,6 @@ namespace Reaper.Player
             Vector2 mousePos = obj.ReadValue<Vector2>();
             Vector2 relativePos = mousePos - new Vector2(Screen.width / 2, Screen.height / 2);
             ChangeFacing(relativePos.normalized);
-        }
-
-        private void EnterShop(InputAction.CallbackContext obj)
-        {
-            ShopManager.instance.OpenShop();
         }
 
         #endregion

@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1856121921733715969}
+  - component: {fileID: -2996938297132238070}
   - component: {fileID: 1856121921733715970}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: ShiftManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,6 +32,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-2996938297132238070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1856121921733715971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aee4369e4a42ee7489d8166f7212a694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseShiftTime: 90
+  shiftTimer: 0
 --- !u!114 &1856121921733715970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38,12 +53,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1856121921733715971}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b87223c21305be04395bf15d8425ed0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPool: {fileID: 0}
+  spawnPool: {fileID: 11400000, guid: 74265757c420cd54db93582463313919, type: 2}
   top: 20
   bottom: -20
   left: -20
@@ -53,4 +68,4 @@ MonoBehaviour:
   clusterMax: 5
   clusterInterval: 30
   clusterIntervalVariance: 3
-  enemySpacing: 8
+  enemySpacing: 5
