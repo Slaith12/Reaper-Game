@@ -1,15 +1,24 @@
 using Reaper.Environment;
+using System;
 using UnityEngine;
 
 public class ShiftManager : MonoBehaviour
 {
-    private static ShiftManager instance;
+    public static ShiftManager instance { get; private set; }
 
     [SerializeField] float baseShiftTime;
-    [SerializeField] private float shiftTimer;
-    private bool started;
+    [SerializeField] float overtimeShiftTime;
+    [SerializeField] private float m_shiftTimer;
+    private bool m_started;
+    private bool m_overtime;
 
-    EnemySpawner spawner;
+    public float shiftTimer => m_shiftTimer;
+    public bool started => m_started;
+    public bool overtime => m_overtime;
+
+    public event Action OnOvertimeStart;
+
+    private EnemySpawner spawner;
 
     private void Awake()
     {
@@ -18,39 +27,44 @@ public class ShiftManager : MonoBehaviour
         spawner.enabled = false;
     }
 
-    private void Start()
+    private void Start() //debug only
     {
         GameManager.StartShift();
     }
 
-    public static void Initialize()
+    public void Initialize() //to be called by loading screen
     {
-        instance.Init();
+        m_shiftTimer = baseShiftTime;
     }
 
-    private void Init()
+    public void BeginShift() //to be called by GameManager
     {
-        shiftTimer = baseShiftTime;
-    }
-
-    public static void BeginShift()
-    {
-        instance.Begin();
-    }
-
-    private void Begin()
-    {
-        started = true;
+        m_started = true;
         spawner.enabled = true;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (!started)
+        if (!m_started)
             return;
-        shiftTimer -= Time.deltaTime;
-        if (shiftTimer < 0)
-            GameManager.EndShift();
+        m_shiftTimer -= Time.deltaTime;
+        if (m_shiftTimer < 0)
+        {
+            if(!m_overtime)
+            {
+                m_overtime = true;
+                m_shiftTimer = overtimeShiftTime;
+                OnOvertimeStart?.Invoke();
+            }
+            else
+            {
+                GameManager.EndShift();
+            }
+        }
+    }
+
+    public float GetTimePercentage()
+    {
+        return m_shiftTimer / (m_overtime ? overtimeShiftTime : baseShiftTime);
     }
 }

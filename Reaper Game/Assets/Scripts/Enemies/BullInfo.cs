@@ -5,11 +5,10 @@ using UnityEngine;
 
 namespace Reaper.Enemy
 {
-    //TODO:
-    //Improve logic for stopping charge
-    //Let bull push other souls out of the way
-    //Add cooldown state?
-    //Update bull to actually use new systems
+    //TODO: Improve logic for stopping charge
+    //TODO: Let bull push other souls out of the way
+    //TODO: Add cooldown state?
+    //TODO: Update bull to actually use new systems
 
     [CreateAssetMenu(fileName = "New Bull", menuName = "Enemies/Bull")]
     public class BullInfo : EnemyInfo

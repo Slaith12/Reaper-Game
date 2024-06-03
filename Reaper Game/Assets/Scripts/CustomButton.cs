@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,9 +7,8 @@ using UnityEngine.UI;
 
 public class CustomButton : Button
 {
-    public delegate void SelectEvent();
-    public event SelectEvent OnSelection;
-    public event SelectEvent OnDeselection;
+    public event Action OnSelection;
+    public event Action OnDeselection;
 
     bool selected;
     protected override void Awake()

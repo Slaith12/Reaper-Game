@@ -44,8 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aee4369e4a42ee7489d8166f7212a694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseShiftTime: 90
-  shiftTimer: 0
+  baseShiftTime: 150
+  overtimeShiftTime: 90
+  m_shiftTimer: 0
 --- !u!114 &1856121921733715970
 MonoBehaviour:
   m_ObjectHideFlags: 0
