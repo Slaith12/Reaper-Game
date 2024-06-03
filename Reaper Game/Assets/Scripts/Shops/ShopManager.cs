@@ -8,6 +8,7 @@ namespace Reaper.Shops
     {
         public static ShopManager instance { get; private set; }
 
+        [SerializeField] GameObject baseObject;
         [SerializeField] List<ItemDisplay> items;
         [SerializeField] List<ContractDisplay> contracts;
         [SerializeField] ShopDescription description;
@@ -44,8 +45,7 @@ namespace Reaper.Shops
             items[0].SetID(0);
             contracts[0].SetID(0);
 
-            gameObject.SetActive(false);
-            description.Hide();
+            CloseShop();
         }
 
         public void OrderItem(int id)
@@ -76,7 +76,7 @@ namespace Reaper.Shops
         {
             currentShop = shop;
             description.Hide();
-            gameObject.SetActive(true);
+            baseObject.SetActive(true);
             for (int i = 0; i < 4; i++)
             {
                 if (currentShop.items.Count <= i)
@@ -104,7 +104,7 @@ namespace Reaper.Shops
 
         public void CloseShop()
         {
-            gameObject.SetActive(false);
+            baseObject.SetActive(false);
         }
     }
 }

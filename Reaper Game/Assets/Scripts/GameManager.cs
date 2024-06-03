@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     }
 
     private const string HUBSCENE = "Hub Scene";
-    private const string SHIFTSCENE = "SampleScene";
+    private const string SHIFTSCENE = "Shift Scene";
 
     private void Awake()
     {
